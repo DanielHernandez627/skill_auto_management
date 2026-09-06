@@ -99,13 +99,28 @@ python scripts/validate_clean_code.py --path ./src --strict
 
 ---
 
+## ⚡ Slash Commands y Atajos Rápidos por Asistente
+
+Para una experiencia óptima de desarrollo (DX), el repositorio incluye atajos nativos en cada plataforma:
+
+| Acción Deseada | Rol Scrum | Antigravity | Claude Code (`.claude/commands/`) | GitHub Copilot (`.github/prompts/`) |
+|---|---|---|---|---|
+| **1. Onboarding Técnico (Fase 0)** | `TechLeadArchitect` | `/onboarding` | `/onboarding` | `/onboarding` |
+| **2. Nueva Historia de Usuario (Fase 1)** | `POScrum` | `/nueva-hu` | `/nueva-hu` | `/nueva-hu` |
+| **3. Refinamiento y Contratos (Fase 2)** | `TechLeadArchitect` | `/refinar-hu` | `/refinar-hu` | `/refinar-hu` |
+| **4. Desarrollo Clean Code (Fase 4)** | `DevQA` | `/desarrollar-hu` | `/desarrollar-hu` | `/desarrollar-hu` |
+| **5. Cierre, Tests y Bitácora (Fase 5)** | `DevQA` | `/cerrar-hu` | `/cerrar-hu` | `/cerrar-hu` |
+
+---
+
 ## 🔄 Integración con Asistentes de IA
 
 ### 🤖 Google Antigravity
-Copia o enlaza este repositorio dentro del proyecto en `.agents/skills/skill_auto_management/` o úsalo directamente como workspace. Antigravity detectará `SKILL.md` y activará el flujo de 5 fases cuando menciones o trabajes en una Historia de Usuario.
+Copia o enlaza este repositorio dentro del proyecto en `.agents/skills/skill_auto_management/` o úsalo directamente como workspace. Antigravity detectará `SKILL.md` y activará el flujo de Fase 0 a Fase 5 cuando invoques los comandos o menciones los roles.
 
 ### 🧠 Anthropic Claude (Claude Code / Desktop)
-Claude Code detecta automáticamente `CLAUDE.md` en la raíz. Puede invocar directamente los comandos `python scripts/...` para generar historias o auditar código según se lo indiques.
+Claude Code detecta automáticamente `CLAUDE.md` y los comandos en `.claude/commands/`. Solo escribe `/onboarding`, `/nueva-hu` o `/auditar-clean-code` en la consola.
 
 ### 🐙 GitHub Copilot
-VS Code y GitHub Copilot consumen `.github/copilot-instructions.md`, aplicando automáticamente las restricciones de Clean Code y sugiriendo la estructura de plantillas en el chat del IDE.
+VS Code y GitHub Copilot consumen `.github/copilot-instructions.md` y los prompts reusables en `.github/prompts/`. Puedes invocar los roles directamente en la ventana de Copilot Chat.
+

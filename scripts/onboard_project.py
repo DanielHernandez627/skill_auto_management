@@ -11,82 +11,72 @@ from __future__ import annotations
 import argparse
 from datetime import date
 from pathlib import Path
+import os
 import re
 import sys
 
-
-def scan_dotnet_ecosystem(project_dir: Path, detected: dict[str, list[str]]) -> None:
-    csproj_files = list(project_dir.rglob("*.csproj"))
-    sln_files = list(project_dir.rglob("*.sln"))
-    if csproj_files or sln_files:
-        detected["languages"].append("C# (.NET)")
-        detected["tools"].append("dotnet CLI")
-        for csproj in csproj_files[:5]:
-            try:
-                content = csproj.read_text(encoding="utf-8", errors="replace")
-                if "EntityFrameworkCore" in content:
-                    detected["databases"].append("Entity Framework Core")
-                if "MediatR" in content:
-                    detected["frameworks"].append("MediatR (CQRS)")
-                if "xunit" in content.lower():
-                    detected["tools"].append("xUnit")
-            except Exception:
-                pass
-
-
-def scan_jvm_ecosystem(project_dir: Path, detected: dict[str, list[str]]) -> None:
-    pom_files = list(project_dir.rglob("pom.xml"))
-    gradle_files = list(project_dir.rglob("build.gradle*"))
-    if pom_files or gradle_files:
-        detected["languages"].append("Java")
-        if pom_files:
-            detected["tools"].append("Maven")
-        if gradle_files:
-            detected["tools"].append("Gradle")
-        for pom in pom_files[:5]:
-            try:
-                content = pom.read_text(encoding="utf-8", errors="replace")
-                if "spring-boot" in content:
-                    detected["frameworks"].append("Spring Boot")
-                if "postgresql" in content:
-                    detected["databases"].append("PostgreSQL Driver")
-            except Exception:
-                pass
+IGNORED_SCAN_DIRS = {
+    "node_modules",
+    ".git",
+    ".angular",
+    "dist",
+    "build",
+    "target",
+    "bin",
+    "obj",
+    ".venv",
+    "venv",
+    "env",
+    "__pycache__",
+    ".idea",
+    ".vscode",
+    ".agents",
+}
 
 
-def scan_node_ecosystem(project_dir: Path, detected: dict[str, list[str]]) -> None:
-    pkg_files = list(project_dir.rglob("package.json"))
-    for pkg in pkg_files:
-        if "node_modules" in pkg.parts:
-            continue
-        detected["languages"].append("TypeScript/JavaScript")
-        detected["tools"].append("NPM / Node.js")
-        try:
-            content = pkg.read_text(encoding="utf-8", errors="replace")
-            if "@angular" in content:
-                detected["frameworks"].append("Angular")
-            if "react" in content:
-                detected["frameworks"].append("React")
-            if "vue" in content:
-                detected["frameworks"].append("Vue.js")
-            if "@nestjs" in content:
-                detected["frameworks"].append("NestJS")
-        except Exception:
-            pass
+def analyze_csproj_content(csproj_path: Path, detected: dict[str, list[str]]) -> None:
+    try:
+        content = csproj_path.read_text(encoding="utf-8", errors="replace")
+        if "EntityFrameworkCore" in content:
+            detected["databases"].append("Entity Framework Core")
+        if "MediatR" in content:
+            detected["frameworks"].append("MediatR (CQRS)")
+        if "xunit" in content.lower():
+            detected["tools"].append("xUnit")
+    except Exception:
+        pass
 
 
-def scan_python_ecosystem(project_dir: Path, detected: dict[str, list[str]]) -> None:
-    pyproject = list(project_dir.rglob("pyproject.toml"))
-    requirements = list(project_dir.rglob("requirements.txt"))
-    if pyproject or requirements or list(project_dir.rglob("*.py")):
-        if not any("node_modules" in p.parts for p in pyproject):
-            detected["languages"].append("Python")
-            detected["tools"].append("Pytest / Pip")
+def analyze_pom_content(pom_path: Path, detected: dict[str, list[str]]) -> None:
+    try:
+        content = pom_path.read_text(encoding="utf-8", errors="replace")
+        if "spring-boot" in content:
+            detected["frameworks"].append("Spring Boot")
+        if "postgresql" in content:
+            detected["databases"].append("PostgreSQL Driver")
+    except Exception:
+        pass
 
 
-def scan_container_ecosystem(project_dir: Path, detected: dict[str, list[str]]) -> None:
-    if list(project_dir.rglob("Dockerfile")) or list(project_dir.rglob("docker-compose*.yml")):
-        detected["tools"].append("Docker / Docker Compose")
+def analyze_package_json_content(pkg_path: Path, detected: dict[str, list[str]]) -> None:
+    try:
+        content = pkg_path.read_text(encoding="utf-8", errors="replace")
+        if "@angular" in content:
+            detected["frameworks"].append("Angular")
+        if "react" in content:
+            detected["frameworks"].append("React")
+        if "vue" in content:
+            detected["frameworks"].append("Vue.js")
+        if "@nestjs" in content:
+            detected["frameworks"].append("NestJS")
+        if "express" in content:
+            detected["frameworks"].append("Express")
+        if "typeorm" in content:
+            detected["databases"].append("TypeORM")
+        if "pg" in content:
+            detected["databases"].append("PostgreSQL (pg)")
+    except Exception:
+        pass
 
 
 def detect_stack(project_dir: Path) -> dict[str, list[str]]:
@@ -97,11 +87,38 @@ def detect_stack(project_dir: Path) -> dict[str, list[str]]:
         "databases": [],
     }
 
-    scan_dotnet_ecosystem(project_dir, detected)
-    scan_jvm_ecosystem(project_dir, detected)
-    scan_node_ecosystem(project_dir, detected)
-    scan_python_ecosystem(project_dir, detected)
-    scan_container_ecosystem(project_dir, detected)
+    for root, dirs, files in os.walk(project_dir):
+        dirs[:] = [d for d in dirs if d not in IGNORED_SCAN_DIRS]
+        root_path = Path(root)
+
+        for filename in files:
+            lower = filename.lower()
+            if lower.endswith(".csproj") or lower.endswith(".sln"):
+                detected["languages"].append("C# (.NET)")
+                detected["tools"].append("dotnet CLI")
+                if lower.endswith(".csproj"):
+                    analyze_csproj_content(root_path / filename, detected)
+
+            elif filename == "pom.xml":
+                detected["languages"].append("Java")
+                detected["tools"].append("Maven")
+                analyze_pom_content(root_path / filename, detected)
+
+            elif filename.startswith("build.gradle"):
+                detected["languages"].append("Java")
+                detected["tools"].append("Gradle")
+
+            elif filename == "package.json":
+                detected["languages"].append("TypeScript/JavaScript")
+                detected["tools"].append("NPM / Node.js")
+                analyze_package_json_content(root_path / filename, detected)
+
+            elif filename in ("pyproject.toml", "requirements.txt") or lower.endswith(".py"):
+                detected["languages"].append("Python")
+                detected["tools"].append("Pytest / Pip")
+
+            elif filename == "Dockerfile" or lower.startswith("docker-compose"):
+                detected["tools"].append("Docker / Docker Compose")
 
     for category in detected:
         detected[category] = list(dict.fromkeys(detected[category]))

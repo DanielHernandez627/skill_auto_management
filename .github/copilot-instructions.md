@@ -35,3 +35,15 @@ Este repositorio define los estándares y herramientas de desarrollo para el tra
 - Redacta pruebas que cubran los escenarios felices y casos de borde.
 - Cumple con los umbrales mínimos de cobertura: Backend $\ge 80\%$, Frontend $\ge 85\%$.
 - En tus sugerencias de comandos de terminal, usa siempre parámetros no interactivos (`--no-watch`, `--no-restore`, `--no-daemon`).
+
+---
+
+## 4. Prompts Reusables en VS Code (`.github/prompts/`)
+Puedes invocar directamente estos roles en el chat de Copilot:
+- `/onboarding`: Activa `onboarding.prompt.md` (Líder Técnico - Fase 0).
+- `/nueva-hu`: Activa `nueva-hu.prompt.md` (Product Owner - Fase 1, acepta Azure/Jira).
+- `/refinar-hu`: Activa `refinar-hu.prompt.md` (Líder Técnico - Fase 2, contratos y Mermaid).
+- `/desarrollar-hu`: Activa `desarrollar-hu.prompt.md` (DevQA - Fase 4, codificación Clean Code).
+- `/cerrar-hu`: Activa `cerrar-hu.prompt.md` (DevQA - Fase 5, validación y bitácora).
+- `/auditar-clean-code`: Activa `auditar-clean-code.prompt.md` (DevQA - linter de comentarios).
+

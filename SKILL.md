@@ -20,6 +20,20 @@ Activa esta skill cuando el usuario solicite:
 
 ---
 
+## ⚡ Slash Commands y Atajos Rápidos de Rol
+
+Esta skill responde inmediatamente a los siguientes comandos por slash o menciones de rol:
+
+| Comando | Rol Activado | Fase | Acción Ejecutada |
+|---|---|---|---|
+| **`/onboarding`** o `/lider-tecnico` | `TechLeadArchitect` | **Fase 0** | Escaneo del stack con `onboard_project.py` y generación de `base-conocimiento/`. |
+| **`/nueva-hu`** o `/po-scrum` | `POScrum` | **Fase 1** | Captura requerimientos (soporta copiar/pegar de Azure DevOps/Jira), corre `scaffold_hu.py` y redacta Gherkin. |
+| **`/refinar-hu`** | `TechLeadArchitect` | **Fase 2** | Modela flujo Mermaid, define DTOs/contratos y valida DDL/ORM en `refinamientos/REF-XXX.md`. |
+| **`/desarrollar-hu`** | `DevQA` | **Fase 4** | Implementa código en Backend y Frontend bajo Clean Code estricto (**cero comentarios explicativos**). |
+| **`/cerrar-hu`** o `/auditar-clean-code` | `DevQA` | **Fase 5** | Audita comentarios con `validate_clean_code.py`, ejecuta tests desatendidos, actualiza bitácora y marca `🟢 Finalizado`. |
+
+---
+
 ## 🔄 Protocolo Operativo: Fase 0 + 5 Fases
 
 ```mermaid

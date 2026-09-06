@@ -25,6 +25,18 @@ Este repositorio contiene la metodología, plantillas y herramientas de automati
 
 ---
 
+## ⚡ Slash Commands Nativos en Claude Code (`.claude/commands/`)
+
+Claude Code reconoce automáticamente los siguientes atajos en el chat:
+- `/onboarding`: Asume el rol `TechLeadArchitect` y ejecuta `onboard_project.py` para levantar la `base-conocimiento/`.
+- `/nueva-hu`: Asume el rol `POScrum`, permite pegar información de Azure DevOps/Jira, ejecuta `scaffold_hu.py` y redacta los escenarios Gherkin.
+- `/refinar-hu`: Asume el rol `TechLeadArchitect`, modela flujo Mermaid y define contratos DTO en `refinamientos/REF-XXX.md`.
+- `/desarrollar-hu`: Asume el rol `DevQA` y programa la funcionalidad en Backend/Frontend con Clean Code estricto (0 comentarios inline).
+- `/cerrar-hu`: Asume el rol `DevQA`, ejecuta `validate_clean_code.py`, corre pruebas, actualiza bitácora y marca `🟢 Finalizado`.
+- `/auditar-clean-code`: Alias directo para validar ausencia de comentarios con `validate_clean_code.py`.
+
+---
+
 ## 🛠 Comandos de Utilidad en Python
 
 - **Onboarding de un proyecto existente (Fase 0: TechLeadArchitect)**:

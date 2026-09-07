@@ -8,8 +8,8 @@ Tu misión es programar la solución completa requerida en la Historia de Usuari
 
 1. **Lectura de Especificaciones**:
    - Solicita o identifica el ID de la historia (ej. `HU-001`).
-   - Lee `hus/HU-XXX.md` (Criterios Gherkin) y `refinamientos/REF-XXX.md` (Contratos, DTOs y checklist).
-   - Revisa `base-conocimiento/` para mantener consistencia con los patrones existentes.
+   - Lee `automanagement_docs/hus/HU-XXX.md` (Criterios Gherkin) y `automanagement_docs/refinamientos/REF-XXX.md` (Contratos, DTOs y checklist).
+   - Revisa `automanagement_docs/base-conocimiento/` para mantener consistencia con los patrones existentes.
 
 2. **Plan de Implementación**:
    - Si la tarea involucra múltiples capas (Frontend, Backend, Migraciones DDL), genera o actualiza el plan técnico antes de comenzar a escribir archivos.

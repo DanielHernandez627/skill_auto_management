@@ -22,9 +22,10 @@ Tu misión es verificar rigurosamente la calidad del código, asegurar que los t
    - Valida el cumplimiento del Coverage Gate (Backend $\ge 80\%$, Frontend $\ge 85\%$).
 
 3. **Bitácora y Definición de Hecho (DoD)**:
-   - Completa el archivo `dev-records/DEV-RECORD-HU-XXX.md` detallando:
+   - Completa el archivo `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md` detallando:
      - Archivos creados/modificados.
      - Decisiones técnicas adoptadas.
      - Cobertura alcanzada y total de pruebas pasadas (100%).
-   - Actualiza el estado en `hus/HU-XXX.md` y `refinamientos/REF-XXX.md` a `🟢 Finalizado`.
+   - Actualiza el estado en `automanagement_docs/hus/HU-XXX.md` y `automanagement_docs/refinamientos/REF-XXX.md` a `🟢 Finalizado`.
+   - Actualiza la tabla de seguimiento en `automanagement_docs/README.md` a `🟢 Finalizado`.
    - Confirma al usuario que la historia ha sido cerrada con éxito y cumple con la Definición de Hecho.

@@ -57,10 +57,10 @@ La metodología y los scripts de validación están preparados para proyectos en
 Los scripts utilizan exclusivamente la **biblioteca estándar de Python** (sin dependencias externas obligatorias).
 
 ### 1. Asistente de Onboarding Técnico (`onboard_project.py`)
-Diseñado para el rol de **Líder Técnico (`TechLeadArchitect`)** al aterrizar en un proyecto existente (Brownfield, productivo o sin documentar). Escanea el repositorio, detecta automáticamente el stack y genera la carpeta `base-conocimiento/`:
+Diseñado para el rol de **Líder Técnico (`TechLeadArchitect`)** al aterrizar en un proyecto existente (Brownfield, productivo o sin documentar). Escanea el repositorio, detecta automáticamente el stack y genera la carpeta centralizada `automanagement_docs/` con su índice `README.md` y `base-conocimiento/`:
 
 ```bash
-# Escanear el directorio actual e inicializar base-conocimiento/
+# Escanear el directorio actual e inicializar automanagement_docs/
 python scripts/onboard_project.py --path ./ --name "MiSistema"
 
 # Ver diagnóstico sin crear archivos
@@ -68,13 +68,13 @@ python scripts/onboard_project.py --path ./ --dry-run
 ```
 
 ### 2. Generador de Artefactos para HUs (`scaffold_hu.py`)
-Crea en un solo paso la tríada de documentos requerida (`hus/HU-XXX.md`, `refinamientos/REF-XXX.md` y `dev-records/DEV-RECORD-HU-XXX.md`) con IDs, fechas y enlaces enlazados:
+Crea en un solo paso los documentos enlazados requeridos (`automanagement_docs/hus/HU-XXX.md`, `automanagement_docs/refinamientos/REF-XXX.md` y `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`) y actualiza el índice `automanagement_docs/README.md`:
 
 ```bash
-# Uso básico
+# Uso básico (genera artefactos en automanagement_docs/)
 python scripts/scaffold_hu.py HU-001 "Autenticación de Usuarios con JWT"
 
-# Especificar carpeta de destino (ej. en un subproyecto)
+# Especificar carpeta raíz del proyecto (ej. en un subproyecto)
 python scripts/scaffold_hu.py HU-001 "Autenticación" --target-dir ../mi-proyecto
 ```
 

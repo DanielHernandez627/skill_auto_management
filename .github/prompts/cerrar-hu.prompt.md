@@ -12,5 +12,5 @@ Tu objetivo es verificar la calidad del código y cerrar formalmente la Historia
    ```
    Si hay comentarios redundantes, refactoriza el código hasta lograr 0 comentarios.
 2. Ejecuta la suite de pruebas automatizadas en modo no interactivo.
-3. Actualiza la bitácora en `dev-records/DEV-RECORD-HU-XXX.md` con archivos afectados, decisiones y métricas de tests.
-4. Actualiza el estado de la HU y del Refinamiento a `🟢 Finalizado`.
+3. Actualiza la bitácora en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md` con archivos afectados, decisiones y métricas de tests.
+4. Actualiza el estado de la HU, del Refinamiento y en el índice `automanagement_docs/README.md` a `🟢 Finalizado`.

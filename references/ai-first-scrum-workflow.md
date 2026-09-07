@@ -11,7 +11,7 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
 │ 🏛️ ROL 1: Líder Técnico / Arquitecto (TechLeadArchitect)                    │
 │ - Inicialización y mantenimiento de la base de conocimiento del proyecto.    │
 │ - Diseño técnico, diagramas de arquitectura en Mermaid y contratos de API.   │
-│ - Entregable principal: `refinamientos/REF-XXX.md`.                         │
+│ - Entregable principal: `automanagement_docs/refinamientos/REF-XXX.md`.      │
 └──────────────────────────────────────┬──────────────────────────────────────┘
                                        │
                                        ▼
@@ -19,7 +19,7 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
 │ 📋 ROL 2: Product Owner / Scrum Master (POScrum)                            │
 │ - Redacción formal de la Historia de Usuario según el estándar.             │
 │ - Criterios de Aceptación estructurados en formato Gherkin (Given-When-Then).│
-│ - Entregable principal: `hus/HU-XXX.md`.                                    │
+│ - Entregable principal: `automanagement_docs/hus/HU-XXX.md`.                 │
 └──────────────────────────────────────┬──────────────────────────────────────┘
                                        │
                                        ▼
@@ -27,7 +27,7 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
 │ 💻 ROL 3: Ingeniero de Desarrollo & QA (DevQA)                              │
 │ - Implementación de código bajo principios de Clean Code estricto.           │
 │ - Creación y ejecución de pruebas automatizadas (Coverage Gates).            │
-│ - Entregable principal: Código fuente + `dev-records/DEV-RECORD-HU-XXX.md`. │
+│ - Entregable principal: Código + `automanagement_docs/dev-records/`.        │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -43,27 +43,31 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
      ```bash
      python scripts/onboard_project.py --path <ruta_al_proyecto> --name "NombreDelProyecto"
      ```
-   - El script detecta lenguajes (.NET C#, Java, TS, Python), frameworks (Spring, Angular, React, EF Core), herramientas de build y genera la carpeta `base-conocimiento/`.
-2. **Generación de la Base de Conocimiento**:
+   - El script detecta lenguajes (.NET C#, Java, TS, Python), frameworks (Spring, Angular, React, EF Core), herramientas de build y genera la carpeta central `automanagement_docs/` con su índice `README.md` y `base-conocimiento/`.
+2. **Generación de la Base de Conocimiento (`automanagement_docs/base-conocimiento/`)**:
    - `01-analisis-arquitectura.md`: El Líder Técnico documenta componentes, mapa de directorios y elabora diagramas **Mermaid**.
    - `02-estandares-desarrollo.md`: Convenciones de nombrado, Clean Code y patrones vigentes en el proyecto.
    - `03-estandares-pruebas.md`: Suites existentes, comandos desatendidos y *Coverage Gates*.
    - `04-dominio-negocio.md`: Modelo conceptual, entidades principales y reglas de negocio deducidas.
 3. **Establecimiento de la Línea Base**:
-   - El código existente queda catalogado formalmente. A partir de este momento, el Product Owner puede redactar la primera Historia de Usuario con contexto pleno y sin ambigüedad.
+   - El código existente queda catalogado formalmente en `automanagement_docs/`. A partir de este momento, el Product Owner puede redactar la primera Historia de Usuario con contexto pleno y sin ambigüedad.
 
 ---
 
-### 🟡 Fase 1: Identificación y Redacción de la HU
-1. Crear el archivo `hus/HU-XXX.md` a partir de `templates/hu-template.md` (o usando `python scripts/scaffold_hu.py HU-XXX "Título"`).
-2. Redactar la descripción orientada al valor de negocio (*Como... Quiero... Para que...*).
-3. Detallar escenarios de aceptación en formato Gherkin:
-   - Casos felices (happy path).
-   - Casos borde, excepciones y códigos de error esperados.
-4. Estado inicial: `🟡 En Refinamiento`.
+### 🟡 Fase 1: Identificación y Redacción de la HU (Rol: POScrum)
+1. **Captura de Requerimientos & Regla Anti-Alucinación**:
+   - **Prohibido inventar funcionalidades**: Si el usuario invoca `/nueva-hu` o `/nueva-hu [ID]` sin descripción o contexto, el PO no debe inventar la historia. Debe detenerse y realizar preguntas directas sobre el enfoque, actor principal y criterios esperados (o solicitar el texto copiado de Azure DevOps / Jira).
+2. **Generación con Scaffolding**:
+   - Con la información confirmada, ejecutar `python scripts/scaffold_hu.py HU-XXX "Título Confirmado"` para generar los 3 documentos enlazados.
+3. **Estructura Formal y Gherkin**:
+   - Redactar la descripción orientada al valor de negocio (*Como... Quiero... Para que...*).
+   - Detallar escenarios de aceptación en formato **Gherkin**:
+     - Casos felices (*Dado... Cuando... Entonces...*).
+     - Casos borde, validaciones y códigos de error esperados.
+4. **Estado Inicial**: Marcar como `🟡 En Refinamiento`.
 
 ### 🔬 Fase 2: Refinamiento Técnico y Contratos
-1. Crear el archivo `refinamientos/REF-XXX.md`.
+1. Completar el archivo `automanagement_docs/refinamientos/REF-XXX.md`.
 2. Modelar el flujo de datos y secuencia de interacción mediante diagramas **Mermaid**.
 3. Definir contratos de interfaz y DTOs (Request / Response) antes de escribir código.
 4. **Auditoría de Persistencia DDL vs ORM**:
@@ -92,5 +96,5 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
    ```bash
    python scripts/validate_clean_code.py --path ./src
    ```
-3. Completar la bitácora individual en `dev-records/DEV-RECORD-HU-XXX.md`.
-4. Marcar la HU y el Refinamiento como `🟢 Finalizado`.
+3. Completar la bitácora individual en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`.
+4. Marcar la HU, el Refinamiento y la tabla en `automanagement_docs/README.md` como `🟢 Finalizado`.

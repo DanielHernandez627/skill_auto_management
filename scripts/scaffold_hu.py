@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Generador de Artefactos de Historias de Usuario (Scaffolding).
 
-Crea de forma estandarizada los 3 documentos Markdown para una nueva HU:
-1. hus/HU-XXX.md
-2. refinamientos/REF-XXX.md
-3. dev-records/DEV-RECORD-HU-XXX.md
+Crea de forma estandarizada los documentos Markdown para una nueva HU en automanagement_docs/:
+1. automanagement_docs/hus/HU-XXX.md
+2. automanagement_docs/refinamientos/REF-XXX.md
+3. automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md
+4. automanagement_docs/README.md (registro y estado)
 """
 
 from __future__ import annotations
@@ -15,11 +16,48 @@ from pathlib import Path
 import sys
 
 
+def resolve_docs_directory(target_dir: Path, docs_dir_name: str) -> Path:
+    if target_dir.name == docs_dir_name:
+        return target_dir
+    return target_dir / docs_dir_name
+
+
+def update_docs_index_table(
+    docs_dir: Path,
+    hu_id: str,
+    title: str,
+    ref_id: str,
+    dev_record_name: str,
+) -> None:
+    readme_file = docs_dir / "README.md"
+    if not readme_file.exists():
+        return
+
+    content = readme_file.read_text(encoding="utf-8")
+    if f"[`{hu_id}`]" in content:
+        return
+
+    row_entry = (
+        f"| [`{hu_id}`](hus/{hu_id}.md) | {title} | 🟡 En Refinamiento | "
+        f"[`{ref_id}`](refinamientos/{ref_id}.md) | "
+        f"[`{dev_record_name}`](dev-records/{dev_record_name}) |"
+    )
+
+    placeholder = "| *(Las nuevas HUs creadas con `/nueva-hu` se registrarán en esta sección)* | | | | |"
+    if placeholder in content:
+        content = content.replace(placeholder, row_entry)
+    elif "| ID | Título | Estado | Refinamiento | Registro Dev / QA |" in content:
+        content = content.rstrip() + "\n" + row_entry + "\n"
+
+    readme_file.write_text(content, encoding="utf-8")
+
+
 def scaffold_hu(
     hu_id: str,
     title: str,
     target_dir: Path,
     templates_dir: Path,
+    docs_dir_name: str = "automanagement_docs",
     force: bool = False,
 ) -> int:
     formatted_id = hu_id.upper().strip()
@@ -36,12 +74,13 @@ def scaffold_hu(
 
     for tpl in (hu_template_file, ref_template_file, dev_template_file):
         if not tpl.is_file():
-            print(f"❌ Error: No se encontro la plantilla requerida en '{tpl}'.")
+            print(f"[ERROR] No se encontro la plantilla requerida en '{tpl}'.")
             return 1
 
-    hus_dir = target_dir / "hus"
-    refinamientos_dir = target_dir / "refinamientos"
-    dev_records_dir = target_dir / "dev-records"
+    docs_base_dir = resolve_docs_directory(target_dir, docs_dir_name)
+    hus_dir = docs_base_dir / "hus"
+    refinamientos_dir = docs_base_dir / "refinamientos"
+    dev_records_dir = docs_base_dir / "dev-records"
 
     hus_dir.mkdir(parents=True, exist_ok=True)
     refinamientos_dir.mkdir(parents=True, exist_ok=True)
@@ -53,7 +92,7 @@ def scaffold_hu(
 
     existing_files = [f for f in (target_hu_file, target_ref_file, target_dev_file) if f.exists()]
     if existing_files and not force:
-        print("⚠️ Los siguientes archivos ya existen. Usa --force para sobrescribir:")
+        print("[WARN] Los siguientes archivos ya existen. Usa --force para sobrescribir:")
         for ef in existing_files:
             print(f"  - {ef}")
         return 1
@@ -94,6 +133,8 @@ def scaffold_hu(
     target_ref_file.write_text(ref_content, encoding="utf-8")
     target_dev_file.write_text(dev_content, encoding="utf-8")
 
+    update_docs_index_table(docs_base_dir, formatted_id, title, ref_id, dev_record_name)
+
     print(f"[OK] Se generaron exitosamente los 3 artefactos para '{formatted_id} - {title}':")
     print(f"  - HU:           {target_hu_file}")
     print(f"  - Refinamiento: {target_ref_file}")
@@ -127,13 +168,20 @@ def main() -> int:
         "-t",
         type=Path,
         default=Path("."),
-        help="Directorio raiz donde se crearan las carpetas hus/, refinamientos/ y dev-records/.",
+        help="Directorio raiz del proyecto donde se ubica la carpeta central de documentacion.",
     )
     parser.add_argument(
         "--templates-dir",
         type=Path,
         default=None,
         help="Ruta a la carpeta de plantillas (por defecto se busca templates/ relativa al script).",
+    )
+    parser.add_argument(
+        "--docs-dir",
+        "-d",
+        type=str,
+        default="automanagement_docs",
+        help="Nombre de la carpeta central de documentacion (por defecto: automanagement_docs).",
     )
     parser.add_argument(
         "--force",
@@ -153,6 +201,7 @@ def main() -> int:
         title=args.title,
         target_dir=args.target_dir,
         templates_dir=resolved_templates_dir,
+        docs_dir_name=args.docs_dir,
         force=args.force,
     )
 

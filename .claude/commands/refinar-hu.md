@@ -8,9 +8,9 @@ Tu objetivo es transformar los requerimientos de la Historia de Usuario en espec
 
 1. **Lectura de Contexto**:
    - Solicita o identifica el ID de la historia (ej. `HU-001`).
-   - Lee `hus/HU-XXX.md` y revisa la arquitectura en `base-conocimiento/01-analisis-arquitectura.md`.
+   - Lee `automanagement_docs/hus/HU-XXX.md` y revisa la arquitectura en `automanagement_docs/base-conocimiento/01-analisis-arquitectura.md`.
 
-2. **Diseño Técnico en `refinamientos/REF-XXX.md`**:
+2. **Diseño Técnico en `automanagement_docs/refinamientos/REF-XXX.md`**:
    - **Diagrama Mermaid**: Modela el flujo de interacción (secuencia o flujo de datos) entre el usuario, frontend, backend y base de datos.
    - **Contratos de API y Modelos**: Define los esquemas JSON y DTOs exactos de entrada (Request) y salida (Response).
    - **Auditoría de Persistencia DDL vs ORM**:
@@ -20,5 +20,5 @@ Tu objetivo es transformar los requerimientos de la Historia de Usuario en espec
    - **Checklist Técnico**: Desglosa las tareas concretas para el desarrollador.
 
 3. **Aprobación**:
-   - Cambia el estado en `refinamientos/REF-XXX.md` a `🟢 Aprobado para Desarrollo`.
+   - Cambia el estado en `automanagement_docs/refinamientos/REF-XXX.md` a `🟢 Aprobado para Desarrollo`.
    - Notifica al usuario que el diseño técnico está cerrado y que el siguiente paso es ejecutar `/desarrollar-hu [HU-ID]`.

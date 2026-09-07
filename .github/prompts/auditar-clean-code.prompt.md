@@ -15,4 +15,4 @@ Tu objetivo es garantizar que el código sea auto-descriptivo y libre de comenta
    - Refactoriza el código aplicando nombres intencionados y métodos pequeños.
    - Prohibido dejar comentarios explicativos inline.
 3. Asegura que la suite de pruebas automatizadas pase sin errores en modo desatendido.
-4. Actualiza la bitácora en `dev-records/DEV-RECORD-HU-XXX.md` y marca la HU como `🟢 Finalizado`.
+4. Actualiza la bitácora en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md` y marca la HU como `🟢 Finalizado`.

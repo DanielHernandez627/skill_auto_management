@@ -17,8 +17,8 @@ Este repositorio define los estándares y herramientas de desarrollo para el tra
   ```bash
   python scripts/onboard_project.py --path <ruta_al_proyecto> --name "NombreDelSistema"
   ```
-  Esto inicializa la `base-conocimiento/` para mapear arquitectura, dependencias y contratos.
-- **Nuevas Funcionalidades**: Todo desarrollo parte de una Historia de Usuario especificada en `hus/HU-XXX.md` y su respectivo análisis en `refinamientos/REF-XXX.md`.
+  Esto inicializa la carpeta central `automanagement_docs/` con su índice `README.md` y `base-conocimiento/` para mapear arquitectura, dependencias y contratos.
+- **Nuevas Funcionalidades**: Todo desarrollo parte de una Historia de Usuario especificada en `automanagement_docs/hus/HU-XXX.md`, su respectivo análisis en `automanagement_docs/refinamientos/REF-XXX.md` y el registro en `automanagement_docs/README.md`.
 - Puedes crear automáticamente la estructura de una nueva HU ejecutando:
   ```bash
   python scripts/scaffold_hu.py HU-XXX "Título Descriptivo"

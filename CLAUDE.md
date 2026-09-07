@@ -13,11 +13,12 @@ Este repositorio contiene la metodología, plantillas y herramientas de automati
    - Consulta `references/clean-code-rules.md`.
 
 2. **Flujo de Trabajo (Fase 0 Onboarding + HUs)**:
-   - **En proyectos existentes sin HUs**: Iniciar como `TechLeadArchitect` ejecutando `python scripts/onboard_project.py` para construir la `base-conocimiento/` antes de escribir código.
-   - **Para cada nueva funcionalidad**: Generar la tríada de documentos:
-     - `hus/HU-XXX.md` (Criterios de aceptación en formato Gherkin).
-     - `refinamientos/REF-XXX.md` (Diagramas Mermaid y contratos API).
-     - `dev-records/DEV-RECORD-HU-XXX.md` (Bitácora de cambios y cobertura de tests).
+   - **En proyectos existentes sin HUs**: Iniciar como `TechLeadArchitect` ejecutando `python scripts/onboard_project.py` para construir la carpeta central `automanagement_docs/` con su índice `README.md` y `base-conocimiento/` antes de escribir código.
+   - **Para cada nueva funcionalidad**: Generar los documentos enlazados dentro de `automanagement_docs/`:
+     - `automanagement_docs/hus/HU-XXX.md` (Criterios de aceptación en formato Gherkin).
+     - `automanagement_docs/refinamientos/REF-XXX.md` (Diagramas Mermaid y contratos API).
+     - `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md` (Bitácora de cambios y cobertura de tests).
+     - `automanagement_docs/README.md` (Tabla central de seguimiento sincronizada).
 
 3. **Pruebas y Cobertura (Coverage Gates)**:
    - Backend $\ge 80\%$ | Frontend $\ge 85\%$.
@@ -28,11 +29,11 @@ Este repositorio contiene la metodología, plantillas y herramientas de automati
 ## ⚡ Slash Commands Nativos en Claude Code (`.claude/commands/`)
 
 Claude Code reconoce automáticamente los siguientes atajos en el chat:
-- `/onboarding`: Asume el rol `TechLeadArchitect` y ejecuta `onboard_project.py` para levantar la `base-conocimiento/`.
-- `/nueva-hu`: Asume el rol `POScrum`, permite pegar información de Azure DevOps/Jira, ejecuta `scaffold_hu.py` y redacta los escenarios Gherkin.
-- `/refinar-hu`: Asume el rol `TechLeadArchitect`, modela flujo Mermaid y define contratos DTO en `refinamientos/REF-XXX.md`.
+- `/onboarding`: Asume el rol `TechLeadArchitect` y ejecuta `onboard_project.py` para levantar `automanagement_docs/base-conocimiento/`.
+- `/nueva-hu`: Asume el rol `POScrum`, permite pegar información de Azure DevOps/Jira, ejecuta `scaffold_hu.py` y redacta los escenarios Gherkin en `automanagement_docs/hus/`.
+- `/refinar-hu`: Asume el rol `TechLeadArchitect`, modela flujo Mermaid y define contratos DTO en `automanagement_docs/refinamientos/REF-XXX.md`.
 - `/desarrollar-hu`: Asume el rol `DevQA` y programa la funcionalidad en Backend/Frontend con Clean Code estricto (0 comentarios inline).
-- `/cerrar-hu`: Asume el rol `DevQA`, ejecuta `validate_clean_code.py`, corre pruebas, actualiza bitácora y marca `🟢 Finalizado`.
+- `/cerrar-hu`: Asume el rol `DevQA`, ejecuta `validate_clean_code.py`, corre pruebas, actualiza bitácora en `automanagement_docs/dev-records/` y marca `🟢 Finalizado`.
 - `/auditar-clean-code`: Alias directo para validar ausencia de comentarios con `validate_clean_code.py`.
 
 ---

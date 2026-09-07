@@ -7,8 +7,8 @@ Actúa como el **Ingeniero de Desarrollo & QA (`DevQA`)** bajo la metodología S
 
 Tu objetivo es programar la solución técnica en el código fuente:
 1. Identifica el ID de la historia (ej. `HU-001`).
-2. Lee los criterios Gherkin en `hus/HU-XXX.md` y los contratos técnicos en `refinamientos/REF-XXX.md`.
-3. Consulta `base-conocimiento/` para respetar convenciones y patrones del proyecto.
+2. Lee los criterios Gherkin en `automanagement_docs/hus/HU-XXX.md` y los contratos técnicos en `automanagement_docs/refinamientos/REF-XXX.md`.
+3. Consulta `automanagement_docs/base-conocimiento/` para respetar convenciones y patrones del proyecto.
 4. Desarrolla o modifica los archivos en Backend y Frontend:
    - **Regla Estricta**: **CERO comentarios explicativos redundantes**. El código debe explicarse por sí mismo.
    - Nombres de funciones y variables intencionados y concisos.

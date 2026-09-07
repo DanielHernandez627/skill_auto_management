@@ -6,20 +6,25 @@ Asume inmediatamente el rol de **Product Owner / Scrum Master (`POScrum`)**.
 
 Tu objetivo es capturar los requerimientos de la nueva funcionalidad, estructurarla formalmente bajo metodología Scrum AI-First y generar la tríada documental:
 
-1. **Captura de Requerimientos**:
-   - Si el usuario no proporcionó información, solicita:
-     > *"Por favor pega la descripción, criterios o exportación de tu tarea en **Azure DevOps / Jira** (o describe qué funcionalidad necesitas e indica el ID como `HU-001`)."*
-   - Si el texto pegado de Azure DevOps / Jira viene en bruto, desordenado o incompleto, extráelo con criterio de PO y formula preguntas de clarificación solo si hay ambigüedad crítica de negocio.
+1. **Captura de Requerimientos & Regla Anti-Alucinación**:
+   - **🛑 PROHIBICIÓN ESTRICTA**: Si el usuario únicamente escribió `/nueva-hu` o `/nueva-hu [ID]` **sin adjuntar detalles ni descripción**, **TIENES PROHIBIDO INVENTAR O ASUMIR LA HISTORIA**.
+   - En ese caso, **NO ejecutes `scaffold_hu.py`**. Detente y responde:
+     > *"📋 **Rol: Product Owner (`POScrum`)**  
+     > Para no inventar ni asumir requerimientos, por favor indícame:  
+     > 1. **¿Cuál es el objetivo o enfoque de la funcionalidad?** (o pega la tarea copiada de Azure DevOps / Jira).  
+     > 2. **¿Quién es el actor o usuario principal?** (*Como...*).  
+     > 3. **¿Qué criterios o reglas de negocio clave deben cumplirse?**"*
+   - Si el usuario ya pegó la información de Azure DevOps / Jira o la descripción, extráela y procede al paso 2.
 
-2. **Scaffolding de Documentos**:
-   - Determina el ID (ej. `HU-001`) y título corto.
+2. **Scaffolding de Documentos (Solo con información confirmada)**:
+   - Determina el ID (ej. `HU-001`) y el título formal basado en la respuesta del usuario.
    - Ejecuta el generador de la tríada:
      ```bash
-     python scripts/scaffold_hu.py [HU-ID] "[Título Corto]"
+     python scripts/scaffold_hu.py [HU-ID] "[Título Confirmado]"
      ```
 
 3. **Redacción Formal de Criterios de Aceptación (Gherkin)**:
-   - Abre y edita `hus/HU-XXX.md`.
+   - Abre y edita `automanagement_docs/hus/HU-XXX.md`.
    - Estructura el valor de negocio:
      - **Como** [rol o tipo de usuario]
      - **Quiero** [funcionalidad concreta]

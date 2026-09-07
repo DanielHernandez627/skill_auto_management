@@ -10,9 +10,9 @@ Ejecuta el onboarding de este proyecto para catalogar la arquitectura existente:
    ```bash
    python scripts/onboard_project.py --path ./
    ```
-2. Inspecciona el stack detectado y documenta en `base-conocimiento/`:
+2. Inspecciona el stack detectado y documenta en `automanagement_docs/base-conocimiento/`:
    - `01-analisis-arquitectura.md` con un diagrama Mermaid de la interacción entre componentes.
    - `02-estandares-desarrollo.md` con las convenciones de Clean Code vigentes.
    - `03-estandares-pruebas.md` con los Coverage Gates (80% Backend, 85% Frontend).
    - `04-dominio-negocio.md` con las entidades y reglas del negocio.
-3. Informa al usuario que la línea base está lista para comenzar a redactar Historias de Usuario.
+3. Informa al usuario que la línea base está lista en `automanagement_docs/` para comenzar a redactar Historias de Usuario.

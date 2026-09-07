@@ -126,10 +126,29 @@ def detect_stack(project_dir: Path) -> dict[str, list[str]]:
     return detected
 
 
+def create_automanagement_readme(
+    target_docs_dir: Path,
+    templates_dir: Path,
+    name: str,
+    force: bool,
+) -> None:
+    readme_file = target_docs_dir / "README.md"
+    if readme_file.exists() and not force:
+        return
+
+    tpl_file = templates_dir / "automanagement-readme-template.md"
+    if not tpl_file.exists():
+        return
+
+    content = tpl_file.read_text(encoding="utf-8").replace("[Nombre del Proyecto]", name)
+    readme_file.write_text(content, encoding="utf-8")
+
+
 def onboard_project(
     project_dir: Path,
     templates_dir: Path,
     project_name: str | None = None,
+    docs_dir: str = "automanagement_docs",
     force: bool = False,
     dry_run: bool = False,
 ) -> int:
@@ -146,12 +165,17 @@ def onboard_project(
     print(f"  - Herramientas:{', '.join(stack['tools']) or 'Estandar'}")
     print(f"  - Datos:      {', '.join(stack['databases']) or 'No identificada de forma automatica'}")
 
-    target_kb_dir = resolved_dir / "base-conocimiento"
+    target_docs_dir = resolved_dir / docs_dir
+    target_kb_dir = target_docs_dir / "base-conocimiento"
     if dry_run:
-        print(f"[DRY-RUN] Se crearia la carpeta: {target_kb_dir}")
+        print(f"[DRY-RUN] Se crearia la carpeta central: {target_docs_dir}")
+        print(f"[DRY-RUN] Se crearia la subcarpeta: {target_kb_dir}")
         return 0
 
+    target_docs_dir.mkdir(parents=True, exist_ok=True)
     target_kb_dir.mkdir(parents=True, exist_ok=True)
+
+    create_automanagement_readme(target_docs_dir, templates_dir, name, force)
 
     files_to_generate = [
         ("01-analisis-arquitectura.md", "01-analisis-arquitectura-template.md"),
@@ -193,14 +217,15 @@ def onboard_project(
         target_file.write_text(content, encoding="utf-8")
         created_files.append(target_file)
 
-    print(f"\n[OK] Onboarding inicializado exitosamente en '{target_kb_dir}':")
+    print(f"\n[OK] Onboarding inicializado exitosamente en '{target_docs_dir}':")
+    print(f"  - {target_docs_dir.name}/README.md (Indice de documentacion)")
     for cf in created_files:
-        print(f"  - {cf.name}")
+        print(f"  - {target_docs_dir.name}/base-conocimiento/{cf.name}")
 
     print("\n[PROXIMOS PASOS]")
-    print("1. El Líder Técnico / Asistente IA debe revisar y refinar los diagramas Mermaid en '01-analisis-arquitectura.md'.")
-    print("2. Documentar las entidades clave en '04-dominio-negocio.md'.")
-    print("3. Establecida la línea base, el Product Owner puede crear la primera HU con 'python scripts/scaffold_hu.py'.")
+    print(f"1. El Líder Técnico / Asistente IA debe revisar y refinar los diagramas Mermaid en '{target_docs_dir.name}/base-conocimiento/01-analisis-arquitectura.md'.")
+    print(f"2. Documentar las entidades clave en '{target_docs_dir.name}/base-conocimiento/04-dominio-negocio.md'.")
+    print("3. Establecida la línea base, el Product Owner puede crear la primera HU con '/nueva-hu'.")
 
     return 0
 
@@ -230,6 +255,13 @@ def main() -> int:
         help="Nombre formal del proyecto o sistema.",
     )
     parser.add_argument(
+        "--docs-dir",
+        "-d",
+        type=str,
+        default="automanagement_docs",
+        help="Nombre de la carpeta central de documentacion (por defecto: automanagement_docs).",
+    )
+    parser.add_argument(
         "--templates-dir",
         type=Path,
         default=None,
@@ -257,6 +289,7 @@ def main() -> int:
         project_dir=args.path,
         templates_dir=resolved_templates_dir,
         project_name=args.name,
+        docs_dir=args.docs_dir,
         force=args.force,
         dry_run=args.dry_run,
     )

@@ -26,11 +26,11 @@ Esta skill responde inmediatamente a los siguientes comandos por slash o mencion
 
 | Comando | Rol Activado | Fase | Acción Ejecutada |
 |---|---|---|---|
-| **`/onboarding`** o `/lider-tecnico` | `TechLeadArchitect` | **Fase 0** | Escaneo del stack con `onboard_project.py` y generación de `base-conocimiento/`. |
-| **`/nueva-hu`** o `/po-scrum` | `POScrum` | **Fase 1** | Captura requerimientos (soporta copiar/pegar de Azure DevOps/Jira), corre `scaffold_hu.py` y redacta Gherkin. |
-| **`/refinar-hu`** | `TechLeadArchitect` | **Fase 2** | Modela flujo Mermaid, define DTOs/contratos y valida DDL/ORM en `refinamientos/REF-XXX.md`. |
+| **`/onboarding`** o `/lider-tecnico` | `TechLeadArchitect` | **Fase 0** | Escaneo del stack con `onboard_project.py` y generación de `automanagement_docs/base-conocimiento/`. |
+| **`/nueva-hu`** o `/po-scrum` | `POScrum` | **Fase 1** | Captura requerimientos (soporta copiar/pegar de Azure/Jira). **Prohibido inventar la HU si no hay descripción: debe solicitarla al usuario.** |
+| **`/refinar-hu`** | `TechLeadArchitect` | **Fase 2** | Modela flujo Mermaid, define DTOs/contratos y valida DDL/ORM en `automanagement_docs/refinamientos/REF-XXX.md`. |
 | **`/desarrollar-hu`** | `DevQA` | **Fase 4** | Implementa código en Backend y Frontend bajo Clean Code estricto (**cero comentarios explicativos**). |
-| **`/cerrar-hu`** o `/auditar-clean-code` | `DevQA` | **Fase 5** | Audita comentarios con `validate_clean_code.py`, ejecuta tests desatendidos, actualiza bitácora y marca `🟢 Finalizado`. |
+| **`/cerrar-hu`** o `/auditar-clean-code` | `DevQA` | **Fase 5** | Audita comentarios con `validate_clean_code.py`, ejecuta tests desatendidos, actualiza bitácora en `automanagement_docs/dev-records/` y marca `🟢 Finalizado`. |
 
 ---
 
@@ -38,8 +38,8 @@ Esta skill responde inmediatamente a los siguientes comandos por slash o mencion
 
 ```mermaid
 graph TD
-    F0[Fase 0: Onboarding Técnico en base-conocimiento/] --> F1[Fase 1: Redacción HU en hus/HU-XXX.md]
-    F1 --> F2[Fase 2: Refinamiento en refinamientos/REF-XXX.md]
+    F0[Fase 0: Onboarding Técnico en automanagement_docs/base-conocimiento/] --> F1[Fase 1: Redacción HU en automanagement_docs/hus/]
+    F1 --> F2[Fase 2: Refinamiento en automanagement_docs/refinamientos/]
     F2 --> F3[Fase 3: Plan de Implementación / Planning Mode]
     F3 --> F4[Fase 4: Ejecución Clean Code sin comentarios]
     F4 --> F5[Fase 5: Cierre, Tests, validate_clean_code.py & Bitácora]
@@ -51,24 +51,37 @@ graph TD
   ```bash
   python scripts/onboard_project.py --path ./ --name "NombreDelSistema"
   ```
-- El Líder Técnico documenta en `base-conocimiento/`:
+- El Líder Técnico documenta en `automanagement_docs/base-conocimiento/`:
   - `01-analisis-arquitectura.md` (Diagramas Mermaid y mapa de capas).
   - `02-estandares-desarrollo.md` (Convenciones y Clean Code).
   - `03-estandares-pruebas.md` (Coverage gates y comandos headless).
   - `04-dominio-negocio.md` (Entidades y reglas del negocio).
+- Se genera el índice global `automanagement_docs/README.md` con la tabla central de seguimiento de HUs y reglas clave.
 - Establecida la línea base, el Product Owner procede a la Fase 1.
 
-### 🟡 Fase 1: Identificación y Redacción de la HU
-- Usar el script de scaffolding para crear la estructura base:
-  ```bash
-  python scripts/scaffold_hu.py HU-XXX "Título de la Historia"
-  ```
-- O instanciar `templates/hu-template.md` en `hus/HU-XXX.md`.
-- Redactar criterios de aceptación formales en **Gherkin** (*Dado / Cuando / Entonces*).
-- Asignar estado inicial: `🟡 En Refinamiento`.
+### 🟡 Fase 1: Identificación y Redacción de la HU (Rol: POScrum)
+
+> [!CAUTION]
+> **🛑 REGLA ESTRICTA ANTI-ALUCINACIÓN (CONSULTA OBLIGATORIA)**:  
+> Si el usuario ejecuta `/nueva-hu` o `/nueva-hu [ID]` **sin adjuntar una descripción, título o texto de requerimiento**, el agente **TIENE ESTRICTAMENTE PROHIBIDO INVENTAR O ASUMIR** la funcionalidad de la Historia de Usuario.  
+> 
+> En este caso, el agente **NO debe ejecutar `scaffold_hu.py` todavía**. Debe detenerse y responder solicitando al usuario:
+> 1. El objetivo o enfoque de la funcionalidad (o pedir que pegue la tarea copiada de Azure DevOps / Jira).
+> 2. El rol o usuario principal que se beneficia (*Como...*).
+> 3. Criterios de aceptación o reglas de negocio clave que espera validar.
+
+- **Flujo de Ejecución (Solo tras tener la información del usuario)**:
+  1. Extraer ID y título formal de la historia.
+  2. Ejecutar el script de scaffolding:
+     ```bash
+     python scripts/scaffold_hu.py HU-XXX "Título de la Historia"
+     ```
+  3. Editar `automanagement_docs/hus/HU-XXX.md` estructurando los criterios de aceptación formales en **Gherkin** (*Dado / Cuando / Entonces*), cubriendo escenario feliz y manejo de errores.
+  4. Asignar estado inicial: `🟡 En Refinamiento`.
+  5. Invitar al usuario a continuar con `/refinar-hu HU-XXX`.
 
 ### 🔬 Fase 2: Refinamiento Técnico & Contratos
-- Completar `refinamientos/REF-XXX.md` basándose en `templates/refinamiento-template.md`.
+- Completar `automanagement_docs/refinamientos/REF-XXX.md` basándose en `templates/refinamiento-template.md`.
 - Incluir diagrama de arquitectura o flujo de datos en sintaxis **Mermaid**.
 - Especificar contratos DTO (JSON Request/Response) y métodos/servicios involucrados.
 - **Validación de Persistencia y ORM**:
@@ -99,8 +112,8 @@ graph TD
   ```bash
   python scripts/validate_clean_code.py --path ./src --strict
   ```
-- Completar la bitácora individual en `dev-records/DEV-RECORD-HU-XXX.md`.
-- Actualizar el estado de la HU y del Refinamiento a `🟢 Finalizado`.
+- Completar la bitácora individual en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`.
+- Actualizar el estado de la HU, del Refinamiento y de la tabla central en `automanagement_docs/README.md` a `🟢 Finalizado`.
 
 ---
 

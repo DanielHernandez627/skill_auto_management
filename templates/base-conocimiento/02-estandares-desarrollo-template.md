@@ -1,4 +1,4 @@
-# 📐 Estándares y Convenciones de Desarrollo del Proyecto
+# Estándares y Convenciones de Desarrollo del Proyecto
 
 | Campo | Detalles |
 |---|---|
@@ -8,14 +8,14 @@
 
 ---
 
-## 🧹 1. Política de Clean Code y Código Auto-Descriptivo
+## 1. Política de Clean Code y Código Auto-Descriptivo
 - **Nomenclatura Intencionada**: Clases, métodos y variables deben expresar su función exacta sin ambigüedad.
 - **Cero Comentarios Redundantes**: Prohibido comentar código para describir lo evidente. El código se explica por sí mismo.
 - **Funciones Pequeñas y de Responsabilidad Única**: Limitar funciones a una sola tarea clara.
 
 ---
 
-## 🔤 2. Convenciones de Nomenclatura por Lenguaje
+## 2. Convenciones de Nomenclatura por Lenguaje
 
 ### Backend ([C# / Java / Python / Go])
 - **Clases / Interfaces**: `PascalCase` (Ej. `EpisodeRepository`, `IUserService`).
@@ -28,13 +28,13 @@
 
 ---
 
-## 🏗 3. Manejo de Excepciones y Respuestas de Error
+## 3. Manejo de Excepciones y Respuestas de Error
 - **Errores de Negocio**: Lanzar excepciones de dominio controladas (`EntityNotFoundException`, `BusinessRuleViolationException`).
 - **Respuestas HTTP**: Utilizar esquemas estándar de error (ej. RFC 7807 `ProblemDetails` o estructura JSON común con código y mensaje).
 
 ---
 
-## 🗄 4. Directrices de Persistencia y ORM
+## 4. Directrices de Persistencia y ORM
 - **Entidades Limpias**: Declarar modelos sin lógica de infraestructura acoplada.
 - **Colecciones Ordenadas**: Declarar explícitamente ordenamiento por columnas ordinales (ej. `.OrderBy(x => x.Order)` o `@OrderBy("order ASC")`).
 - **Validación DDL**: Todo campo obligatorio en la base de datos debe reflejarse como no anulable en el código y viceversa.

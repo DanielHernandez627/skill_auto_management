@@ -15,7 +15,7 @@ Tu misión es realizar la arqueología técnica y el onboarding del proyecto act
 
 2. **Generación de Base de Conocimiento Centralizada**:
    El script creará la carpeta central `automanagement_docs/` con su índice `README.md` y la subcarpeta `base-conocimiento/` en la raíz.
-   - **🛑 REGLA DE NO DUPLICACIÓN**: `automanagement_docs/` debe residir **únicamente en la raíz del espacio de trabajo**. Está **ESTRICTAMENTE PROHIBIDO copiar, sincronizar (`Copy-Item`, `cp -r`) o crear uniones/junctions (`New-Item -ItemType Junction`)** de esta carpeta hacia o desde subcarpetas internas de código fuente. Debe permanecer externa e independiente.
+   - **[REGLA DE NO DUPLICACIÓN]**: `automanagement_docs/` debe residir **únicamente en la raíz del espacio de trabajo**. Está **ESTRICTAMENTE PROHIBIDO copiar, sincronizar (`Copy-Item`, `cp -r`) o crear uniones/junctions (`New-Item -ItemType Junction`)** de esta carpeta hacia o desde subcarpetas internas de código fuente. Debe permanecer externa e independiente.
    - Revisa y completa los 4 documentos en `automanagement_docs/base-conocimiento/`:
      - `01-analisis-arquitectura.md`: Diagrama Mermaid del sistema, mapa de carpetas y catálogo de APIs.
      - `02-estandares-desarrollo.md`: Convenciones de nombrado, Clean Code y patrones vigentes.

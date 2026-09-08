@@ -29,6 +29,6 @@ Tu misión es verificar rigurosamente la calidad del código, asegurar que los t
      - Archivos creados/modificados.
      - Decisiones técnicas adoptadas.
      - Cobertura alcanzada y total de pruebas pasadas (100%).
-   - Actualiza el estado en `automanagement_docs/hus/HU-XXX.md` y `automanagement_docs/refinamientos/REF-XXX.md` a `🟢 Finalizado`.
-   - Actualiza la tabla de seguimiento en `automanagement_docs/README.md` a `🟢 Finalizado`.
+   - Actualiza el estado en `automanagement_docs/hus/HU-XXX.md` y `automanagement_docs/refinamientos/REF-XXX.md` a `[Finalizado]`.
+   - Actualiza la tabla de seguimiento en `automanagement_docs/README.md` a `[Finalizado]`.
    - Confirma al usuario que la historia ha sido cerrada con éxito y cumple con la Definición de Hecho.

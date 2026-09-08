@@ -16,4 +16,4 @@ Tu misión es verificar que el código fuente cumpla con la política estricta d
    - Reejecuta el script hasta obtener `[OK] 0 comentarios redundantes`.
 3. **Cierre de Bitácora**:
    - Actualiza la bitácora en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md` indicando 0 comentarios encontrados y los resultados de las pruebas unitarias/integración.
-   - Cambia el estado de la HU y del Refinamiento a `🟢 Finalizado`.
+   - Cambia el estado de la HU y del Refinamiento a `[Finalizado]`.

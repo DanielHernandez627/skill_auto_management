@@ -1,25 +1,25 @@
-# 📋 Historia de Usuario: [HU-XXX] - [Título Corto de la Historia]
+# Historia de Usuario: [HU-XXX] - [Título Corto de la Historia]
 
 | Campo | Detalles |
 |---|---|
 | **ID Historia** | HU-XXX |
 | **Fase / Módulo** | [Nombre del Módulo o Fase] |
-| **Estado** | 🔴 Pendiente / 🟡 En Refinamiento / 🔵 En Desarrollo / 🟢 Finalizado |
+| **Estado** | [Pendiente] / [En Refinamiento] / [En Desarrollo] / [Finalizado] |
 | **Prioridad** | Alta / Media / Baja |
-| **Refinamiento Técnico**| ⏳ *Pendiente (Se generará al ejecutar `/refinar-hu HU-XXX`)* |
-| **Bitácora Dev/QA** | ⏳ *Pendiente (Se generará al ejecutar `/cerrar-hu HU-XXX`)* |
+| **Refinamiento Técnico**| Pendiente (`/refinar-hu HU-XXX`) |
+| **Bitácora Dev/QA** | Pendiente (`/cerrar-hu HU-XXX`) |
 | **Archivos Relacionados** | *(Se completará durante el desarrollo)* |
 
 ---
 
-## 🎯 Descripción
+## Descripción
 **Como** [tipo de usuario / rol / sistema],  
 **Quiero** [funcionalidad u objetivo técnico/negocio a realizar],  
 **Para que** [beneficio o valor de negocio obtenido].
 
 ---
 
-## ✅ Criterios de Aceptación (Gherkin)
+## Criterios de Aceptación (Gherkin)
 
 - [ ] **Escenario 1:** [Descripción del comportamiento esperado principal]
   - **Dado** [contexto o estado inicial del sistema]
@@ -33,7 +33,7 @@
 
 ---
 
-## 🛠 Requisitos Técnicos e Integración
+## Requisitos Técnicos e Integración
 - **Lenguaje / Framework:** [.NET C#, Java Spring Boot, TypeScript/Angular, Python, etc.]
 - **Entradas:** [Payloads JSON, parámetros REST/gRPC, eventos o UI inputs]
 - **Salidas:** [Respuestas REST, mutaciones en base de datos, mensajes en colas]
@@ -41,7 +41,7 @@
 
 ---
 
-## 🧪 Plan de Verificación y Pruebas
+## Plan de Verificación y Pruebas
 - [ ] Compilación y build sin advertencias bloqueantes (flags no interactivos).
 - [ ] Pruebas unitarias que cubran los escenarios Gherkin.
 - [ ] Validación de cobertura mínima (Coverage Gate: Backend $\ge 80\%$, Frontend $\ge 85\%$).

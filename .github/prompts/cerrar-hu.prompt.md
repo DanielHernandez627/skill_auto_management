@@ -14,4 +14,4 @@ Tu objetivo es verificar la calidad del código y cerrar formalmente la Historia
 2. Ejecuta la suite de pruebas automatizadas en modo no interactivo.
 3. Audita la higiene de Git ejecutando `git status` para comprobar que no existan archivos temporales o cachés de pruebas sin ignorar en el `.gitignore`.
 4. Actualiza la bitácora en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md` con archivos afectados, decisiones y métricas de tests.
-5. Actualiza el estado de la HU, del Refinamiento y en el índice `automanagement_docs/README.md` a `🟢 Finalizado`.
+5. Actualiza el estado de la HU, del Refinamiento y en el índice `automanagement_docs/README.md` a `[Finalizado]`.

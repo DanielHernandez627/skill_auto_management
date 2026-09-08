@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """Generador de Artefactos de Historias de Usuario (Scaffolding).
 
-Crea de forma estandarizada los documentos Markdown para una nueva HU en automanagement_docs/:
+Crea de forma estandarizada la Historia de Usuario para la Fase 1 en automanagement_docs/:
 1. automanagement_docs/hus/HU-XXX.md
-2. automanagement_docs/refinamientos/REF-XXX.md
-3. automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md
-4. automanagement_docs/README.md (registro y estado)
+2. automanagement_docs/README.md (registro y estado inicial en refinamiento)
 """
 
 from __future__ import annotations
@@ -26,8 +24,6 @@ def update_docs_index_table(
     docs_dir: Path,
     hu_id: str,
     title: str,
-    ref_id: str,
-    dev_record_name: str,
 ) -> None:
     readme_file = docs_dir / "README.md"
     if not readme_file.exists():
@@ -39,8 +35,8 @@ def update_docs_index_table(
 
     row_entry = (
         f"| [`{hu_id}`](hus/{hu_id}.md) | {title} | 🟡 En Refinamiento | "
-        f"[`{ref_id}`](refinamientos/{ref_id}.md) | "
-        f"[`{dev_record_name}`](dev-records/{dev_record_name}) |"
+        f"⏳ *Pendiente (`/refinar-hu`)* | "
+        f"⏳ *Pendiente (`/cerrar-hu`)* |"
     )
 
     placeholder = "| *(Las nuevas HUs creadas con `/nueva-hu` se registrarán en esta sección)* | | | | |"
@@ -60,41 +56,28 @@ def scaffold_hu(
     docs_dir_name: str = "automanagement_docs",
     force: bool = False,
 ) -> int:
-    formatted_id = hu_id.upper().strip()
-    if not formatted_id.startswith("HU-"):
-        formatted_id = f"HU-{formatted_id}"
-
-    ref_id = formatted_id.replace("HU-", "REF-")
-    dev_record_name = f"DEV-RECORD-{formatted_id}.md"
-    today_str = date.today().isoformat()
+    clean_id = hu_id.strip().upper()
+    if clean_id.startswith("HU-"):
+        num_part = clean_id.replace("HU-", "")
+        formatted_id = f"HU-{num_part}"
+    elif clean_id.isdigit():
+        formatted_id = f"HU-{int(clean_id):03d}"
+    else:
+        formatted_id = clean_id if clean_id.startswith("HU-") else f"HU-{clean_id}"
 
     hu_template_file = templates_dir / "hu-template.md"
-    ref_template_file = templates_dir / "refinamiento-template.md"
-    dev_template_file = templates_dir / "dev-record-template.md"
-
-    for tpl in (hu_template_file, ref_template_file, dev_template_file):
-        if not tpl.is_file():
-            print(f"[ERROR] No se encontro la plantilla requerida en '{tpl}'.")
-            return 1
+    if not hu_template_file.exists():
+        print(f"[ERROR] No se encontro la plantilla requerida: {hu_template_file}")
+        return 1
 
     docs_base_dir = resolve_docs_directory(target_dir, docs_dir_name)
     hus_dir = docs_base_dir / "hus"
-    refinamientos_dir = docs_base_dir / "refinamientos"
-    dev_records_dir = docs_base_dir / "dev-records"
-
     hus_dir.mkdir(parents=True, exist_ok=True)
-    refinamientos_dir.mkdir(parents=True, exist_ok=True)
-    dev_records_dir.mkdir(parents=True, exist_ok=True)
 
     target_hu_file = hus_dir / f"{formatted_id}.md"
-    target_ref_file = refinamientos_dir / f"{ref_id}.md"
-    target_dev_file = dev_records_dir / dev_record_name
 
-    existing_files = [f for f in (target_hu_file, target_ref_file, target_dev_file) if f.exists()]
-    if existing_files and not force:
-        print("[WARN] Los siguientes archivos ya existen. Usa --force para sobrescribir:")
-        for ef in existing_files:
-            print(f"  - {ef}")
+    if target_hu_file.exists() and not force:
+        print(f"[WARN] El archivo {target_hu_file} ya existe. Usa --force para sobrescribir.")
         return 1
 
     hu_content = (
@@ -102,43 +85,15 @@ def scaffold_hu(
         .replace("[HU-XXX]", formatted_id)
         .replace("HU-XXX", formatted_id)
         .replace("[Título Corto de la Historia]", title)
-        .replace("REF-XXX.md", f"{ref_id}.md")
-        .replace("DEV-RECORD-HU-XXX.md", dev_record_name)
-    )
-
-    ref_content = (
-        ref_template_file.read_text(encoding="utf-8")
-        .replace("[REF-XXX]", ref_id)
-        .replace("REF-XXX", ref_id)
-        .replace("[Título de la HU]", title)
-        .replace("HU-XXX.md", f"{formatted_id}.md")
-        .replace("HU-XXX", formatted_id)
-        .replace("YYYY-MM-DD", today_str)
-        .replace("DEV-RECORD-HU-XXX.md", dev_record_name)
-    )
-
-    dev_content = (
-        dev_template_file.read_text(encoding="utf-8")
-        .replace("[DEV-RECORD-HU-XXX]", f"DEV-RECORD-{formatted_id}")
-        .replace("DEV-RECORD-HU-XXX", f"DEV-RECORD-{formatted_id}")
-        .replace("[Título de la HU]", title)
-        .replace("HU-XXX.md", f"{formatted_id}.md")
-        .replace("HU-XXX", formatted_id)
-        .replace("REF-XXX.md", f"{ref_id}.md")
-        .replace("REF-XXX", ref_id)
-        .replace("YYYY-MM-DD", today_str)
     )
 
     target_hu_file.write_text(hu_content, encoding="utf-8")
-    target_ref_file.write_text(ref_content, encoding="utf-8")
-    target_dev_file.write_text(dev_content, encoding="utf-8")
+    update_docs_index_table(docs_base_dir, formatted_id, title)
 
-    update_docs_index_table(docs_base_dir, formatted_id, title, ref_id, dev_record_name)
-
-    print(f"[OK] Se generaron exitosamente los 3 artefactos para '{formatted_id} - {title}':")
+    print(f"[OK] Se genero exitosamente la Historia de Usuario para '{formatted_id} - {title}':")
     print(f"  - HU:           {target_hu_file}")
-    print(f"  - Refinamiento: {target_ref_file}")
-    print(f"  - Bitácora Dev: {target_dev_file}")
+    print(f"  - Refinamiento: ⏳ Pendiente (se creara en Fase 2 ejecutando '/refinar-hu {formatted_id}')")
+    print(f"  - Bitacora Dev: ⏳ Pendiente (se creara en Fase 5 ejecutando '/cerrar-hu {formatted_id}')")
     return 0
 
 

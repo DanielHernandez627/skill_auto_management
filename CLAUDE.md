@@ -24,6 +24,12 @@ Este repositorio contiene la metodología, plantillas y herramientas de automati
    - Backend $\ge 80\%$ | Frontend $\ge 85\%$.
    - Siempre invocar comandos de build y testing con flags desatendidos / no interactivos (ver `references/testing-standards.md`).
 
+4. **Integridad de Plantillas Preexistentes**:
+   - Si el proyecto consume o genera archivos desde plantillas (documentos Word/Excel/PDF, correos HTML, archivos planos TXT/CSV), auditar sus variables reales y mapear estrictamente a ellas sin asumir cambios de esquema ni alterar archivos binarios sin autorización.
+
+5. **Higiene de Git Multilenguaje (.gitignore)**:
+   - Auditar en Fase 0 y Fase 5 que el `.gitignore` del proyecto excluya carpetas de compilación (`bin/`, `obj/`, `target/`), dependencias (`node_modules/`, `.venv/`), cachés de pruebas (`.pytest_cache`, `.coverage`, `TestResults/`) y artefactos temporales generados en runtime.
+
 ---
 
 ## ⚡ Slash Commands Nativos en Claude Code (`.claude/commands/`)
@@ -45,10 +51,11 @@ Claude Code reconoce automáticamente los siguientes atajos en el chat:
   python scripts/onboard_project.py --path ./ --name "NombreDelProyecto"
   ```
 
-- **Crear una nueva HU con su refinamiento y bitácora**:
+- **Crear una nueva HU y registrarla en el índice**:
   ```bash
   python scripts/scaffold_hu.py HU-XXX "Título de la Historia"
   ```
+  *(Nota: Genera automanagement_docs/hus/HU-XXX.md y actualiza automanagement_docs/README.md; el refinamiento y bitácora se generan en sus respectivas fases)*
 
 - **Auditar ausencia de comentarios en código (Clean Code)**:
   ```bash

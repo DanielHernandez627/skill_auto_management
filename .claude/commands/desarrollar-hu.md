@@ -20,6 +20,7 @@ Tu misión es programar la solución completa requerida en la Historia de Usuari
      - **Prohibido agregar comentarios inline o explicativos** dentro de clases, métodos y funciones.
      - El código debe comunicar su intención mediante nombres claros y funciones concisas.
      - Consulta `references/clean-code-rules.md` para patrones de diseño.
+   - **Fidelidad a Plantillas**: Si generas archivos desde plantillas (Word, Excel, PDF, correos HTML, TXT/CSV), mapea estrictamente las variables y nombres de campo que la plantilla espera, sin alterar su formato ni esquema sin permiso.
    - Aplica los contratos REST y DTOs definidos en el refinamiento.
 
 4. **Transición**:

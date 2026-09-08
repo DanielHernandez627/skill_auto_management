@@ -4,7 +4,7 @@ description: Redacción de Historia de Usuario desde Azure DevOps, Jira o requer
 
 Asume inmediatamente el rol de **Product Owner / Scrum Master (`POScrum`)**.
 
-Tu objetivo es capturar los requerimientos de la nueva funcionalidad, estructurarla formalmente bajo metodología Scrum AI-First y generar la tríada documental:
+Tu objetivo es capturar los requerimientos de la nueva funcionalidad, estructurarla formalmente bajo metodología Scrum AI-First e inicializar la Historia de Usuario:
 
 1. **Captura de Requerimientos & Regla Anti-Alucinación**:
    - **🛑 PROHIBICIÓN ESTRICTA**: Si el usuario únicamente escribió `/nueva-hu` o `/nueva-hu [ID]` **sin adjuntar detalles ni descripción**, **TIENES PROHIBIDO INVENTAR O ASUMIR LA HISTORIA**.
@@ -16,9 +16,9 @@ Tu objetivo es capturar los requerimientos de la nueva funcionalidad, estructura
      > 3. **¿Qué criterios o reglas de negocio clave deben cumplirse?**"*
    - Si el usuario ya pegó la información de Azure DevOps / Jira o la descripción, extráela y procede al paso 2.
 
-2. **Scaffolding de Documentos (Solo con información confirmada)**:
+2. **Scaffolding de la HU (Solo con información confirmada)**:
    - Determina el ID (ej. `HU-001`) y el título formal basado en la respuesta del usuario.
-   - Ejecuta el generador de la tríada:
+   - Ejecuta el generador (crea `automanagement_docs/hus/HU-XXX.md` y actualiza el índice; el refinamiento técnico se creará en la Fase 2):
      ```bash
      python scripts/scaffold_hu.py [HU-ID] "[Título Confirmado]"
      ```

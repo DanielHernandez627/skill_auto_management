@@ -57,7 +57,7 @@ La metodología y los scripts de validación están preparados para proyectos en
 Los scripts utilizan exclusivamente la **biblioteca estándar de Python** (sin dependencias externas obligatorias).
 
 ### 1. Asistente de Onboarding Técnico (`onboard_project.py`)
-Diseñado para el rol de **Líder Técnico (`TechLeadArchitect`)** al aterrizar en un proyecto existente (Brownfield, productivo o sin documentar). Escanea el repositorio, detecta automáticamente el stack y genera la carpeta centralizada `automanagement_docs/` con su índice `README.md` y `base-conocimiento/`:
+Diseñado para el rol de **Líder Técnico (`TechLeadArchitect`)** al aterrizar en un proyecto existente (Brownfield, productivo o sin documentar). Escanea el repositorio, detecta automáticamente el stack, genera la carpeta centralizada `automanagement_docs/` con su índice `README.md` y `base-conocimiento/`, y audita la higiene de `.gitignore` para el stack detectado:
 
 ```bash
 # Escanear el directorio actual e inicializar automanagement_docs/
@@ -68,10 +68,10 @@ python scripts/onboard_project.py --path ./ --dry-run
 ```
 
 ### 2. Generador de Artefactos para HUs (`scaffold_hu.py`)
-Crea en un solo paso los documentos enlazados requeridos (`automanagement_docs/hus/HU-XXX.md`, `automanagement_docs/refinamientos/REF-XXX.md` y `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`) y actualiza el índice `automanagement_docs/README.md`:
+Inicializa la Historia de Usuario (`automanagement_docs/hus/HU-XXX.md`) y actualiza el índice general `automanagement_docs/README.md` (el refinamiento técnico y la bitácora dev se generan bajo demanda al ejecutar `/refinar-hu` y `/cerrar-hu` respectivamente):
 
 ```bash
-# Uso básico (genera artefactos en automanagement_docs/)
+# Uso básico (genera HU en automanagement_docs/hus/)
 python scripts/scaffold_hu.py HU-001 "Autenticación de Usuarios con JWT"
 
 # Especificar carpeta raíz del proyecto (ej. en un subproyecto)
@@ -113,14 +113,78 @@ Para una experiencia óptima de desarrollo (DX), el repositorio incluye atajos n
 
 ---
 
-## 🔄 Integración con Asistentes de IA
+## 🚀 Instalación Rápida Paso a Paso (Multi-Asistente)
 
-### 🤖 Google Antigravity
-Copia o enlaza este repositorio dentro del proyecto en `.agents/skills/skill_auto_management/` o úsalo directamente como workspace. Antigravity detectará `SKILL.md` y activará el flujo de Fase 0 a Fase 5 cuando invoques los comandos o menciones los roles.
+El instalador `install.py` configura automáticamente el entorno según el asistente que utilices (**Google Antigravity**, **Anthropic Claude Code** o **GitHub Copilot**):
 
-### 🧠 Anthropic Claude (Claude Code / Desktop)
-Claude Code detecta automáticamente `CLAUDE.md` y los comandos en `.claude/commands/`. Solo escribe `/onboarding`, `/nueva-hu` o `/auditar-clean-code` en la consola.
+### 🌟 1. Instalación Global (Google Antigravity + Claude Code)
+Configura ambos asistentes de forma global en tu máquina con **un único comando**:
 
-### 🐙 GitHub Copilot
-VS Code y GitHub Copilot consumen `.github/copilot-instructions.md` y los prompts reusables en `.github/prompts/`. Puedes invocar los roles directamente en la ventana de Copilot Chat.
+#### 🪟 En Windows
+```bash
+python install.py
+```
+*(O doble clic en `install.bat`)*
+
+#### 🐧 En Linux Mint / Ubuntu / macOS
+```bash
+python3 install.py
+```
+*(O `./install.sh`)*
+
+> [!TIP]
+> **¿Qué hace la instalación global?**
+> - **Google Antigravity:** Instala la skill en `%USERPROFILE%\.gemini\config\skills\agile-hu-workflow\` (o `~/.gemini/config/skills/` en Linux), habilitando los comandos en cualquier conversación (Chat o IDE).
+> - **Claude Code (CLI):** Copia los comandos a `%USERPROFILE%\.claude\commands\` (o `~/.claude/commands/` en Linux) y el `CLAUDE.md`, habilitando `/onboarding`, `/nueva-hu`, etc. en cualquier terminal.
+
+---
+
+### 🐙 2. Configurar un Proyecto para GitHub Copilot (o Workspace Local)
+Dado que **GitHub Copilot** opera a nivel de proyecto (en VS Code o JetBrains), requiere sus archivos dentro del repositorio de trabajo. Ejecuta:
+
+```bash
+# En Windows o Linux
+python install.py --workspace /ruta/a/tu-proyecto
+```
+
+> [!NOTE]
+> **¿Qué configura en el proyecto?**
+> - **GitHub Copilot:** Copia `.github/copilot-instructions.md` y `.github/prompts/*.prompt.md` para activar los slash commands en Copilot Chat.
+> - **Claude Code:** Copia `.claude/commands/` y `CLAUDE.md` localmente en el proyecto.
+> - **Antigravity Local:** Copia la skill en `.agents/skills/agile-hu-workflow/`.
+> - **Scripts y Plantillas:** Copia `scripts/` y `templates/` para que los asistentes ejecuten la auditoría y scaffolding desde la raíz del repositorio.
+
+---
+
+### 🖐️ 3. Instalación Manual (Sin scripts de Python)
+
+- **Para Google Antigravity (Global):**
+  - **Windows (PowerShell):**
+    ```powershell
+    $dest = "$env:USERPROFILE\.gemini\config\skills\agile-hu-workflow"; New-Item -ItemType Directory -Force -Path $dest; Copy-Item -Path ".\*" -Destination $dest -Recurse -Force
+    ```
+  - **Linux / macOS (Bash):**
+    ```bash
+    mkdir -p ~/.gemini/config/skills/agile-hu-workflow && cp -r ./* ~/.gemini/config/skills/agile-hu-workflow/
+    ```
+
+- **Para Claude Code (Global):**
+  - **Windows (PowerShell):**
+    ```powershell
+    $dest = "$env:USERPROFILE\.claude\commands"; New-Item -ItemType Directory -Force -Path $dest; Copy-Item -Path ".\.claude\commands\*" -Destination $dest -Force
+    ```
+  - **Linux / macOS (Bash):**
+    ```bash
+    mkdir -p ~/.claude/commands && cp -r ./.claude/commands/* ~/.claude/commands/
+    ```
+
+- **Para GitHub Copilot (En tu proyecto):**
+  - Copia la carpeta `.github/` de este repositorio dentro de la raíz de tu proyecto.
+
+---
+
+### ✅ Verificación de Instalación
+- **En Antigravity (Chat o IDE):** Escribe `/onboarding` o `/nueva-hu HU-001`.
+- **En Claude Code CLI:** Abre la consola en cualquier carpeta y escribe `/onboarding`.
+- **En GitHub Copilot (VS Code):** Abre Copilot Chat y escribe `/onboarding` o `/nueva-hu`.
 

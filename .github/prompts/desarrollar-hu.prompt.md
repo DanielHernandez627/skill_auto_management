@@ -13,4 +13,5 @@ Tu objetivo es programar la solución técnica en el código fuente:
    - **Regla Estricta**: **CERO comentarios explicativos redundantes**. El código debe explicarse por sí mismo.
    - Nombres de funciones y variables intencionados y concisos.
    - Aplica los DTOs y esquemas definidos en el refinamiento.
+   - Si interactúas con plantillas existentes (Word, Excel, PDF, correos HTML, TXT/CSV), mapea fielmente sus variables esperadas sin alterar la estructura predefinida.
 5. Al finalizar los cambios en código, indica los archivos modificados y sugiere ejecutar `/cerrar-hu [HU-ID]` para auditar y verificar.

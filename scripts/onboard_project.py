@@ -126,6 +126,38 @@ def detect_stack(project_dir: Path) -> dict[str, list[str]]:
     return detected
 
 
+def check_gitignore_hygiene(project_dir: Path, stack: dict[str, list[str]]) -> None:
+    gitignore_path = project_dir / ".gitignore"
+    if not gitignore_path.exists():
+        print("\n[AVISO GIT] No se encontro archivo .gitignore en la raiz.")
+        print("  Recomendacion: Inicializar .gitignore con las reglas del stack detectado.")
+        return
+
+    content = gitignore_path.read_text(encoding="utf-8", errors="replace")
+    missing_rules: list[str] = []
+
+    if "Python" in stack["languages"]:
+        for item in ("__pycache__", ".pytest_cache", ".coverage"):
+            if item not in content:
+                missing_rules.append(item)
+    if "C# (.NET)" in stack["languages"]:
+        for item in ("bin/", "obj/", "TestResults/"):
+            if item not in content:
+                missing_rules.append(item)
+    if "Java" in stack["languages"]:
+        for item in ("target/", ".gradle/", "build/"):
+            if item not in content:
+                missing_rules.append(item)
+    if "TypeScript/JavaScript" in stack["languages"]:
+        for item in ("node_modules/", "dist/"):
+            if item not in content:
+                missing_rules.append(item)
+
+    if missing_rules:
+        print("\n[AVISO GIT] El archivo .gitignore actual no cubre algunos patrones del stack detectado:")
+        print(f"  Patrones recomendados: {', '.join(missing_rules)}")
+
+
 def create_automanagement_readme(
     target_docs_dir: Path,
     templates_dir: Path,
@@ -222,10 +254,13 @@ def onboard_project(
     for cf in created_files:
         print(f"  - {target_docs_dir.name}/base-conocimiento/{cf.name}")
 
+    check_gitignore_hygiene(resolved_dir, stack)
+
     print("\n[PROXIMOS PASOS]")
     print(f"1. El Líder Técnico / Asistente IA debe revisar y refinar los diagramas Mermaid en '{target_docs_dir.name}/base-conocimiento/01-analisis-arquitectura.md'.")
     print(f"2. Documentar las entidades clave en '{target_docs_dir.name}/base-conocimiento/04-dominio-negocio.md'.")
-    print("3. Establecida la línea base, el Product Owner puede crear la primera HU con '/nueva-hu'.")
+    print("3. Auditar la higiene de Git (.gitignore) asegurando exclusión de builds, dependencias y caches.")
+    print("4. Establecida la línea base, el Product Owner puede crear la primera HU con '/nueva-hu'.")
 
     return 0
 

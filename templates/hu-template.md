@@ -6,8 +6,8 @@
 | **Fase / Módulo** | [Nombre del Módulo o Fase] |
 | **Estado** | 🔴 Pendiente / 🟡 En Refinamiento / 🔵 En Desarrollo / 🟢 Finalizado |
 | **Prioridad** | Alta / Media / Baja |
-| **Refinamiento Técnico**| [`REF-XXX.md`](../refinamientos/REF-XXX.md) |
-| **Bitácora Dev/QA** | [`DEV-RECORD-HU-XXX.md`](../dev-records/DEV-RECORD-HU-XXX.md) |
+| **Refinamiento Técnico**| ⏳ *Pendiente (Se generará al ejecutar `/refinar-hu HU-XXX`)* |
+| **Bitácora Dev/QA** | ⏳ *Pendiente (Se generará al ejecutar `/cerrar-hu HU-XXX`)* |
 | **Archivos Relacionados** | *(Se completará durante el desarrollo)* |
 
 ---

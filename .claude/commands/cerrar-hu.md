@@ -21,7 +21,10 @@ Tu misión es verificar rigurosamente la calidad del código, asegurar que los t
      - Python: `pytest`
    - Valida el cumplimiento del Coverage Gate (Backend $\ge 80\%$, Frontend $\ge 85\%$).
 
-3. **Bitácora y Definición de Hecho (DoD)**:
+3. **Auditoría de Higiene Git**:
+   - Ejecuta `git status` para confirmar que ningún artefacto temporal, ejecutable o caché de pruebas quede sin ignorar en el `.gitignore`.
+
+4. **Bitácora y Definición de Hecho (DoD)**:
    - Completa el archivo `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md` detallando:
      - Archivos creados/modificados.
      - Decisiones técnicas adoptadas.

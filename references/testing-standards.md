@@ -57,3 +57,41 @@ pytest --maxfail=1 --disable-warnings -q --cov=src --cov-report=term-missing
      - `ResolveSkipTimestamps_WhenEpisodeHasNoMarks_ReturnsSeasonDefaultMarks()`
 3. **Registro Obligatorio en Bitácora**:
    - Toda suite de tests ejecutada con éxito debe reflejarse en `dev-records/DEV-RECORD-HU-XXX.md` indicando porcentaje de cobertura y número de pruebas ejecutadas.
+
+---
+
+## 🛡️ 4. Configuración de Cobertura y Exclusión de Entrypoints Multilenguaje
+
+Para evitar que archivos de inicialización, lanzadores de interfaz gráfica o servidores embebidos distorsionen negativamente la métrica de cobertura de la lógica de negocio, se deben configurar exclusiones estándar según el ecosistema:
+
+- **🟦 .NET (C#)**:
+  - Decorar clases de arranque con `[ExcludeFromCodeCoverage]` o definir en el archivo `.runsettings`:
+    ```xml
+    <CodeCoverage>
+      <ModulePaths>
+        <Exclude><ModulePath>.*Program.*</ModulePath></Exclude>
+      </ModulePaths>
+    </CodeCoverage>
+    ```
+- **☕ Java (JaCoCo / Maven / Gradle)**:
+  - Excluir clases de configuración y arranque en la configuración del plugin JaCoCo:
+    ```xml
+    <excludes>
+      <exclude>**/*Application.class</exclude>
+      <exclude>**/config/**</exclude>
+    </excludes>
+    ```
+- **🅰️ Frontend / TypeScript (Jest / Vitest)**:
+  - Configurar en `jest.config.js` o `vite.config.ts`:
+    ```javascript
+    coveragePathIgnorePatterns: ["main.ts", "environments/", ".*\\.module\\.ts$"]
+    ```
+- **🐍 Python (Pytest / Coverage)**:
+  - Configurar en `setup.cfg` o `pyproject.toml`:
+    ```ini
+    [coverage:run]
+    omit =
+        */main.py
+        */app.py
+        */wsgi.py
+    ```

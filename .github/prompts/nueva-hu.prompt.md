@@ -14,7 +14,7 @@ Actúa como el **Product Owner / Scrum Master (`POScrum`)** bajo la metodología
      > 2. ¿Quién es el actor o rol principal? (*Como...*).  
      > 3. ¿Qué criterios de aceptación o reglas clave deben cumplirse?"*
 
-2. **Scaffolding**: Una vez confirmada la información, ejecuta:
+2. **Scaffolding**: Una vez confirmada la información, ejecuta (crea `automanagement_docs/hus/HU-XXX.md` y actualiza el índice general):
    ```bash
    python scripts/scaffold_hu.py [HU-ID] "[Título Confirmado]"
    ```

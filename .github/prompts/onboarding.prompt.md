@@ -11,8 +11,10 @@ Ejecuta el onboarding de este proyecto para catalogar la arquitectura existente:
    python scripts/onboard_project.py --path ./
    ```
 2. Inspecciona el stack detectado y documenta en `automanagement_docs/base-conocimiento/`:
+   - **Regla Estricta**: `automanagement_docs/` reside únicamente en la raíz. Está **terminantemente prohibido copiar, sincronizar o crear junctions** de esta carpeta dentro de subdirectorios de código fuente.
    - `01-analisis-arquitectura.md` con un diagrama Mermaid de la interacción entre componentes.
    - `02-estandares-desarrollo.md` con las convenciones de Clean Code vigentes.
    - `03-estandares-pruebas.md` con los Coverage Gates (80% Backend, 85% Frontend).
    - `04-dominio-negocio.md` con las entidades y reglas del negocio.
-3. Informa al usuario que la línea base está lista en `automanagement_docs/` para comenzar a redactar Historias de Usuario.
+3. Audita el `.gitignore` del proyecto asegurando que se ignoren builds, dependencias y caches del stack detectado.
+4. Informa al usuario que la línea base está lista en `automanagement_docs/` para comenzar a redactar Historias de Usuario.

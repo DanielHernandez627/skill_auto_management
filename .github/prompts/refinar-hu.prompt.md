@@ -8,10 +8,13 @@ Actúa como el **Líder Técnico & Arquitecto de Software (`TechLeadArchitect`)*
 Tu objetivo es diseñar las especificaciones técnicas en `automanagement_docs/refinamientos/REF-XXX.md` antes de codificar:
 1. Identifica o solicita el ID de la historia (ej. `HU-001`).
 2. Lee `automanagement_docs/hus/HU-XXX.md` y consulta la arquitectura en `automanagement_docs/base-conocimiento/`.
-3. Completa `automanagement_docs/refinamientos/REF-XXX.md` con:
-   - Diagrama **Mermaid** de secuencia o flujo de datos entre cliente, backend y base de datos.
-   - Contratos de API (Request / Response DTOs) y esquemas JSON.
-   - Restricciones DDL vs ORM (campos obligatorios y ordenamiento explícito `@OrderBy` / `.OrderBy()`).
-   - Casos de error controlados y excepciones de dominio.
+3. Crea y redacta `automanagement_docs/refinamientos/REF-XXX.md` adaptado a la arquitectura real (Desktop, Web API o CLI):
+   - Si es aplicación de escritorio, modela eventos de interfaz, controladores y servicios locales; **no inventes endpoints HTTP/REST**.
+   - Diagrama **Mermaid** adaptado al flujo de la aplicación.
+   - Modelos de datos tipados en el lenguaje nativo del proyecto (`dataclass` en Python, `record` en C#, etc.).
+   - Integridad de plantillas preexistentes: si utiliza plantillas (binarias .docx/.xlsx, correos HTML, TXT/CSV), audita y respeta los marcadores reales sin asumir cambios de esquema.
+   - Persistencia (archivos locales JSON/plantillas o base de datos según aplique).
+   - Casos de error y validaciones controladas.
    - Checklist de tareas para el desarrollador.
-4. Cambia el estado a `🟢 Aprobado para Desarrollo` y sugiere avanzar con `/desarrollar-hu [HU-ID]`.
+4. Actualiza el estado y enlaces en `automanagement_docs/hus/HU-XXX.md` y en `automanagement_docs/README.md` a `🟢 Aprobado para Desarrollo`.
+5. Muestra al usuario el resumen del refinamiento y sugiere continuar con `/desarrollar-hu [HU-ID]`.

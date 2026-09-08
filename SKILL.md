@@ -1,6 +1,6 @@
 ---
 name: agile-hu-workflow
-description: Metodología AI-First para la especificación, refinamiento, desarrollo y QA de Historias de Usuario con Clean Code multitecnología (C#, Java, TypeScript, Python) y documentación modular sincronizada.
+description: Metodología AI-First para onboarding técnico de proyectos existentes (Fase 0), especificación, refinamiento, desarrollo y QA de Historias de Usuario con Clean Code y documentación centralizada en automanagement_docs/. Activa esta skill obligatoriamente cuando el usuario ejecute /onboarding, /nueva-hu, /refinar-hu, /desarrollar-hu, /cerrar-hu, o mencione roles como Líder Técnico (TechLeadArchitect), Product Owner (POScrum) o DevQA.
 ---
 
 # 🤖 Skill: Metodología AI-First para Historias de Usuario
@@ -47,16 +47,22 @@ graph TD
 
 ### 🏛️ Fase 0: Onboarding Técnico & Descubrimiento (Rol: TechLeadArchitect)
 *Al iniciar un proyecto existente o sin HUs previas:*
-- Ejecutar el escaneo automático del stack:
+- **Ejecución del Escaneo**:
   ```bash
-  python scripts/onboard_project.py --path ./ --name "NombreDelSistema"
+  python scripts/onboard_project.py --path <ruta_proporcionada_por_usuario> --name "NombreDelSistema"
   ```
+- **🛑 Regla de Oro de Ruta y No Duplicación**:
+  - Usa `--path` **exactamente con la ruta raíz indicada por el usuario** (o `./` si no especifica).
+  - **PROHIBIDO MODIFICAR LA RUTA**: Nunca cambies `--path` a una subcarpeta interna de código (ej. nunca a `<ruta>/Administrador_Facturas` o `<ruta>/back_x`). El script ya escanea recursivamente todas las subcarpetas.
+  - `automanagement_docs/` reside **exclusivamente en la raíz** del espacio de trabajo indicado, manteniéndose externa e independiente a las carpetas de código.
+  - **PROHIBIDO TERMINANTEMENTE** duplicar, sincronizar, copiar (`Copy-Item`, `cp -r`) o crear uniones/enlaces simbólicos (`New-Item -ItemType Junction`) de `automanagement_docs/`. El script se encarga al 100% de la creación de la carpeta.
 - El Líder Técnico documenta en `automanagement_docs/base-conocimiento/`:
   - `01-analisis-arquitectura.md` (Diagramas Mermaid y mapa de capas).
   - `02-estandares-desarrollo.md` (Convenciones y Clean Code).
   - `03-estandares-pruebas.md` (Coverage gates y comandos headless).
   - `04-dominio-negocio.md` (Entidades y reglas del negocio).
 - Se genera el índice global `automanagement_docs/README.md` con la tabla central de seguimiento de HUs y reglas clave.
+- **Auditoría de Higiene de Git**: Verificar que el `.gitignore` del repositorio contemple el stack detectado (.NET `bin/`/`obj/`, Java `target/`, Node `node_modules/`, Python `__pycache__`/`.pytest_cache`/`.coverage`) y archivos temporales de ejecución.
 - Establecida la línea base, el Product Owner procede a la Fase 1.
 
 ### 🟡 Fase 1: Identificación y Redacción de la HU (Rol: POScrum)
@@ -76,18 +82,20 @@ graph TD
      ```bash
      python scripts/scaffold_hu.py HU-XXX "Título de la Historia"
      ```
+     *(El script genera exclusivamente `automanagement_docs/hus/HU-XXX.md` y registra la historia como 🟡 En Refinamiento en el índice central).*
   3. Editar `automanagement_docs/hus/HU-XXX.md` estructurando los criterios de aceptación formales en **Gherkin** (*Dado / Cuando / Entonces*), cubriendo escenario feliz y manejo de errores.
   4. Asignar estado inicial: `🟡 En Refinamiento`.
   5. Invitar al usuario a continuar con `/refinar-hu HU-XXX`.
 
-### 🔬 Fase 2: Refinamiento Técnico & Contratos
-- Completar `automanagement_docs/refinamientos/REF-XXX.md` basándose en `templates/refinamiento-template.md`.
-- Incluir diagrama de arquitectura o flujo de datos en sintaxis **Mermaid**.
-- Especificar contratos DTO (JSON Request/Response) y métodos/servicios involucrados.
-- **Validación de Persistencia y ORM**:
-  - Validar compatibilidad entre el esquema de base de datos DDL y las entidades ORM (EF Core, JPA, etc.).
-  - Asegurar ordenamiento unívoco en colecciones relacionales (ej. `.OrderBy()` o `@OrderBy`).
-- Marcar estado como `🟢 Aprobado para Desarrollo`.
+### 🔬 Fase 2: Refinamiento Técnico & Contratos (Rol: TechLeadArchitect)
+- Crear el documento técnico `automanagement_docs/refinamientos/REF-XXX.md` adaptado 100% al paradigma real del proyecto (Desktop GUI, Web API, CLI, Microservicio) documentado en `base-conocimiento/`:
+  - **Diagrama Mermaid**: Modela el flujo real (si es Desktop, eventos de ventana/widgets, controladores y archivos; si es API, clientes, endpoints y BD).
+  - **Modelos y Contratos**: Clases y DTOs en el lenguaje nativo del proyecto (`dataclass` en Python, `record` en C#, etc.). **Prohibido forzar contratos Web/REST si la aplicación es de escritorio**.
+  - **Integridad y Respeto a Plantillas Preexistentes**: Si el sistema genera documentos o correos desde plantillas preexistentes (binarios `.docx`/`.xlsx`/`.pdf`, correos `.html`/`.mjml`, archivos planos `.txt`/`.csv`), el arquitecto debe auditar los campos y variables exactos de la plantilla. **Queda prohibido asumir cambios de estructura en la plantilla** sin aprobación explícita; la capa adaptadora debe suministrar exactamente las variables esperadas por la plantilla actual.
+  - **Persistencia y Almacenamiento**: Archivos locales (JSON, plantillas) o bases de datos según aplique.
+  - **Casos Borde y Validaciones**: Manejo controlado de excepciones.
+  - **Checklist Técnico**: Tareas ordenadas para la Fase 4 de desarrollo.
+- Actualizar el enlace y estado en `automanagement_docs/hus/HU-XXX.md` y en `automanagement_docs/README.md` a `🟢 Aprobado para Desarrollo`, enlazando `[`REF-XXX.md`](../refinamientos/REF-XXX.md)`.
 
 ### 📐 Fase 3: Plan de Implementación (Planning Mode)
 - Generar el plan técnico estructurado en `implementation_plan.md` si la HU involucra múltiples capas o cambios en persistencia.
@@ -100,6 +108,7 @@ graph TD
   - El código debe comunicar su intención mediante nombres expresivos y métodos concisos.
   - Consulta [references/clean-code-rules.md](references/clean-code-rules.md) para patrones y comparativas.
 - Separar vistas, estilos y lógica en archivos independientes.
+- **Fidelidad a Plantillas**: Mapear estrictamente las variables y estructuras que la plantilla espera, preservando la compatibilidad sin modificar archivos binarios o layouts predefinidos.
 
 ### 🧪 Fase 5: Cierre, Verificación y Bitácora
 - Ejecutar las suites de pruebas con banderas no interactivas:
@@ -107,11 +116,12 @@ graph TD
   - Java: `mvn test` o `./gradlew test --no-daemon`
   - Frontend: `npm test -- --watch=false --browsers=ChromeHeadless`
   - Python: `pytest`
-- Superar los *Coverage Gates* mínimos: **Backend $\ge 80\%$**, **Frontend $\ge 85\%$**.
+- Superar los *Coverage Gates* mínimos: **Backend $\ge 80\%$**, **Frontend $\ge 85\%$** (excluyendo entrypoints o UI según `references/testing-standards.md`).
 - Ejecutar la auditoría automática de código limpio:
   ```bash
   python scripts/validate_clean_code.py --path ./src --strict
   ```
+- **Auditoría de Higiene Git**: Ejecutar `git status` para comprobar que ningún archivo temporal, build o caché de pruebas quede sin ignorar en el `.gitignore`.
 - Completar la bitácora individual en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`.
 - Actualizar el estado de la HU, del Refinamiento y de la tabla central en `automanagement_docs/README.md` a `🟢 Finalizado`.
 

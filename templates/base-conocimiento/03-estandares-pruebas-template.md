@@ -38,3 +38,13 @@
 1. **Pruebas Unitarias**: Aislamiento estricto con mocks de dependencias externas.
 2. **Pruebas de Integración**: Pruebas de controladores/endpoints con servidor en memoria y base de datos efímera.
 3. **Casos Críticos Obligatorios**: Escenarios de autenticación, transacciones monetarias o streaming multimedia (ej. HTTP 206).
+
+---
+
+## 🛡️ 4. Configuración de Cobertura y Exclusiones
+*Definir exclusiones para entrypoints de ejecución o interfaces que distorsionen la métrica de cobertura de la lógica de negocio:*
+- **.NET**: `[ExcludeFromCodeCoverage]` o filtro en `.runsettings`.
+- **Java**: Exclusiones de `*Application.class` y configuraciones en JaCoCo.
+- **TypeScript**: `coveragePathIgnorePatterns` en Jest/Vitest.
+- **Python**: `omit` en `setup.cfg` o `pyproject.toml` para `main.py`, `app.py`, etc.
+

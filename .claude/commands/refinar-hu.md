@@ -11,14 +11,16 @@ Tu objetivo es transformar los requerimientos de la Historia de Usuario en espec
    - Lee `automanagement_docs/hus/HU-XXX.md` y revisa la arquitectura en `automanagement_docs/base-conocimiento/01-analisis-arquitectura.md`.
 
 2. **Diseño Técnico en `automanagement_docs/refinamientos/REF-XXX.md`**:
-   - **Diagrama Mermaid**: Modela el flujo de interacción (secuencia o flujo de datos) entre el usuario, frontend, backend y base de datos.
-   - **Contratos de API y Modelos**: Define los esquemas JSON y DTOs exactos de entrada (Request) y salida (Response).
-   - **Auditoría de Persistencia DDL vs ORM**:
-     - Especifica tablas, columnas, relaciones y restricciones de nulidad (`NOT NULL`).
-     - Si hay colecciones hijas o listados, define el ordenamiento explícito (ej. `@OrderBy` o `.OrderBy()`).
-   - **Casos Borde**: Documenta timeouts, errores controlados (HTTP 400/404/409/500) y excepciones de dominio.
+   - **Adaptación al Paradigma Real**: Revisa si el proyecto es una **aplicación de escritorio (Desktop GUI)**, una **Web/API**, o una **CLI**. **PROHIBIDO forzar endpoints REST o servidores HTTP ficticios si el proyecto o el usuario requieren una aplicación de escritorio local**.
+   - **Diagrama Mermaid**: Modela el flujo real (si es Desktop, eventos de widgets/UI, servicios y archivos; si es API, flujo REST cliente/servidor).
+   - **Modelos y Contratos**: Define clases tipadas en el lenguaje del proyecto (`dataclass` en Python, `record` en C#, etc.).
+   - **Integridad de Plantillas Preexistentes**: Si el flujo involucra plantillas predefinidas (binarios `.docx`/`.xlsx`/`.pdf`, correos `.html`/`.mjml`, archivos `.txt`/`.csv`), audita sus variables y estructura exacta. **Prohibido asumir cambios estructurales en plantillas existentes** sin autorización explícita; la capa adaptadora debe amoldarse a los campos de la plantilla actual.
+   - **Persistencia**: Especifica la manipulación segura de archivos locales (JSON, plantillas) o esquemas de base de datos según corresponda.
+   - **Casos Borde**: Documenta validaciones de entrada, colisiones de archivo y errores controlados.
    - **Checklist Técnico**: Desglosa las tareas concretas para el desarrollador.
 
-3. **Aprobación**:
-   - Cambia el estado en `automanagement_docs/refinamientos/REF-XXX.md` a `🟢 Aprobado para Desarrollo`.
-   - Notifica al usuario que el diseño técnico está cerrado y que el siguiente paso es ejecutar `/desarrollar-hu [HU-ID]`.
+3. **Aprobación y Enlaces**:
+   - Establece el estado en `automanagement_docs/refinamientos/REF-XXX.md` como `🟢 Aprobado para Desarrollo`.
+   - Actualiza el enlace en `automanagement_docs/hus/HU-XXX.md` a `[`REF-XXX.md`](../refinamientos/REF-XXX.md)` y cambia su estado a `🟢 Aprobado para Desarrollo`.
+   - Actualiza la tabla central en `automanagement_docs/README.md` enlazando el nuevo refinamiento.
+   - Presenta al usuario un resumen conciso y el enlace a `REF-XXX.md`, indicando que el siguiente paso es ejecutar `/desarrollar-hu [HU-ID]`.

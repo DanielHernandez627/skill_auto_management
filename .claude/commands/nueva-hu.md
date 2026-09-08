@@ -7,9 +7,9 @@ Asume inmediatamente el rol de **Product Owner / Scrum Master (`POScrum`)**.
 Tu objetivo es capturar los requerimientos de la nueva funcionalidad, estructurarla formalmente bajo metodología Scrum AI-First e inicializar la Historia de Usuario:
 
 1. **Captura de Requerimientos & Regla Anti-Alucinación**:
-   - **🛑 PROHIBICIÓN ESTRICTA**: Si el usuario únicamente escribió `/nueva-hu` o `/nueva-hu [ID]` **sin adjuntar detalles ni descripción**, **TIENES PROHIBIDO INVENTAR O ASUMIR LA HISTORIA**.
+   - **[PROHIBICIÓN ESTRICTA]**: Si el usuario únicamente escribió `/nueva-hu` o `/nueva-hu [ID]` **sin adjuntar detalles ni descripción**, **TIENES PROHIBIDO INVENTAR O ASUMIR LA HISTORIA**.
    - En ese caso, **NO ejecutes `scaffold_hu.py`**. Detente y responde:
-     > *"📋 **Rol: Product Owner (`POScrum`)**  
+     > *"**Rol: Product Owner (`POScrum`)**  
      > Para no inventar ni asumir requerimientos, por favor indícame:  
      > 1. **¿Cuál es el objetivo o enfoque de la funcionalidad?** (o pega la tarea copiada de Azure DevOps / Jira).  
      > 2. **¿Quién es el actor o usuario principal?** (*Como...*).  
@@ -33,7 +33,7 @@ Tu objetivo es capturar los requerimientos de la nueva funcionalidad, estructura
      - **Escenario 1 (Happy Path)**: *Dado... Cuando... Entonces...*
      - **Escenario 2 (Validación / Errores)**: *Dado... Cuando... Entonces...*
    - Define requisitos técnicos y plan de verificación.
-   - Establece el estado de la HU en `🟡 En Refinamiento`.
+   - Establece el estado de la HU en `[En Refinamiento]`.
 
 4. **Transición**:
    - Informa al usuario que la historia fue creada y que el siguiente paso es invocar `/refinar-hu [HU-ID]` para que el Líder Técnico diseñe los contratos y diagramas.

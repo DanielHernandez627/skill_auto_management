@@ -110,6 +110,9 @@ Para una experiencia óptima de desarrollo (DX), el repositorio incluye atajos n
 | **3. Refinamiento y Contratos (Fase 2)** | `TechLeadArchitect` | `/refinar-hu` | `/refinar-hu` | `/refinar-hu` |
 | **4. Desarrollo Clean Code (Fase 4)** | `DevQA` | `/desarrollar-hu` | `/desarrollar-hu` | `/desarrollar-hu` |
 | **5. Cierre, Tests y Bitácora (Fase 5)** | `DevQA` | `/cerrar-hu` | `/cerrar-hu` | `/cerrar-hu` |
+| **6. Reportar Defecto / Bug** | `POScrum` / `DevQA` | `/reportar-bug` | `/reportar-bug` | `/reportar-bug` |
+| **7. Corregir Defecto y Blindaje** | `DevQA` | `/corregir-bug` | `/corregir-bug` | `/corregir-bug` |
+| **8. Métricas y KPIs Locales** | Todos | `/kpis` o `/metricas` | `/kpis` | `/kpis` |
 
 ---
 

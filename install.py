@@ -153,7 +153,17 @@ def uninstall_global() -> int:
         print(f"[OK] Skill desinstalada de Antigravity: {ag_dest}")
 
     if claude_commands.exists():
-        for cmd in ("onboarding.md", "nueva-hu.md", "refinar-hu.md", "desarrollar-hu.md", "cerrar-hu.md", "auditar-clean-code.md"):
+        for cmd in (
+            "onboarding.md",
+            "nueva-hu.md",
+            "refinar-hu.md",
+            "desarrollar-hu.md",
+            "cerrar-hu.md",
+            "auditar-clean-code.md",
+            "reportar-bug.md",
+            "corregir-bug.md",
+            "kpis.md",
+        ):
             cmd_path = claude_commands / cmd
             if cmd_path.exists():
                 cmd_path.unlink()
@@ -240,6 +250,9 @@ def main() -> int:
     print("  /refinar-hu     -> Refinamiento tecnico y diagramas Mermaid")
     print("  /desarrollar-hu -> Implementacion Clean Code multilenguaje")
     print("  /cerrar-hu      -> Cierre, tests y bitacora en dev-records/")
+    print("  /reportar-bug   -> Registro formal de defecto con Gherkin")
+    print("  /corregir-bug   -> Fix con RCA y test de regresion obligatorio")
+    print("  /kpis           -> Tablero de calidad local (0 consumo de tokens)")
 
     return 0
 

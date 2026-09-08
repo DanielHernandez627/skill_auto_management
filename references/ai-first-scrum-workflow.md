@@ -83,21 +83,21 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
 4. **Respeto e Integridad a Plantillas Preexistentes**:
    - Si la HU interactúa con plantillas predefinidas en el repositorio (documentos binarios `.docx`/`.xlsx`/`.pdf`, correos `.html`/`.mjml`, archivos planos `.txt`/`.csv` o templates Jinja/Razor/Thymeleaf), **auditar los marcadores y variables existentes**.
    - **Queda estrictamente prohibido asumir cambios de estructura en plantillas predefinidas** sin autorización explícita del usuario; el adaptador debe amoldarse al esquema esperado por la plantilla actual.
-5. Actualizar estado en la HU a `🟢 Aprobado para Desarrollo`.
+5. Actualizar estado en la HU a `[Aprobado para Desarrollo]`.
 
-### 📐 Fase 3: Plan de Implementación (Planning Mode)
+### Fase 3: Plan de Implementación (Planning Mode)
 1. Para cambios que involucren múltiples capas, bases de datos o modificaciones arquitectónicas, generar un plan de implementación explícito (`implementation_plan.md`).
 2. Desglosar componentes modificados y creados.
 3. Presentar el plan para validación y aprobación humana antes de modificar código fuente.
 
-### 💻 Fase 4: Ejecución Clean Code Multilenguaje
+### Fase 4: Ejecución Clean Code Multilenguaje
 1. Escribir código que exprese claramente su propósito mediante nombres precisos y funciones pequeñas de responsabilidad única.
 2. **Cero comentarios redundantes o explicativos** dentro del cuerpo de clases y métodos (C#, Java, TypeScript, Python, etc.).
 3. Desacoplar UI en capas independientes (HTML/SCSS/TS o Razor/CSS/C#).
 4. No utilizar cuadros de diálogo nativos bloqueantes (`alert()`, `confirm()`); emplear servicios de componentes de notificación o modales accesibles.
 5. **Mapeo Fiel a Plantillas**: Al generar archivos a partir de plantillas existentes, asegurar que los diccionarios o contextos de renderizado utilicen con exactitud las variables esperadas por la plantilla.
 
-### 🧪 Fase 5: Cierre, Verificación y Bitácora
+### Fase 5: Cierre, Verificación y Bitácora
 1. Ejecutar las suites de pruebas automatizadas usando banderas no interactivas:
    - .NET / C#: `dotnet test --no-restore --verbosity normal`
    - Java / Spring: `mvn test` o `./gradlew test --no-daemon`
@@ -110,4 +110,37 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
 3. **Auditoría de Higiene Git**:
    - Ejecutar `git status` para comprobar que no existan archivos temporales, binarios generados en ejecución o cachés de testing (`.pytest_cache`, `.coverage`, etc.) sin ignorar en el `.gitignore`.
 4. Completar la bitácora individual en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`.
-5. Marcar la HU, el Refinamiento y la tabla en `automanagement_docs/README.md` como `🟢 Finalizado`.
+5. Marcar la HU, el Refinamiento y la tabla en `automanagement_docs/README.md` como `[Finalizado]`.
+
+---
+
+## 3. Sub-flujo de Certificación QA, Defectos e Incidentes
+
+Aplica cuando durante la certificación en ambientes de prueba (QA/Staging) o tras el paso a producción se detecta una anomalía o discrepancia:
+
+### Reportar un Defecto (`/reportar-bug [ID]`)
+1. **Regla Estricta Anti-Alucinación**:
+   - Si no se adjuntan detalles del fallo, el agente **NO debe inventar el bug**. Solicita obligatoriamente: comportamiento observado vs esperado, pasos para reproducir / logs, HU asociada y severidad.
+2. **Generación de Ficha (`automanagement_docs/bugs/BUG-XXX.md`)**:
+   - Ejecuta `python scripts/scaffold_bug.py BUG-XXX-01 "Título" --hu HU-XXX --severity Alta`.
+   - Modela el escenario de fallo en sintaxis **Gherkin**.
+   - Registra el defecto en `automanagement_docs/README.md` en la *Tabla de Defectos y Bugs*.
+
+### Corrección y Blindaje (`/corregir-bug [ID_BUG]`)
+1. **Diagnóstico RCA**: Identificar la causa raíz técnica en el código fuente.
+2. **Regression Test Gate (Mandatorio)**:
+   - Escribir una prueba automatizada en `tests/` que reproduzca el fallo antes del fix para blindar contra regresiones futuras.
+3. **Fix Clean Code**: Modificar el código fuente con 0 comentarios redundantes.
+4. **Verificación**: Correr suite de pruebas completa y auditoría de `validate_clean_code.py`.
+5. **Cierre**: Actualizar la ficha del bug con RCA, archivos modificados y prueba de regresión a `[Resuelto]`.
+
+---
+
+## 4. Tablero de Métricas y KPIs Locales (`/kpis`)
+
+- Al escribir `/kpis` (o `/metricas`), el asistente ejecuta de forma desatendida:
+  ```bash
+  python scripts/show_metrics.py
+  ```
+- **Cero Consumo de Tokens de IA**: El cálculo matemático, conteo de HUs, porcentaje de cobertura y estado de bugs se calcula en local mediante Python en 0.02 segundos sin gastar tokens de la ventana de contexto del LLM.
+- **Privacidad Total (Zero Data Leakage)**: Los datos viven exclusivamente en el disco local (`automanagement_docs/`), sin telemetría externa.

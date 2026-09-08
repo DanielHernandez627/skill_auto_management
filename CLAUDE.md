@@ -39,7 +39,10 @@ Claude Code reconoce automáticamente los siguientes atajos en el chat:
 - `/nueva-hu`: Asume el rol `POScrum`, permite pegar información de Azure DevOps/Jira, ejecuta `scaffold_hu.py` y redacta los escenarios Gherkin en `automanagement_docs/hus/`.
 - `/refinar-hu`: Asume el rol `TechLeadArchitect`, modela flujo Mermaid y define contratos DTO en `automanagement_docs/refinamientos/REF-XXX.md`.
 - `/desarrollar-hu`: Asume el rol `DevQA` y programa la funcionalidad en Backend/Frontend con Clean Code estricto (0 comentarios inline).
-- `/cerrar-hu`: Asume el rol `DevQA`, ejecuta `validate_clean_code.py`, corre pruebas, actualiza bitácora en `automanagement_docs/dev-records/` y marca `🟢 Finalizado`.
+- `/cerrar-hu`: Asume el rol `DevQA`, ejecuta `validate_clean_code.py`, corre pruebas, actualiza bitácora en `automanagement_docs/dev-records/` y marca `[Finalizado]`.
+- `/reportar-bug`: Registra un defecto formal en `automanagement_docs/bugs/` con regla anti-alucinación estricta.
+- `/corregir-bug`: Asume el rol `DevQA`, realiza RCA, crea prueba de regresión obligatoria y cierra el bug en `[Resuelto]`.
+- `/kpis` (o `/metricas`): Ejecuta `show_metrics.py` y presenta el dashboard en local sin consumo de tokens de IA.
 - `/auditar-clean-code`: Alias directo para validar ausencia de comentarios con `validate_clean_code.py`.
 
 ---

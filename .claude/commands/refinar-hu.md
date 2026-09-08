@@ -20,7 +20,7 @@ Tu objetivo es transformar los requerimientos de la Historia de Usuario en espec
    - **Checklist Técnico**: Desglosa las tareas concretas para el desarrollador.
 
 3. **Aprobación y Enlaces**:
-   - Establece el estado en `automanagement_docs/refinamientos/REF-XXX.md` como `🟢 Aprobado para Desarrollo`.
-   - Actualiza el enlace en `automanagement_docs/hus/HU-XXX.md` a `[`REF-XXX.md`](../refinamientos/REF-XXX.md)` y cambia su estado a `🟢 Aprobado para Desarrollo`.
+   - Establece el estado en `automanagement_docs/refinamientos/REF-XXX.md` como `[Aprobado para Desarrollo]`.
+   - Actualiza el enlace en `automanagement_docs/hus/HU-XXX.md` a `[`REF-XXX.md`](../refinamientos/REF-XXX.md)` y cambia su estado a `[Aprobado para Desarrollo]`.
    - Actualiza la tabla central en `automanagement_docs/README.md` enlazando el nuevo refinamiento.
    - Presenta al usuario un resumen conciso y el enlace a `REF-XXX.md`, indicando que el siguiente paso es ejecutar `/desarrollar-hu [HU-ID]`.

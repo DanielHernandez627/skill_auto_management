@@ -16,5 +16,5 @@ Tu objetivo es diseñar las especificaciones técnicas en `automanagement_docs/r
    - Persistencia (archivos locales JSON/plantillas o base de datos según aplique).
    - Casos de error y validaciones controladas.
    - Checklist de tareas para el desarrollador.
-4. Actualiza el estado y enlaces en `automanagement_docs/hus/HU-XXX.md` y en `automanagement_docs/README.md` a `🟢 Aprobado para Desarrollo`.
+4. Actualiza el estado y enlaces en `automanagement_docs/hus/HU-XXX.md` y en `automanagement_docs/README.md` a `[Aprobado para Desarrollo]`.
 5. Muestra al usuario el resumen del refinamiento y sugiere continuar con `/desarrollar-hu [HU-ID]`.

@@ -1,16 +1,16 @@
-# 🔬 Análisis de Refinamiento Técnico: [REF-XXX] - [Título de la HU]
+# Análisis de Refinamiento Técnico: [REF-XXX] - [Título de la HU]
 
 | Campo | Detalles |
 |---|---|
 | **Historia Asociada** | [`HU-XXX.md`](../hus/HU-XXX.md) |
 | **Fecha de Refinamiento**| YYYY-MM-DD |
-| **Estado** | 🟡 En Análisis / 🟢 Aprobado para Desarrollo |
+| **Estado** | [En Análisis] / [Aprobado para Desarrollo] |
 | **Paradigma / Arquitectura** | [Desktop GUI (Tkinter/WPF/Electron) / Web API / CLI / Frontend SPA / etc.] |
 | **Módulos Afectados** | [Capa de Dominio, Repositorio, Servicios, Vistas, etc.] |
 
 ---
 
-## 🏗 1. Arquitectura y Diagrama de Flujo (Mermaid)
+## 1. Arquitectura y Diagrama de Flujo (Mermaid)
 
 *El Líder Técnico debe modelar el flujo de interacción adaptado al tipo de aplicación:*
 - **Si es Aplicación de Escritorio (Desktop/GUI):** Modela la interacción entre Eventos de la UI (Ventana/Widgets), Servicios de Aplicación, Controladores locales y Archivos en disco.
@@ -35,7 +35,7 @@ sequenceDiagram
 
 ---
 
-## 📐 2. Modelos de Dominio, Interfaces y Contratos
+## 2. Modelos de Dominio, Interfaces y Contratos
 
 *Especifica los modelos y estructuras tipadas en el lenguaje de programación real del proyecto (.NET C#, Python, TypeScript, Java, etc.):*
 
@@ -49,13 +49,13 @@ sequenceDiagram
 
 ---
 
-## 🗄 3. Almacenamiento, Persistencia y Contratos de Plantillas
+## 3. Almacenamiento, Persistencia y Contratos de Plantillas
 
 *Valida la persistencia y manipulación de archivos según la naturaleza del proyecto:*
 - **Archivos Locales / Estáticos (JSON, XML, CSV, SQLite):** Valida esquemas de datos, encoding UTF-8 y resolución segura de rutas absolutas mediante librerías del sistema (`pathlib.Path` en Python, `System.IO.Path` en .NET, `java.nio.file.Path` en Java).
 - **Bases de Datos Relacionales / ORM (SQL, EF Core, JPA):** Valida restricciones de esquema (`NOT NULL`, llaves foráneas) y ordenamiento unívoco en colecciones hijas (`@OrderBy` o `.OrderBy()`).
 
-### 3.1 📑 Integridad y Respeto a Plantillas Preexistentes
+### 3.1 Integridad y Respeto a Plantillas Preexistentes
 *Aplica obligatoriamente si el sistema consume o genera archivos a partir de plantillas del repositorio:*
 - **Plantillas de Documentos Binarios (.docx, .xlsx, .pdf):** Audita minuciosamente los marcadores, campos de formulario y nombres de variables existentes en el archivo binario (ej. variables numeradas, tags). **Queda estrictamente prohibido asumir cambios de estructura en el binario sin autorización explícita del usuario**; la capa adaptadora debe mapear sus datos estrictamente al esquema esperado por la plantilla existente.
 - **Plantillas de Correos y Vistas (.html, .mjml, .razor, .jsp, .j2):** Inspecciona los tags de interpolación requeridos y respeta la jerarquía visual y de estilos original.
@@ -63,7 +63,7 @@ sequenceDiagram
 
 ---
 
-## ⚠️ 4. Casos Borde y Manejo de Errores
+## 4. Casos Borde y Manejo de Errores
 
 | Escenario / Caso Borde | Estrategia de Mitigación / Comportamiento |
 |---|---|
@@ -73,7 +73,7 @@ sequenceDiagram
 
 ---
 
-## 📋 5. Checklist de Tareas de Implementación (Fase 4 - DevQA)
+## 5. Checklist de Tareas de Implementación (Fase 4 - DevQA)
 
 - [ ] **Tarea 1 (Dominio):** Crear o actualizar los modelos y reglas de cálculo en la capa de dominio.
 - [ ] **Tarea 2 (Persistencia):** Implementar la capa de datos o manejo de archivos con rutas seguras.

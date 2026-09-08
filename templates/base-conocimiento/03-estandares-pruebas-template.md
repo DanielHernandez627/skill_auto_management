@@ -1,4 +1,4 @@
-# 🧪 Estándares de Pruebas y Estrategia de Testing
+# Estándares de Pruebas y Estrategia de Testing
 
 | Campo | Detalles |
 |---|---|
@@ -8,7 +8,7 @@
 
 ---
 
-## 🎯 1. Coverage Gates Requeridos
+## 1. Coverage Gates Requeridos
 
 | Capa | Framework / Runner | Cobertura Mínima |
 |---|---|---|
@@ -17,7 +17,7 @@
 
 ---
 
-## ⚡ 2. Comandos de Ejecución No Interactivos
+## 2. Comandos de Ejecución No Interactivos
 
 ### Backend
 ```bash
@@ -33,7 +33,7 @@
 
 ---
 
-## 🔬 3. Tipología de Pruebas y Ubicación de Suites
+## 3. Tipología de Pruebas y Ubicación de Suites
 
 1. **Pruebas Unitarias**: Aislamiento estricto con mocks de dependencias externas.
 2. **Pruebas de Integración**: Pruebas de controladores/endpoints con servidor en memoria y base de datos efímera.
@@ -41,7 +41,7 @@
 
 ---
 
-## 🛡️ 4. Configuración de Cobertura y Exclusiones
+## 4. Configuración de Cobertura y Exclusiones
 *Definir exclusiones para entrypoints de ejecución o interfaces que distorsionen la métrica de cobertura de la lógica de negocio:*
 - **.NET**: `[ExcludeFromCodeCoverage]` o filtro en `.runsettings`.
 - **Java**: Exclusiones de `*Application.class` y configuraciones en JaCoCo.

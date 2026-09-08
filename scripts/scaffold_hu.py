@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import date
+import json
 from pathlib import Path
 import sys
 
@@ -34,9 +35,9 @@ def update_docs_index_table(
         return
 
     row_entry = (
-        f"| [`{hu_id}`](hus/{hu_id}.md) | {title} | 🟡 En Refinamiento | "
-        f"⏳ *Pendiente (`/refinar-hu`)* | "
-        f"⏳ *Pendiente (`/cerrar-hu`)* |"
+        f"| [`{hu_id}`](hus/{hu_id}.md) | {title} | [En Refinamiento] | "
+        f"Pendiente (`/refinar-hu`) | "
+        f"Pendiente (`/cerrar-hu`) |"
     )
 
     placeholder = "| *(Las nuevas HUs creadas con `/nueva-hu` se registrarán en esta sección)* | | | | |"
@@ -46,6 +47,33 @@ def update_docs_index_table(
         content = content.rstrip() + "\n" + row_entry + "\n"
 
     readme_file.write_text(content, encoding="utf-8")
+
+
+def update_metrics_on_hu_created(docs_dir: Path) -> None:
+    metrics_file = docs_dir / "metricas.json"
+    data: dict = {
+        "hus_creadas": 0,
+        "hus_completadas": 0,
+        "bugs_reportados": 0,
+        "bugs_resueltos": 0,
+        "auditorias_clean_code": 0,
+        "comentarios_limpiados": 0,
+        "ultima_cobertura": None,
+        "total_tests": None,
+        "actualizado_en": date.today().isoformat(),
+    }
+
+    if metrics_file.exists():
+        try:
+            loaded = json.loads(metrics_file.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                data.update(loaded)
+        except Exception:
+            pass
+
+    data["hus_creadas"] = data.get("hus_creadas", 0) + 1
+    data["actualizado_en"] = date.today().isoformat()
+    metrics_file.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def scaffold_hu(
@@ -89,11 +117,12 @@ def scaffold_hu(
 
     target_hu_file.write_text(hu_content, encoding="utf-8")
     update_docs_index_table(docs_base_dir, formatted_id, title)
+    update_metrics_on_hu_created(docs_base_dir)
 
     print(f"[OK] Se genero exitosamente la Historia de Usuario para '{formatted_id} - {title}':")
     print(f"  - HU:           {target_hu_file}")
-    print(f"  - Refinamiento: ⏳ Pendiente (se creara en Fase 2 ejecutando '/refinar-hu {formatted_id}')")
-    print(f"  - Bitacora Dev: ⏳ Pendiente (se creara en Fase 5 ejecutando '/cerrar-hu {formatted_id}')")
+    print(f"  - Refinamiento: Pendiente (se creara en Fase 2 ejecutando '/refinar-hu {formatted_id}')")
+    print(f"  - Bitacora Dev: Pendiente (se creara en Fase 5 ejecutando '/cerrar-hu {formatted_id}')")
     return 0
 
 

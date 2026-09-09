@@ -1,6 +1,6 @@
 ---
 name: agile-hu-workflow
-description: Metodología AI-First para onboarding técnico de proyectos existentes (Fase 0), especificación, refinamiento, desarrollo, QA, gestión de bugs y métricas de calidad de Historias de Usuario con Clean Code y documentación centralizada en automanagement_docs/. Activa esta skill obligatoriamente cuando el usuario ejecute /onboarding, /nueva-hu, /refinar-hu, /desarrollar-hu, /cerrar-hu, /reportar-bug, /corregir-bug, /kpis, o mencione roles como Líder Técnico (TechLeadArchitect), Product Owner (POScrum) o DevQA.
+description: Metodología AI-First para onboarding técnico de proyectos existentes (Fase 0), especificación, refinamiento, desarrollo, QA, gestión de bugs, consulta/chat de HUs y métricas de calidad de Historias de Usuario con Clean Code y documentación centralizada en automanagement_docs/. Activa esta skill obligatoriamente cuando el usuario ejecute /onboarding, /nueva-hu, /refinar-hu, /desarrollar-hu, /cerrar-hu, /reportar-bug, /corregir-bug, /kpis, /chat-hu, o mencione roles como Líder Técnico (TechLeadArchitect), Product Owner (POScrum) o DevQA.
 ---
 
 # Metodología AI-First para Historias de Usuario
@@ -15,6 +15,7 @@ Activa esta skill cuando el usuario solicite:
 - Onboarding de un proyecto existente (Brownfield / legacy / productivo) o inicialización de arquitectura.
 - Iniciar, refinar o implementar una Historia de Usuario (HU).
 - Reportar o corregir un defecto o bug con pruebas de regresión automáticas.
+- Consultar, auditar o conversar sobre una Historia de Usuario existente (`/chat-hu`).
 - Consultar el tablero de métricas y KPIs locales (`/kpis`).
 - Crear especificaciones técnicas, contratos REST o diagramas Mermaid.
 - Refactorizar o auditar código bajo Clean Code estricto (0 comentarios inline/bloques explicativos).
@@ -34,6 +35,7 @@ Activa esta skill cuando el usuario solicite:
 | `/reportar-bug` | `POScrum` / `DevQA` | Calidad QA | Registra formalmente un defecto con **Regla Anti-Alucinación** en `automanagement_docs/bugs/`. |
 | `/corregir-bug` | `DevQA` | Calidad QA | Diagnostica RCA, crea prueba de regresión obligatoria, corrige con Clean Code y marca `[Resuelto]`. |
 | `/kpis` o `/metricas` | Todos | Monitoreo | Ejecuta `show_metrics.py` y muestra el dashboard en 0.02s con **cero consumo de tokens IA**. |
+| `/chat-hu` | Especialista 360° | Auditoría | Consulta, audita y explica una HU leyendo quirúrgicamente su tríada documental en `automanagement_docs/`. |
 
 ---
 
@@ -121,6 +123,16 @@ graph TD
 
 ### Tablero de Métricas Locales (`/kpis`)
 - Ejecuta `python scripts/show_metrics.py` en 0.02s con **0 tokens de IA** y 100% de privacidad local.
+
+### Consulta y Chat de Historias de Usuario (`/chat-hu [HU-ID]`)
+- **Soporte Flexible de IDs**: Admite formatos estándar (`HU-001`), Azure DevOps (`607340`, `US-607340`) o Jira (`PROJ-123`).
+- **Carga Quirúrgica de Contexto**: Lee exclusivamente `automanagement_docs/hus/HU-XXX.md`, `refinamientos/REF-XXX.md`, `dev-records/DEV-RECORD-HU-XXX.md` y bugs asociados.
+- **Inspección de Código Puntual**: Si el usuario proporciona una ruta o solicita auditar código puntual, inspecciona ese archivo específico para contrastarlo contra los requerimientos y el refinamiento de la HU.
+- **Respuesta Multirrol Especializada**:
+  - Responde como `POScrum` para alcance, negocio o criterios Gherkin.
+  - Responde como `TechLeadArchitect` para contratos, DTOs, diagramas Mermaid o persistencia.
+  - Responde como `DevQA` para archivos modificados, suites de prueba y métricas de cobertura.
+- **Trazabilidad y Cero Alucinaciones**: Cita siempre el documento fuente (`[REF-XXX.md]`, `[HU-XXX.md]`) y archivo/línea de código si fue inspeccionado. Si algo no fue contemplado, lo declara abiertamente sin inventar.
 
 ---
 

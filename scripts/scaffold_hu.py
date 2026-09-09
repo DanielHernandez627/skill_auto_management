@@ -83,15 +83,22 @@ def scaffold_hu(
     templates_dir: Path,
     docs_dir_name: str = "automanagement_docs",
     force: bool = False,
+    force_raw: bool = False,
 ) -> int:
-    clean_id = hu_id.strip().upper()
-    if clean_id.startswith("HU-"):
-        num_part = clean_id.replace("HU-", "")
+    clean_id = hu_id.strip()
+    upper_id = clean_id.upper()
+    if force_raw:
+        formatted_id = upper_id
+    elif upper_id.startswith("HU-"):
+        num_part = upper_id.replace("HU-", "")
         formatted_id = f"HU-{num_part}"
+    elif "-" in upper_id:
+        formatted_id = upper_id
     elif clean_id.isdigit():
-        formatted_id = f"HU-{int(clean_id):03d}"
+        num = int(clean_id)
+        formatted_id = f"HU-{num:03d}" if num < 1000 else f"HU-{clean_id}"
     else:
-        formatted_id = clean_id if clean_id.startswith("HU-") else f"HU-{clean_id}"
+        formatted_id = upper_id
 
     hu_template_file = templates_dir / "hu-template.md"
     if not hu_template_file.exists():
@@ -173,6 +180,11 @@ def main() -> int:
         action="store_true",
         help="Sobrescribe archivos si ya existen.",
     )
+    parser.add_argument(
+        "--raw-id",
+        action="store_true",
+        help="Conserva el ID exactamente como fue ingresado sin anteponer prefijo HU-.",
+    )
 
     args = parser.parse_args()
 
@@ -187,6 +199,7 @@ def main() -> int:
         templates_dir=resolved_templates_dir,
         docs_dir_name=args.docs_dir,
         force=args.force,
+        force_raw=args.raw_id,
     )
 
 

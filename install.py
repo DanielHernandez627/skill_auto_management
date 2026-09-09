@@ -163,6 +163,7 @@ def uninstall_global() -> int:
             "reportar-bug.md",
             "corregir-bug.md",
             "kpis.md",
+            "chat-hu.md",
         ):
             cmd_path = claude_commands / cmd
             if cmd_path.exists():
@@ -253,6 +254,7 @@ def main() -> int:
     print("  /reportar-bug   -> Registro formal de defecto con Gherkin")
     print("  /corregir-bug   -> Fix con RCA y test de regresion obligatorio")
     print("  /kpis           -> Tablero de calidad local (0 consumo de tokens)")
+    print("  /chat-hu        -> Consulta y chat especializado sobre una HU")
 
     return 0
 

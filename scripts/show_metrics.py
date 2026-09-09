@@ -38,7 +38,9 @@ def collect_hus_metrics(docs_dir: Path) -> dict:
     if not hus_dir.exists():
         return metrics
 
-    for hu_file in hus_dir.glob("HU-*.md"):
+    for hu_file in hus_dir.glob("*.md"):
+        if hu_file.name.lower() in ("readme.md", "template.md"):
+            continue
         metrics["total"] += 1
         content = hu_file.read_text(encoding="utf-8", errors="replace")
         if "[Finalizado]" in content or "🟢 Finalizado" in content:
@@ -64,7 +66,9 @@ def collect_bugs_metrics(docs_dir: Path) -> dict:
     if not bugs_dir.exists():
         return metrics
 
-    for bug_file in bugs_dir.glob("BUG-*.md"):
+    for bug_file in bugs_dir.glob("*.md"):
+        if bug_file.name.lower() in ("readme.md", "template.md"):
+            continue
         metrics["total"] += 1
         content = bug_file.read_text(encoding="utf-8", errors="replace")
         if "[Resuelto]" in content or "🟢 Resuelto" in content:
@@ -93,7 +97,9 @@ def collect_dev_records_metrics(docs_dir: Path) -> dict:
 
     coverages: list[float] = []
 
-    for dev_file in dev_dir.glob("DEV-RECORD-*.md"):
+    for dev_file in dev_dir.glob("*.md"):
+        if dev_file.name.lower() in ("readme.md", "template.md"):
+            continue
         metrics["total_records"] += 1
         content = dev_file.read_text(encoding="utf-8", errors="replace")
 

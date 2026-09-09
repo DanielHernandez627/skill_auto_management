@@ -144,3 +144,12 @@ Aplica cuando durante la certificación en ambientes de prueba (QA/Staging) o tr
   ```
 - **Cero Consumo de Tokens de IA**: El cálculo matemático, conteo de HUs, porcentaje de cobertura y estado de bugs se calcula en local mediante Python en 0.02 segundos sin gastar tokens de la ventana de contexto del LLM.
 - **Privacidad Total (Zero Data Leakage)**: Los datos viven exclusivamente en el disco local (`automanagement_docs/`), sin telemetría externa.
+
+---
+
+## 5. Auditoría y Consulta Especializada de HUs (`/chat-hu [HU-ID]`)
+
+Permite a desarrolladores, QAs o Product Owners consultar, auditar y resolver dudas sobre cualquier Historia de Usuario preexistente:
+- **Carga Quirúrgica de Contexto**: El asistente lee únicamente los artefactos documentales de la HU (`HU-XXX.md`, `REF-XXX.md`, `DEV-RECORD-HU-XXX.md` y `BUG-XXX-*.md`), sin cargar archivos de código innecesarios para optimizar tokens.
+- **Perspectiva Multirrol (Visión 360°)**: Responde como `POScrum` (negocio/Gherkin), `TechLeadArchitect` (diseño/diagramas/contratos) o `DevQA` (código/tests/cobertura).
+- **Cero Alucinaciones**: Toda respuesta cita su fuente documental específica (`[REF-XXX.md]`, `[HU-XXX.md]`). Si una decisión no fue documentada, se indica transparentemente.

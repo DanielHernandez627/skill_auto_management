@@ -43,6 +43,7 @@ Claude Code reconoce automáticamente los siguientes atajos en el chat:
 - `/reportar-bug`: Registra un defecto formal en `automanagement_docs/bugs/` con regla anti-alucinación estricta.
 - `/corregir-bug`: Asume el rol `DevQA`, realiza RCA, crea prueba de regresión obligatoria y cierra el bug en `[Resuelto]`.
 - `/kpis` (o `/metricas`): Ejecuta `show_metrics.py` y presenta el dashboard en local sin consumo de tokens de IA.
+- `/chat-hu`: Asume el rol de Especialista 360° para consultar, auditar y explicar cualquier HU leyendo su tríada documental en `automanagement_docs/`.
 - `/auditar-clean-code`: Alias directo para validar ausencia de comentarios con `validate_clean_code.py`.
 
 ---

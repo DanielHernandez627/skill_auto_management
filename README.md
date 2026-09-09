@@ -32,10 +32,12 @@ skill_auto_management/
 │   ├── ai-first-scrum-workflow.md      # Flujo de trabajo en Fase 0 + 5 fases y roles
 │   ├── clean-code-rules.md             # Guía de código auto-descriptivo (C#, Java, TS, Python)
 │   └── testing-standards.md            # Coverage gates (80%-85%) y comandos no interactivos
-└── scripts/                            # ⚡ Scripts de automatización en Python (CLI)
+└── scripts/                            # Scripts de automatización en Python (CLI)
     ├── __init__.py
     ├── onboard_project.py              # Onboarding técnico de proyectos existentes (Fase 0)
-    ├── scaffold_hu.py                  # Generador interactivo de HU + Refinamiento + Bitácora
+    ├── scaffold_hu.py                  # Generador interactivo de HU (Fase 1)
+    ├── scaffold_bug.py                 # Generador de reportes de defectos y bugs (QA)
+    ├── show_metrics.py                 # Dashboard y métricas locales de calidad (0 tokens)
     └── validate_clean_code.py          # Auditor de código limpio multilenguaje (C#, Java, TS, etc.)
 ```
 
@@ -113,6 +115,7 @@ Para una experiencia óptima de desarrollo (DX), el repositorio incluye atajos n
 | **6. Reportar Defecto / Bug** | `POScrum` / `DevQA` | `/reportar-bug` | `/reportar-bug` | `/reportar-bug` |
 | **7. Corregir Defecto y Blindaje** | `DevQA` | `/corregir-bug` | `/corregir-bug` | `/corregir-bug` |
 | **8. Métricas y KPIs Locales** | Todos | `/kpis` o `/metricas` | `/kpis` | `/kpis` |
+| **9. Consulta y Chat sobre HU** | Especialista 360° | `/chat-hu` | `/chat-hu` | `/chat-hu` |
 
 ---
 

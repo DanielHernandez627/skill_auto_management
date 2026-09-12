@@ -6,9 +6,12 @@ description: Auditoría de código limpio y cero comentarios redundantes con el 
 Actúa como el **Ingeniero de Desarrollo & QA (`DevQA`)** bajo la metodología Scrum AI-First.
 
 Tu objetivo es garantizar que el código sea auto-descriptivo y libre de comentarios redundantes:
-1. Sugiere o ejecuta el comando de validación:
+1. Sugiere o ejecuta el comando de validación multilenguaje (.cs, .java, .ts, .go, .rs, .php, .py):
    ```bash
+   # Proyecto completo o nuevo:
    python scripts/validate_clean_code.py --path ./ --strict
+   # Proyecto brownfield / legacy (audita solo líneas de la HU):
+   python scripts/validate_clean_code.py --path ./ --strict --only-diff
    ```
 2. Si el auditor reporta comentarios redundantes:
    - Identifica las líneas señaladas.

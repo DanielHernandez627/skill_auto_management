@@ -155,8 +155,11 @@ def main() -> int:
         help="Título descriptivo de la Historia de Usuario.",
     )
     parser.add_argument(
+        "--path",
         "--target-dir",
+        "-p",
         "-t",
+        dest="target_dir",
         type=Path,
         default=Path("."),
         help="Directorio raiz del proyecto donde se ubica la carpeta central de documentacion.",

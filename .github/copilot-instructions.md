@@ -4,8 +4,8 @@ Este repositorio define los estándares y herramientas de desarrollo para el tra
 
 ---
 
-## 1. Reglas de Código (Clean Code Mandatorio)
-- **Cero comentarios inline/explicativos**: Escribe código en C# (.cs), Java (.java), TypeScript (.ts), Python (.py) u otros lenguajes que se auto-explique mediante nombres claros de variables, métodos e interfaces.
+## 1. Reglas de Código (Clean Code Multilenguaje Mandatorio)
+- **Cero comentarios inline/explicativos**: Escribe código en C# (.cs), Java (.java), TypeScript (.ts), Go (.go), Rust (.rs), PHP (.php), Python (.py) u otros lenguajes que se auto-explique mediante nombres claros de variables, métodos e interfaces.
 - **No generes comentarios que describan lo evidente** (ej. evitar `// llama al servicio`, `// constructor`, `// valida si es nulo`).
 - Divide métodos extensos en funciones pequeñas y cohesivas con nombres expresivos en vez de agregar comentarios.
 - Puedes consultar ejemplos en `references/clean-code-rules.md`.
@@ -17,7 +17,7 @@ Este repositorio define los estándares y herramientas de desarrollo para el tra
   ```bash
   python scripts/onboard_project.py --path <ruta_al_proyecto> --name "NombreDelSistema"
   ```
-  Esto inicializa la carpeta central `automanagement_docs/` con su índice `README.md` y `base-conocimiento/` para mapear arquitectura, dependencias y contratos.
+  *(Acepta `--path` o `--target-dir` y detecta automáticamente subdirectorios con `.git` o descriptores de stack).*
 - **Nuevas Funcionalidades**: Todo desarrollo parte de una Historia de Usuario especificada en `automanagement_docs/hus/HU-XXX.md`, su respectivo análisis en `automanagement_docs/refinamientos/REF-XXX.md` y el registro en `automanagement_docs/README.md`.
 - Puedes crear automáticamente la estructura de una nueva HU ejecutando:
   ```bash
@@ -26,7 +26,10 @@ Este repositorio define los estándares y herramientas de desarrollo para el tra
 - Los criterios de aceptación deben formularse y respetarse en formato Gherkin (*Dado/Cuando/Entonces*).
 - Antes de dar por cerrada una tarea, audita el código fuente con:
   ```bash
-  python scripts/validate_clean_code.py --path <ruta_al_codigo>
+  # Proyecto completo:
+  python scripts/validate_clean_code.py --path <ruta_al_codigo> --strict
+  # Proyectos legacy / brownfield:
+  python scripts/validate_clean_code.py --path <ruta_al_codigo> --strict --only-diff
   ```
 
 ---

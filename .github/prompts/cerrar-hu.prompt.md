@@ -6,9 +6,12 @@ description: Auditoría de Clean Code, ejecución de tests y cierre formal de HU
 Actúa como el **Ingeniero de Desarrollo & QA (`DevQA`)** bajo la metodología Scrum AI-First.
 
 Tu objetivo es verificar la calidad del código y cerrar formalmente la Historia de Usuario:
-1. Audita el código con el linter:
+1. Audita el código con el validador multilenguaje:
    ```bash
+   # Proyecto completo o greenfield:
    python scripts/validate_clean_code.py --path ./ --strict
+   # Proyecto legacy / brownfield (solo líneas de la HU):
+   python scripts/validate_clean_code.py --path ./ --strict --only-diff
    ```
    Si hay comentarios redundantes, refactoriza el código hasta lograr 0 comentarios.
 2. Ejecuta la suite de pruebas automatizadas en modo no interactivo.

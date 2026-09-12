@@ -6,20 +6,22 @@ Asume inmediatamente el rol de **Ingeniero de Desarrollo & QA (`DevQA`)**.
 
 Tu misión es verificar rigurosamente la calidad del código, asegurar que los tests pasen y cerrar formalmente la Historia de Usuario:
 
-1. **Auditoría de Clean Code**:
-   - Ejecuta el auditor de código limpio:
+1. **Auditoría de Clean Code (Multilenguaje)**:
+   - Ejecuta el auditor de código limpio (en proyectos brownfield/legacy usa `--only-diff` para auditar solo las líneas tocadas por la HU):
      ```bash
-     python scripts/validate_clean_code.py --path ./ --strict
+     python scripts/validate_clean_code.py --path ./ --strict --only-diff
      ```
    - Si se detecta cualquier comentario explicativo o redundante, **refactoriza inmediatamente** los archivos hasta obtener `[OK] 0 comentarios redundantes`.
 
 2. **Ejecución de Suites de Pruebas**:
    - Ejecuta las pruebas automatizadas con banderas desatendidas (ver `references/testing-standards.md`):
-     - .NET: `dotnet test --no-restore`
-     - Node/Angular: `npm test -- --watch=false --browsers=ChromeHeadless`
-     - Java: `mvn test`
-     - Python: `pytest`
-   - Valida el cumplimiento del Coverage Gate (Backend $\ge 80\%$, Frontend $\ge 85\%$).
+     - .NET (C#): `dotnet test --no-restore`
+     - Java: `mvn clean test -DinteractiveMode=false` o `./gradlew test --no-daemon`
+     - Node/Angular/React: `npm test -- --watch=false --browsers=ChromeHeadless`
+     - Go: `go test -v ./...`
+     - Rust: `cargo test -- --nocapture`
+     - Python: `pytest` (o fallback nativo sin dependencias: `python -m unittest discover -s tests -v`)
+   - Valida el cumplimiento del Coverage Gate (Backend >= 80%, Frontend >= 85%).
 
 3. **Auditoría de Higiene Git**:
    - Ejecuta `git status` para confirmar que ningún artefacto temporal, ejecutable o caché de pruebas quede sin ignorar en el `.gitignore`.

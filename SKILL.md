@@ -3,22 +3,22 @@ name: agile-hu-workflow
 description: Metodología AI-First para onboarding técnico de proyectos existentes (Fase 0), especificación, refinamiento, desarrollo, QA, gestión de bugs, consulta/chat de HUs y métricas de calidad de Historias de Usuario con Clean Code y documentación centralizada en automanagement_docs/. Activa esta skill obligatoriamente cuando el usuario ejecute /onboarding, /nueva-hu, /refinar-hu, /desarrollar-hu, /cerrar-hu, /reportar-bug, /corregir-bug, /kpis, /chat-hu, o mencione roles como Líder Técnico (TechLeadArchitect), Product Owner (POScrum) o DevQA.
 ---
 
-# Metodología AI-First para Historias de Usuario
+# Metodología AI-First para Historias de Usuario (Multilenguaje)
 
-Esta skill guía a los Agentes de IA en el ciclo de vida de desarrollo de software ágil bajo política **AI-First**, garantizando código auto-descriptivo sin comentarios redundantes, pruebas automatizadas y documentación sincronizada en `automanagement_docs/`.
+Esta skill guía a los Agentes de IA en el ciclo de vida de desarrollo de software ágil bajo política **AI-First** de manera **estrictamente multilenguaje** (.NET C#, Java Spring Boot, TypeScript/JavaScript/Node/Angular/React, Go, Rust, PHP, Python, etc.), garantizando código auto-descriptivo sin comentarios redundantes, pruebas automatizadas y documentación sincronizada en `automanagement_docs/`.
 
 ---
 
 ## Cuándo Activar esta Skill
 
 Activa esta skill cuando el usuario solicite:
-- Onboarding de un proyecto existente (Brownfield / legacy / productivo) o inicialización de arquitectura.
+- Onboarding de un proyecto existente (Brownfield / legacy / productivo) o inicialización de arquitectura en cualquier ecosistema (.NET, Java, TS, Go, Rust, PHP, Python).
 - Iniciar, refinar o implementar una Historia de Usuario (HU).
 - Reportar o corregir un defecto o bug con pruebas de regresión automáticas.
 - Consultar, auditar o conversar sobre una Historia de Usuario existente (`/chat-hu`).
 - Consultar el tablero de métricas y KPIs locales (`/kpis`).
 - Crear especificaciones técnicas, contratos REST o diagramas Mermaid.
-- Refactorizar o auditar código bajo Clean Code estricto (0 comentarios inline/bloques explicativos).
+- Refactorizar o auditar código bajo Clean Code estricto (0 comentarios inline/bloques explicativos en cualquier lenguaje admitido).
 - Diseñar y ejecutar suites de pruebas automatizadas con Coverage Gates (Backend >= 80%, Frontend >= 85%).
 
 ---
@@ -30,8 +30,8 @@ Activa esta skill cuando el usuario solicite:
 | `/onboarding` o `/lider-tecnico` | `TechLeadArchitect` | Fase 0 | Escaneo del stack con `onboard_project.py` y generación de `automanagement_docs/base-conocimiento/`. |
 | `/nueva-hu` o `/po-scrum` | `POScrum` | Fase 1 | Captura requerimientos con **Regla Anti-Alucinación estricta**. |
 | `/refinar-hu` | `TechLeadArchitect` | Fase 2 | Modela flujo Mermaid, define DTOs/contratos y valida persistencia en `automanagement_docs/refinamientos/REF-XXX.md`. |
-| `/desarrollar-hu` | `DevQA` | Fase 4 | Implementa código bajo Clean Code estricto (**cero comentarios explicativos**). |
-| `/cerrar-hu` o `/auditar-clean-code` | `DevQA` | Fase 5 | Audita comentarios con `validate_clean_code.py`, ejecuta tests desatendidos, genera bitácora y marca `[Finalizado]`. |
+| `/desarrollar-hu` | `DevQA` | Fase 4 | Implementa código bajo Clean Code estricto (**cero comentarios explicativos** en cualquier lenguaje). |
+| `/cerrar-hu` o `/auditar-clean-code` | `DevQA` | Fase 5 | Audita comentarios con `validate_clean_code.py` (con `--only-diff` en proyectos legacy), ejecuta tests desatendidos, genera bitácora y marca `[Finalizado]`. |
 | `/reportar-bug` | `POScrum` / `DevQA` | Calidad QA | Registra formalmente un defecto con **Regla Anti-Alucinación** en `automanagement_docs/bugs/`. |
 | `/corregir-bug` | `DevQA` | Calidad QA | Diagnostica RCA, crea prueba de regresión obligatoria, corrige con Clean Code y marca `[Resuelto]`. |
 | `/kpis` o `/metricas` | Todos | Monitoreo | Ejecuta `show_metrics.py` y muestra el dashboard en 0.02s con **cero consumo de tokens IA**. |
@@ -41,27 +41,34 @@ Activa esta skill cuando el usuario solicite:
 
 ## Protocolo Operativo
 
+> [!TIP]
+> **[ENTORNOS SANDBOX Y EJECUCIÓN MULTICARPETAS]**:
+> Si la ruta del proyecto proporcionada por el usuario reside fuera del espacio de trabajo activo o en particiones con restricciones de lectura/escritura (ej. entornos Linux Mint / Ubuntu con sandbox):
+> 1. Asegura permisos de escritura en la ruta destino o habilita `BypassSandbox: true` si la herramienta de ejecución lo requiere.
+> 2. Posiciona el directorio de trabajo (`Cwd`) directamente en la raíz del repositorio objetivo para garantizar la ejecución correcta de scripts y suites de pruebas.
+
 ```mermaid
 graph TD
     F0[Fase 0: Onboarding en automanagement_docs/base-conocimiento/] --> F1[Fase 1: Redaccion HU en automanagement_docs/hus/]
     F1 --> F2[Fase 2: Refinamiento en automanagement_docs/refinamientos/]
     F2 --> F3[Fase 3: Plan de Implementacion / Planning Mode]
-    F3 --> F4[Fase 4: Ejecucion Clean Code sin comentarios]
+    F3 --> F4[Fase 4: Ejecucion Clean Code multilenguaje sin comentarios]
     F4 --> F5[Fase 5: Cierre, Tests, validate_clean_code.py y Bitacora]
 ```
 
 ### Fase 0: Onboarding Técnico & Descubrimiento (Rol: TechLeadArchitect)
-- **Ejecución del Escaneo**:
+- **Ejecución del Escaneo Multilenguaje**:
   ```bash
   python scripts/onboard_project.py --path <ruta_proporcionada_por_usuario> --name "NombreDelSistema"
   ```
+  *(Soporta indistintamente `--path` o `--target-dir` y detecta automáticamente subcarpetas con repositorios Git o descriptores de stack).*
 - **Regla de Oro de Ruta y No Duplicación**:
   - Usa `--path` con la ruta raíz indicada por el usuario (o `./`). Nunca apuntes a subcarpetas internas de código.
   - `automanagement_docs/` reside exclusivamente en la raíz del espacio de trabajo. Prohibido duplicar, sincronizar o crear uniones simbólicas.
 - Documentar en `automanagement_docs/base-conocimiento/`:
   - `01-analisis-arquitectura.md` (Diagramas Mermaid y mapa de capas).
-  - `02-estandares-desarrollo.md` (Convenciones y Clean Code).
-  - `03-estandares-pruebas.md` (Coverage gates y comandos headless).
+  - `02-estandares-desarrollo.md` (Convenciones y Clean Code multilenguaje).
+  - `03-estandares-pruebas.md` (Coverage gates y comandos headless por ecosistema).
   - `04-dominio-negocio.md` (Entidades y reglas del negocio).
 - Genera `automanagement_docs/README.md` con la tabla de seguimiento. Audita higiene de Git (`.gitignore`).
 
@@ -86,7 +93,7 @@ graph TD
 ### Fase 2: Refinamiento Técnico & Contratos (Rol: TechLeadArchitect)
 - Crear `automanagement_docs/refinamientos/REF-XXX.md` adaptado a la arquitectura real (Desktop GUI, Web API, CLI, Microservicio):
   - **Diagrama Mermaid**: Modela el flujo real de interacción.
-  - **Modelos y Contratos**: Clases/DTOs en el lenguaje nativo del proyecto.
+  - **Modelos y Contratos**: Clases/DTOs en el lenguaje nativo del proyecto (.NET C# Records/DTOs, Java POJOs/Records, TypeScript Interfaces, Go Structs, Rust Structs, etc.).
   - **Integridad de Plantillas**: Si consume plantillas binarias (`.docx`/`.xlsx`/`.pdf`), vistas (`.html`/`.mjml`) o planas (`.txt`/`.csv`), auditar marcadores y variables existentes. Prohibido asumir cambios en la estructura de plantillas sin aprobación.
   - **Casos Borde y Validaciones**: Manejo controlado de excepciones.
   - **Checklist Técnico**: Tareas ordenadas para desarrollo.
@@ -96,14 +103,27 @@ graph TD
 - Generar `implementation_plan.md` si la HU involucra múltiples capas o cambios en persistencia. Solicitar aprobación antes de modificar código.
 
 ### Fase 4: Ejecución Clean Code Multilenguaje (Rol: DevQA)
-- Implementar en el stack correspondiente (.NET C#, Java Spring, TypeScript, Python, etc.).
-- **Regla Estricta Clean Code**: Cero comentarios explicativos redundantes. Código 100% auto-descriptivo.
+- Implementar en el stack correspondiente (.NET C#, Java Spring, TypeScript, Go, Rust, PHP, Python, etc.).
+- **Regla Estricta Clean Code**: Cero comentarios explicativos redundantes. Código 100% auto-descriptivo en cualquier lenguaje.
+- **Diseño de Tests (Patrón AAA y Data Builders)**: Estructurar todas las pruebas bajo el patrón **AAA (Arrange, Act, Assert)** con separación visual limpia y emplear **Data Builders** para fixtures o entidades complejas con 3 o más propiedades.
 - **Fidelidad a Plantillas**: Mapear estrictamente los datos a las plantillas preexistentes.
 
 ### Fase 5: Cierre, Verificación y Bitácora (Rol: DevQA)
-- Ejecutar tests con flags desatendidos (`dotnet test --no-restore`, `mvn test`, `pytest`, `npm test -- --watch=false`).
+- Ejecutar tests con flags desatendidos según el ecosistema:
+  - **.NET (C#)**: `dotnet test --no-restore --verbosity normal`
+  - **Java**: `mvn clean test -DinteractiveMode=false` / `./gradlew test --no-daemon`
+  - **TypeScript / Node / Frontend**: `npm test -- --watch=false` / `jest --ci` / `vitest run`
+  - **Go**: `go test -v ./...`
+  - **Rust**: `cargo test -- --nocapture`
+  - **Python**: `pytest` (o fallback nativo sin dependencias: `python -m unittest discover -s tests -v`)
 - Superar Coverage Gates: Backend >= 80%, Frontend >= 85%.
-- Auditar Clean Code: `python scripts/validate_clean_code.py --path ./src --strict`
+- Auditar Clean Code:
+  ```bash
+  # Proyecto greenfield / nuevo:
+  python scripts/validate_clean_code.py --path ./src --strict
+  # Proyecto brownfield / legacy (audita exclusivamente líneas modificadas de la HU):
+  python scripts/validate_clean_code.py --path ./src --strict --only-diff
+  ```
 - Verificar higiene Git (`git status`).
 - Completar bitácora en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`.
 - Actualizar HU, Refinamiento y `README.md` a `[Finalizado]`.

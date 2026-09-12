@@ -93,22 +93,31 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
 ### Fase 4: Ejecución Clean Code Multilenguaje
 1. Escribir código que exprese claramente su propósito mediante nombres precisos y funciones pequeñas de responsabilidad única.
 2. **Cero comentarios redundantes o explicativos** dentro del cuerpo de clases y métodos (C#, Java, TypeScript, Python, etc.).
-3. Desacoplar UI en capas independientes (HTML/SCSS/TS o Razor/CSS/C#).
-4. No utilizar cuadros de diálogo nativos bloqueantes (`alert()`, `confirm()`); emplear servicios de componentes de notificación o modales accesibles.
-5. **Mapeo Fiel a Plantillas**: Al generar archivos a partir de plantillas existentes, asegurar que los diccionarios o contextos de renderizado utilicen con exactitud las variables esperadas por la plantilla.
+3. **Diseño de Tests con Patrón AAA y Data Builders**:
+   - Estructurar todas las pruebas automatizadas bajo el patrón **AAA (Arrange - Act - Assert)** mediante separación limpia por líneas en blanco y sin comentarios explicativos.
+   - Implementar o extender clases/funciones **Data Builder** para instanciar fixtures o entidades con 3 o más propiedades, aislando datos relevantes de cada test.
+4. Desacoplar UI en capas independientes (HTML/SCSS/TS o Razor/CSS/C#).
+5. No utilizar cuadros de diálogo nativos bloqueantes (`alert()`, `confirm()`); emplear servicios de componentes de notificación o modales accesibles.
+6. **Mapeo Fiel a Plantillas**: Al generar archivos a partir de plantillas existentes, asegurar que los diccionarios o contextos de renderizado utilicen con exactitud las variables esperadas por la plantilla.
 
 ### Fase 5: Cierre, Verificación y Bitácora
-1. Ejecutar las suites de pruebas automatizadas usando banderas no interactivas:
+1. Ejecutar las suites de pruebas automatizadas usando banderas no interactivas según el stack:
    - .NET / C#: `dotnet test --no-restore --verbosity normal`
-   - Java / Spring: `mvn test` o `./gradlew test --no-daemon`
+   - Java / Spring: `mvn clean test -DinteractiveMode=false` o `./gradlew test --no-daemon`
    - Frontend / Node: `npm test -- --watch=false --browsers=ChromeHeadless`
-   - Python: `pytest --maxfail=1 -v`
+   - Go: `go test -v ./...`
+   - Rust: `cargo test -- --nocapture`
+   - Python: `pytest --maxfail=1 -v` (o fallback nativo sin dependencias: `python -m unittest discover -s tests -v`)
 2. Ejecutar la auditoría de código limpio:
    ```bash
-   python scripts/validate_clean_code.py --path ./src
+   # Proyecto greenfield / completo:
+   python scripts/validate_clean_code.py --path ./src --strict
+
+   # Proyecto brownfield / legacy (audita solo líneas de la HU actual):
+   python scripts/validate_clean_code.py --path ./src --strict --only-diff
    ```
 3. **Auditoría de Higiene Git**:
-   - Ejecutar `git status` para comprobar que no existan archivos temporales, binarios generados en ejecución o cachés de testing (`.pytest_cache`, `.coverage`, etc.) sin ignorar en el `.gitignore`.
+   - Ejecutar `git status` para comprobar que no existan archivos temporales, binarios generados en ejecución o cachés de testing (`.pytest_cache`, `.coverage`, `target/`, `bin/`, `obj/`, etc.) sin ignorar en el `.gitignore`.
 4. Completar la bitácora individual en `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`.
 5. Marcar la HU, el Refinamiento y la tabla en `automanagement_docs/README.md` como `[Finalizado]`.
 

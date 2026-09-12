@@ -188,7 +188,12 @@ def main() -> int:
     )
     parser.add_argument(
         "--workspace",
+        "--path",
+        "--target-dir",
         "-w",
+        "-p",
+        "-t",
+        dest="workspace",
         type=Path,
         help="Configura la metodologia directamente en un proyecto de codigo especifico.",
     )

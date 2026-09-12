@@ -197,7 +197,11 @@ def main() -> int:
         description="Visualizador de métricas y KPIs de calidad local sin consumo de tokens de IA."
     )
     parser.add_argument(
+        "--path",
         "--target-dir",
+        "-p",
+        "-t",
+        dest="target_dir",
         type=Path,
         default=Path("."),
         help="Directorio de busqueda de automanagement_docs.",

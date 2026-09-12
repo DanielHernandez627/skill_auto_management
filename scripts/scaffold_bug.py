@@ -174,7 +174,11 @@ def main() -> int:
         help="Severidad del defecto (por defecto: Alta).",
     )
     parser.add_argument(
+        "--path",
         "--target-dir",
+        "-p",
+        "-t",
+        dest="target_dir",
         type=Path,
         default=Path("."),
         help="Directorio raiz del proyecto (donde reside automanagement_docs).",

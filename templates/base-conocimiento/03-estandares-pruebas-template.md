@@ -10,25 +10,58 @@
 
 ## 1. Coverage Gates Requeridos
 
-| Capa | Framework / Runner | Cobertura Mínima |
+| Capa / Ecosistema | Framework / Runner | Cobertura Mínima |
 |---|---|---|
-| **Backend** | [xUnit / JUnit 5 / Pytest] | **80%** |
-| **Frontend** | [Jasmine / Jest / Vitest] | **85%** |
+| **.NET (C#)** | xUnit / NUnit (Coverlet) | **80%** |
+| **Java (Spring / Jakarta)** | JUnit 5 (JaCoCo) | **80%** |
+| **Frontend / TS / Node** | Jasmine / Jest / Vitest | **85%** |
+| **Python** | Pytest / Unittest | **80%** |
+| **Go** | go test (-cover) | **80%** |
+| **Rust** | cargo test | **80%** |
 
 ---
 
 ## 2. Comandos de Ejecución No Interactivos
 
-### Backend
+### .NET (C#)
 ```bash
-# Comando de ejecución sin interacción ni bloqueos
-[Ej. dotnet test --no-restore --verbosity normal]
+dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 ```
 
-### Frontend
+### Java (Maven / Gradle)
 ```bash
-# Comando de ejecución desatendida en modo Headless
-[Ej. npm test -- --watch=false --browsers=ChromeHeadless --code-coverage]
+# Maven
+mvn clean test -DinteractiveMode=false
+# Gradle
+./gradlew test --no-daemon --console=plain
+```
+
+### Frontend (Angular / React / Vue / Jest)
+```bash
+# Headless y sin prompts
+export NG_CLI_ANALYTICS=false
+npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
+```
+
+### Python
+```bash
+# Runner principal con cobertura:
+pytest --maxfail=1 --disable-warnings -q --cov=src --cov-report=term-missing
+
+# Fallback estándar nativo (sin dependencias externas):
+python -m unittest discover -s tests -v
+# En Linux / macOS:
+python3 -m unittest discover -s tests -v
+```
+
+### Go
+```bash
+go test -v -coverprofile=coverage.out ./...
+```
+
+### Rust
+```bash
+cargo test -- --nocapture
 ```
 
 ---
@@ -41,7 +74,25 @@
 
 ---
 
-## 4. Configuración de Cobertura y Exclusiones
+## 4. Estándar de Diseño: Patrón AAA y Data Builders
+
+### A. Patrón AAA (Arrange - Act - Assert)
+Toda prueba automatizada debe estructurarse estrictamente bajo el patrón AAA mediante **separación visual limpia** (líneas en blanco), **sin comentarios explicativos redundantes** (`// Arrange`, `// Act`, `// Assert`):
+
+- **Arrange**: Inicialización de mocks, configuración de dependencias y preparación de datos de prueba.
+- **Act**: Invocación de la acción bajo prueba (idealmente una única línea o llamada al método/endpoint).
+- **Assert**: Comprobación exhaustiva del resultado esperado, cambios de estado o verificación de invocaciones.
+
+### B. Patrón Data Builder (Test Data Builder)
+Para entidades de dominio, modelos o DTOs con 3 o más propiedades o relaciones anidadas, se adopta el patrón **Data Builder**:
+
+- **Valores por Defecto Válidos**: El builder inicializa un objeto completamente válido por defecto.
+- **Personalización Exclusiva**: Cada prueba solo sobrescribe los campos directamente relacionados con el escenario evaluado (ej. `.withStatus(Status.Pending)` o `.asVip()`).
+- **Resiliencia**: Los cambios en constructores de entidades no rompen las suites de prueba existentes.
+
+---
+
+## 5. Configuración de Cobertura y Exclusiones
 *Definir exclusiones para entrypoints de ejecución o interfaces que distorsionen la métrica de cobertura de la lógica de negocio:*
 - **.NET**: `[ExcludeFromCodeCoverage]` o filtro en `.runsettings`.
 - **Java**: Exclusiones de `*Application.class` y configuraciones en JaCoCo.

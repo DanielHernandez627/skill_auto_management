@@ -79,5 +79,5 @@ sequenceDiagram
 - [ ] **Tarea 2 (Persistencia):** Implementar la capa de datos o manejo de archivos con rutas seguras.
 - [ ] **Tarea 3 (Servicios):** Implementar la lógica de negocio y casos de uso sin acoplamiento.
 - [ ] **Tarea 4 (Presentación / UI):** Diseñar o integrar los componentes visuales / controladores requeridos.
-- [ ] **Tarea 5 (Testing):** Crear las pruebas automatizadas (unitarias e integración) para superar los Coverage Gates ($\ge 80\%$).
+- [ ] **Tarea 5 (Testing):** Crear las pruebas automatizadas bajo el patrón **AAA** y **Data Builders** requeridos para superar los Coverage Gates (Backend >= 80%, Frontend >= 85%).
 - [ ] **Tarea 6 (Clean Code):** Auditar con `validate_clean_code.py` garantizando 0 comentarios redundantes.

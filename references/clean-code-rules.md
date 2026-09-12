@@ -1,24 +1,24 @@
-# 🧹 Estándares de Código Auto-Descriptivo (Clean Code Multilenguaje)
+# Estándares de Código Auto-Descriptivo (Clean Code Multilenguaje)
 
 La regla fundamental de este repositorio y de los proyectos gestionados bajo esta metodología es:
 
-> **El código debe autoexplicarse a través de su diseño, estructura y nomenclatura. Si un fragmento requiere un comentario explicativo para ser entendido, debe ser refactorizado.**
+> **El código debe autoexplicarse a través de su diseño, estructura y nomenclatura en cualquier lenguaje (.NET C#, Java, TypeScript/JavaScript, Go, Rust, PHP, Python, etc.). Si un fragmento requiere un comentario explicativo para ser entendido, debe ser refactorizado.**
 
 ---
 
-## 🚫 1. Reglas Generales de Comentarios
+## 1. Reglas Generales de Comentarios
 
 1. **Cero comentarios explicativos**: No documentar lo que una línea o bloque de código ya hace de manera evidente.
 2. **Cero código comentado**: No dejar bloques de código inactivos o deprecados comentados. Utilizar el historial de Git para revisiones históricas.
 3. **Comentarios válidos únicamente en**:
    - Limitaciones externas impuestas por librerías de terceros o bugs del runtime (con enlace al issue).
-   - Regulaciones legales, licencias de cabecera de archivo (si son estrictamente requeridas).
+   - Regulaciones legales o licencias de cabecera de archivo (si son estrictamente requeridas).
 
 ---
 
-## 🔍 2. Comparativas por Lenguaje: Código Redundante vs Auto-Descriptivo
+## 2. Comparativas por Lenguaje: Código Redundante vs Auto-Descriptivo
 
-### 🟦 C# (.NET / `.cs`)
+### C# (.NET / `.cs`)
 
 #### ❌ Incorrecto (Comentarios redundantes)
 ```csharp
@@ -59,7 +59,7 @@ public class EpisodeService
 
 ---
 
-### ☕ Java (Spring Boot / `.java`)
+### Java (Spring Boot / `.java`)
 
 #### ❌ Incorrecto
 ```java
@@ -86,7 +86,7 @@ public int convertFormattedTimeToSeconds(String timeFormat) {
 
 ---
 
-### 🟨 TypeScript / JavaScript (`.ts`, `.js`)
+### TypeScript / JavaScript (`.ts`, `.js`)
 
 #### ❌ Incorrecto
 ```typescript
@@ -109,7 +109,7 @@ function isPlaybackWithinIntroWindow(currentPosition: number, introStart: number
 
 ---
 
-### 🐍 Python (`.py`)
+### Python (`.py`)
 
 #### ❌ Incorrecto
 ```python
@@ -130,12 +130,16 @@ def list_sorted_video_files(directory_path: Path) -> list[Path]:
 
 ---
 
-## 🛠 3. Verificación Automatizada
+## 3. Verificación Automatizada Multilenguaje
 
 Antes de dar por finalizada cualquier Historia de Usuario, se debe ejecutar la herramienta de auditoría:
 
 ```bash
-python scripts/validate_clean_code.py --path <ruta_al_proyecto>
+# Proyecto completo (greenfield / nueva aplicación):
+python scripts/validate_clean_code.py --path <ruta_al_proyecto> --strict
+
+# Proyecto heredado / brownfield (audita únicamente líneas agregadas/modificadas de la HU):
+python scripts/validate_clean_code.py --path <ruta_al_proyecto> --strict --only-diff
 ```
 
-Si el script detecta comentarios en línea o bloques redundantes, la tarea no se considera completada hasta haberlos eliminado o justificado.
+Si el script detecta comentarios en línea o bloques redundantes en el alcance evaluado, la tarea no se considera completada hasta haberlos eliminado o justificado.

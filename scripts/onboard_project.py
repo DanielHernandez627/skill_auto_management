@@ -117,6 +117,18 @@ def detect_stack(project_dir: Path) -> dict[str, list[str]]:
                 detected["languages"].append("Python")
                 detected["tools"].append("Pytest / Pip")
 
+            elif filename == "go.mod" or lower.endswith(".go"):
+                detected["languages"].append("Go")
+                detected["tools"].append("Go Toolchain")
+
+            elif filename == "Cargo.toml" or lower.endswith(".rs"):
+                detected["languages"].append("Rust")
+                detected["tools"].append("Cargo")
+
+            elif filename == "composer.json" or lower.endswith(".php"):
+                detected["languages"].append("PHP")
+                detected["tools"].append("Composer / PHPUnit")
+
             elif filename == "Dockerfile" or lower.startswith("docker-compose"):
                 detected["tools"].append("Docker / Docker Compose")
 
@@ -152,10 +164,55 @@ def check_gitignore_hygiene(project_dir: Path, stack: dict[str, list[str]]) -> N
         for item in ("node_modules/", "dist/"):
             if item not in content:
                 missing_rules.append(item)
+    if "Go" in stack["languages"] and "vendor/" not in content:
+        missing_rules.append("vendor/")
+    if "Rust" in stack["languages"] and "target/" not in content:
+        missing_rules.append("target/")
+    if "PHP" in stack["languages"] and "vendor/" not in content:
+        missing_rules.append("vendor/")
 
     if missing_rules:
         print("\n[AVISO GIT] El archivo .gitignore actual no cubre algunos patrones del stack detectado:")
         print(f"  Patrones recomendados: {', '.join(missing_rules)}")
+
+
+def resolve_true_project_root(path: Path) -> Path:
+    if not path.exists() or not path.is_dir():
+        return path
+    if (path / ".git").exists():
+        return path
+    try:
+        git_subdirs = [d for d in path.iterdir() if d.is_dir() and (d / ".git").exists()]
+        if len(git_subdirs) == 1:
+            print(f"[INFO] Subdirectorio con repositorio Git detectado: {git_subdirs[0]}")
+            return git_subdirs[0]
+
+        descriptor_files = {
+            "package.json",
+            "pom.xml",
+            "build.gradle",
+            "pyproject.toml",
+            "setup.py",
+            "requirements.txt",
+            "cargo.toml",
+            "go.mod",
+            "composer.json",
+        }
+        child_dirs = [d for d in path.iterdir() if d.is_dir() and d.name not in IGNORED_SCAN_DIRS]
+        if len(child_dirs) == 1:
+            child = child_dirs[0]
+            has_descriptor = any(
+                f.name.lower() in descriptor_files or f.suffix.lower() in (".csproj", ".sln")
+                for f in child.iterdir()
+                if f.is_file()
+            )
+            if has_descriptor:
+                print(f"[INFO] Subdirectorio con codigo fuente detectado: {child}")
+                return child
+    except Exception:
+        pass
+    return path
+
 
 
 def create_automanagement_readme(
@@ -184,7 +241,7 @@ def onboard_project(
     force: bool = False,
     dry_run: bool = False,
 ) -> int:
-    resolved_dir = project_dir.resolve()
+    resolved_dir = resolve_true_project_root(project_dir.resolve())
     name = project_name or resolved_dir.name
     today_str = date.today().isoformat()
 
@@ -278,7 +335,10 @@ def main() -> int:
     )
     parser.add_argument(
         "--path",
+        "--target-dir",
         "-p",
+        "-t",
+        dest="target_dir",
         type=Path,
         default=Path("."),
         help="Ruta al proyecto existente a escanear (por defecto: directorio actual).",
@@ -321,7 +381,7 @@ def main() -> int:
         resolved_templates_dir = Path(__file__).resolve().parent.parent / "templates"
 
     return onboard_project(
-        project_dir=args.path,
+        project_dir=args.target_dir,
         templates_dir=resolved_templates_dir,
         project_name=args.name,
         docs_dir=args.docs_dir,

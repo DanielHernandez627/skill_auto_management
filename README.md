@@ -1,196 +1,238 @@
-# Skill Auto Management: Metodología AI-First Multi-Asistente (Multilenguaje)
+# 🚀 Skill Auto Management: Metodología AI-First Multi-Asistente (Multilenguaje)
 
-Repositorio centralizado que implementa una metodología ágil (Scrum AI-First) y herramientas de automatización en Python para la gestión de **Historias de Usuario (HUs)**, diseño técnico por contratos, pruebas automatizadas y estándares estrictos de **Clean Code** sin comentarios redundantes en cualquier ecosistema de software (.NET C#, Java Spring, TypeScript/Node/Angular/React, Go, Rust, PHP, Python, etc.).
+[![Google Antigravity](https://img.shields.io/badge/Google_Antigravity-Ready-4285F4?style=for-the-badge&logo=google&logoColor=white)](#)
+[![Anthropic Claude Code](https://img.shields.io/badge/Claude_Code-Ready-7A00FF?style=for-the-badge&logo=anthropic&logoColor=white)](#)
+[![GitHub Copilot](https://img.shields.io/badge/GitHub_Copilot-Ready-181717?style=for-the-badge&logo=github&logoColor=white)](#)
+[![Clean Code Strict](https://img.shields.io/badge/Clean_Code-Strict_0_Comments-00C853?style=for-the-badge)](#)
+[![Python Std-lib](https://img.shields.io/badge/Python-3_Std--lib_Only-3776AB?style=for-the-badge&logo=python&logoColor=white)](#)
 
-Diseñado bajo la filosofía **Single Source of Truth**, es compatible de forma nativa e inmediata con:
-- **Google Antigravity** (vía `SKILL.md`).
-- **Anthropic Claude Code / Claude Desktop** (vía `CLAUDE.md`).
-- **GitHub Copilot** (vía `.github/copilot-instructions.md`).
+> [!NOTE]
+> **Skill Auto Management** es una solución integral y estandarizada que automatiza la metodología ágil **Scrum AI-First** en cualquier proyecto de software (.NET C#, Java Spring Boot, TypeScript/Node/Angular/React, Go, Rust, PHP, Python, etc.).
+> 
+> Permite a desarrolladores y Agentes IA trabajar coordinadamente generando documentación viva en `automanagement_docs/`, refinamientos con contratos DTOs, desarrollo **Clean Code sin comentarios redundantes**, pruebas automatizadas con Coverage Gates y tableros de KPIs con **0 consumo de tokens de API**.
 
 ---
 
-## Estructura del Repositorio
+## 💡 ¿Cómo Funciona la Metodología?
+
+La metodología opera bajo el principio de **Single Source of Truth** (Fuente Única de Verdad). Todo el conocimiento del proyecto reside en artefactos Markdown dentro de la carpeta centralizada `automanagement_docs/` en la raíz del repositorio.
+
+```mermaid
+graph TD
+    F0["Fase 0: Onboarding Técnico\n/onboarding"] --> F1["Fase 1: Redacción de HU\n/nueva-hu"]
+    F1 --> F2["Fase 2: Refinamiento Técnico\n/refinar-hu"]
+    F2 --> F3["Fase 3: Plan de Implementación\nPlanning Mode"]
+    F3 --> F4["Fase 4: Ejecución Clean Code\n/desarrollar-hu"]
+    F4 --> F5["Fase 5: Cierre, Tests & Bitácora\n/cerrar-hu"]
+    
+    subgraph Soporte QA & Monitoreo
+        BUG["Gestión de Bugs\n/reportar-bug  |  /corregir-bug"]
+        KPI["Tablero de Métricas (0 Tokens)\n/kpis"]
+        CHAT["Consulta de Contexto 360°\n/chat-hu"]
+    end
+
+    F5 --> KPI
+    BUG --> F5
+```
+
+---
+
+## 👥 Roles Activados y Responsabilidades
+
+La skill asigna automáticamente roles especializados según el comando ejecutado:
+
+| Rol Asistente | Fase Scrum | Responsabilidad Principal | Artefacto Generado / Auditado |
+|---|---|---|---|
+| 👷 **`TechLeadArchitect`** | Fase 0 & Fase 2 | Escanea la arquitectura del proyecto y modela contratos DTOs, flujos Mermaid y checklists de desarrollo. | `automanagement_docs/base-conocimiento/`<br>`automanagement_docs/refinamientos/REF-XXX.md` |
+| 📋 **`POScrum`** | Fase 1 & QA Bugs | Captura requerimientos bajo la **Regla Anti-Alucinación** y define criterios de aceptación en formato Gherkin. | `automanagement_docs/hus/HU-XXX.md`<br>`automanagement_docs/bugs/BUG-XXX.md` |
+| 💻 **`DevQA`** | Fase 4 & Fase 5 | Desarrolla código auto-descriptivo (**0 comentarios explicativos**), ejecuta tests desatendidos y audita Clean Code. | `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`<br>`automanagement_docs/README.md` |
+
+---
+
+## ⚡ Matriz de Slash Commands por Asistente
+
+Puedes usar los slash commands nativamente en **Google Antigravity**, **Claude Code CLI** o **GitHub Copilot**:
+
+| Slash Command | Rol Activado | Fase | Acción que Ejecuta en el Proyecto |
+|---|---|---|---|
+| `/onboarding` | `TechLeadArchitect` | Fase 0 | Escanea el proyecto con `onboard_project.py` y genera `automanagement_docs/base-conocimiento/`. |
+| `/nueva-hu [ID]` | `POScrum` | Fase 1 | Redacta la Historia de Usuario en `automanagement_docs/hus/HU-XXX.md` en formato Gherkin. |
+| `/refinar-hu [ID]` | `TechLeadArchitect` | Fase 2 | Diseña diagramas Mermaid, modelos DTO y checklist en `automanagement_docs/refinamientos/REF-XXX.md`. |
+| `/desarrollar-hu [ID]` | `DevQA` | Fase 4 | Guía el desarrollo multilenguaje bajo Clean Code estricto sin comentarios redundantes. |
+| `/cerrar-hu [ID]` | `DevQA` | Fase 5 | Audita comentarios con `validate_clean_code.py`, corre la suite de pruebas y genera la bitácora. |
+| `/reportar-bug` | `POScrum` / `DevQA` | QA | Registra formalmente un defecto con severidad y RCA en `automanagement_docs/bugs/BUG-XXX.md`. |
+| `/corregir-bug [ID]` | `DevQA` | QA | Exige un **Regression Test Gate** antes de solucionar el bug y marcarlo como `[Resuelto]`. |
+| `/kpis` o `/metricas` | Todos | Monitoreo | Ejecuta `show_metrics.py` y muestra el dashboard en 0.02s con **0 tokens de IA**. |
+| `/chat-hu [ID]` | Especialista 360° | Consulta | Inspecciona la tríada documental (`HU-XXX.md`, `REF-XXX.md`, `DEV-RECORD-HU-XXX.md`) y el código. |
+
+---
+
+## 📖 Guía Paso a Paso con Ejemplo Práctico (Walkthrough End-to-End)
+
+A continuación se ilustra un ejemplo real de cómo utilizar la skill desde el primer día en tu proyecto:
+
+### Paso 1: Onboarding Técnico del Proyecto (Fase 0)
+El Líder Técnico ejecuta el descubrimiento inicial del repositorio:
 
 ```text
-skill_auto_management/
-├── .gitignore                          # Exclusiones para Python, C#/.NET, Java, Node, Go, Rust e IDEs
-├── README.md                           # Documentación principal del repositorio
-├── SKILL.md                            # Entrada nativa para Antigravity (YAML frontmatter)
-├── CLAUDE.md                           # Directivas operativas para Claude Code / Claude CLI
-├── .github/
-│   └── copilot-instructions.md         # Instrucciones de workspace para GitHub Copilot
-├── templates/                          # Plantillas estandarizadas en Markdown
-│   ├── base-conocimiento/              # Plantillas para Onboarding Técnico (Fase 0)
-│   │   ├── 01-analisis-arquitectura-template.md
-│   │   ├── 02-estandares-desarrollo-template.md
-│   │   ├── 03-estandares-pruebas-template.md
-│   │   └── 04-dominio-negocio-template.md
-│   ├── hu-template.md                  # Plantilla de HU (metadatos, DoD y Gherkin)
-│   ├── refinamiento-template.md        # Plantilla de refinamiento con diagramas Mermaid y contratos
-│   └── dev-record-template.md          # Plantilla para bitácora individual de cambios por HU
-├── references/                         # Guías metodológicas y estándares
-│   ├── ai-first-scrum-workflow.md      # Flujo de trabajo en Fase 0 + 5 fases y roles
-│   ├── clean-code-rules.md             # Guía de código auto-descriptivo (C#, Java, TS, Python)
-│   └── testing-standards.md            # Coverage gates (80%-85%) y comandos no interactivos
-└── scripts/                            # Scripts de automatización en Python (CLI)
-    ├── __init__.py
-    ├── onboard_project.py              # Onboarding técnico de proyectos existentes (Fase 0)
-    ├── scaffold_hu.py                  # Generador interactivo de HU (Fase 1)
-    ├── scaffold_bug.py                 # Generador de reportes de defectos y bugs (QA)
-    ├── show_metrics.py                 # Dashboard y métricas locales de calidad (0 tokens)
-    └── validate_clean_code.py          # Auditor de código limpio multilenguaje (C#, Java, TS, etc.)
+Usuario: /onboarding /ruta/a/mi-proyecto
+```
+
+> **Resultado**: El agente analiza el código fuente, detecta el stack (ej. Python/FastAPI, C# .NET o TypeScript) y genera los 4 documentos base en `automanagement_docs/base-conocimiento/`:
+> - `01-analisis-arquitectura.md` (Diagramas de capas)
+> - `02-estandares-desarrollo.md` (Convenciones)
+> - `03-estandares-pruebas.md` (Coverage Gates)
+> - `04-dominio-negocio.md` (Entidades y reglas)
+
+---
+
+### Paso 2: Creación de una Nueva Historia de Usuario (Fase 1)
+El Product Owner define una nueva funcionalidad:
+
+```text
+Usuario: /nueva-hu HU-001 "Autenticación de Usuarios con JWT"
+```
+
+> **Regla Anti-Alucinación**: Si no adjuntas detalles, el agente te solicitará el objetivo, el rol (*Como...*) y los criterios. Con la información confirmada, crea `automanagement_docs/hus/HU-001.md` con escenarios **Gherkin** (*Dado / Cuando / Entonces*).
+
+---
+
+### Paso 3: Refinamiento Técnico y Contratos (Fase 2)
+El Líder Técnico especifica la solución antes de escribir código:
+
+```text
+Usuario: /refinar-hu HU-001
+```
+
+> **Resultado**: Genera `automanagement_docs/refinamientos/REF-001.md` conteniendo:
+> - Diagrama de secuencia Mermaid.
+> - Modelos DTOs en el lenguaje del proyecto (.NET Records, Java POJOs, TS Interfaces, Python Dataclasses).
+> - Checklist técnico para el desarrollador.
+> - Actualización del estado a `[Aprobado para Desarrollo]`.
+
+---
+
+### Paso 4: Desarrollo Clean Code Multilenguaje (Fase 4)
+El desarrollador o el agente implementan la funcionalidad:
+
+```text
+Usuario: /desarrollar-hu HU-001
+```
+
+> **Regla Clean Code**: Código 100% auto-descriptivo. **Cero comentarios explicativos redundantes** (`// Este método calcula el total` o `# Guarda el usuario`). Las pruebas se escriben bajo el patrón **AAA** (Arrange-Act-Assert) y **Data Builders**.
+
+---
+
+### Paso 5: Cierre, Tests y Bitácora de QA (Fase 5)
+Una vez finalizada la codificación, se procede al cierre formal:
+
+```text
+Usuario: /cerrar-hu HU-001
+```
+
+> **Resultado**: 
+> 1. Ejecuta la suite de pruebas desatendida (`dotnet test`, `mvn test`, `npm test`, `pytest`).
+> 2. Ejecuta `validate_clean_code.py` para asegurar 0 comentarios redundantes.
+> 3. Genera la bitácora `automanagement_docs/dev-records/DEV-RECORD-HU-001.md`.
+> 4. Marca la HU como `[Finalizado]` en `automanagement_docs/README.md`.
+
+---
+
+### Paso 6: Monitoreo y Tablero de KPIs
+En cualquier momento puedes consultar el estado general del proyecto:
+
+```text
+Usuario: /kpis
+```
+
+```text
+======================================================================
+               TABLERO DE METRICAS SCRUM AI-FIRST
+======================================================================
+ Historias de Usuario (HUs):
+   - Creadas:     1
+   - Completadas: 1 (100.0%)
+
+ Defectos y Calidad (Bugs):
+   - Reportados:  0
+   - Resueltos:   0 (0.0%)
+
+ Calidad de Codigo & Clean Code:
+   - Auditorias realizadas: 1
+   - Comentarios eliminados: 0
+
+ Pruebas & Cobertura:
+   - Cobertura Backend: 85.0% (Gate >= 80%: OK)
+======================================================================
+ [INFO] Tiempo de calculo: 0.02s | Consumo de tokens: 0.00
 ```
 
 ---
 
-## Compatibilidad Multilenguaje Universal
+## 🛠️ Instalación y Configuración Rápida
 
-La metodología y los scripts de validación están preparados para proyectos en cualquier stack:
-- **C# / .NET** (`.cs`)
-- **Java / Spring Boot** (`.java`)
-- **TypeScript / JavaScript** (`.ts`, `.tsx`, `.js`, `.jsx`)
-- **Python** (`.py`)
-- **Go** (`.go`), **Rust** (`.rs`), **C/C++** (`.c`, `.cpp`), **Kotlin** (`.kt`), **Swift** (`.swift`), **PHP** (`.php`), **SQL** (`.sql`), etc.
+El instalador automatizado `install.py` configura tu entorno en un solo paso:
 
----
+### Opción A: Instalación Global (Google Antigravity + Claude Code)
+Instala la skill de forma global para que esté disponible en cualquier conversación o directorio de tu máquina:
 
-## Herramientas de Automatización en Python
-
-Los scripts utilizan exclusivamente la **biblioteca estándar de Python** (sin dependencias externas obligatorias). Todos los scripts admiten indistintamente las banderas `--path` o `--target-dir` (`-p` / `-t`):
-
-### 1. Asistente de Onboarding Técnico (`onboard_project.py`)
-Escanea la estructura de código fuente, detecta el stack tecnológico (.NET, Java, TypeScript, Go, Rust, PHP, Python) e inicializa la documentación centralizada:
-
+#### En Linux / macOS
 ```bash
-python scripts/onboard_project.py --path /ruta/al/proyecto --name "MiSistema"
+python3 install.py
 ```
-*(Detecta automáticamente subdirectorios que contengan `.git` o archivos descriptores de proyecto en caso de ejecutarse sobre carpetas contenedoras).*
-
-### 2. Generador de Artefactos para HUs (`scaffold_hu.py`)
-Inicializa la Historia de Usuario (`automanagement_docs/hus/HU-XXX.md`) y actualiza el índice general `automanagement_docs/README.md`:
-
-```bash
-# Uso básico (genera HU en automanagement_docs/hus/)
-python scripts/scaffold_hu.py HU-001 "Autenticación de Usuarios con JWT"
-
-# Especificar carpeta raíz del proyecto (admite --path o --target-dir)
-python scripts/scaffold_hu.py HU-001 "Autenticación" --path ../mi-proyecto
-```
-
-### 3. Auditor de Clean Code Multilenguaje (`validate_clean_code.py`)
-Analiza los archivos fuente para garantizar la ausencia de comentarios explicativos redundantes antes de cerrar una HU:
-
-```bash
-# Escanear el directorio actual
-python scripts/validate_clean_code.py
-
-# Escanear una carpeta específica
-python scripts/validate_clean_code.py --path ./src
-
-# Modo estricto para pipelines de integración continua o cierre de HU
-python scripts/validate_clean_code.py --path ./src --strict
-
-# Modo incremental para proyectos brownfield / legacy (audita solo líneas añadidas/modificadas en Git):
-python scripts/validate_clean_code.py --path ./src --strict --only-diff
-
-# Filtrar extensiones específicas
-python scripts/validate_clean_code.py --path ./src --ext .cs .ts
-```
-
-*Nota: El validador ignora automáticamente carpetas de compilación y dependencias como `bin/`, `obj/`, `node_modules/`, `target/`, `dist/`, `.venv/`, `vendor/`, etc.*
-
----
-
-## Slash Commands y Atajos Rápidos por Asistente
-
-Para una experiencia óptima de desarrollo (DX), el repositorio incluye atajos nativos en cada plataforma:
-
-| Acción Deseada | Rol Scrum | Antigravity | Claude Code (`.claude/commands/`) | GitHub Copilot (`.github/prompts/`) |
-|---|---|---|---|---|
-| **1. Onboarding Técnico (Fase 0)** | `TechLeadArchitect` | `/onboarding` | `/onboarding` | `/onboarding` |
-| **2. Nueva Historia de Usuario (Fase 1)** | `POScrum` | `/nueva-hu` | `/nueva-hu` | `/nueva-hu` |
-| **3. Refinamiento y Contratos (Fase 2)** | `TechLeadArchitect` | `/refinar-hu` | `/refinar-hu` | `/refinar-hu` |
-| **4. Desarrollo Clean Code (Fase 4)** | `DevQA` | `/desarrollar-hu` | `/desarrollar-hu` | `/desarrollar-hu` |
-| **5. Cierre, Tests y Bitácora (Fase 5)** | `DevQA` | `/cerrar-hu` | `/cerrar-hu` | `/cerrar-hu` |
-| **6. Reportar Defecto / Bug** | `POScrum` / `DevQA` | `/reportar-bug` | `/reportar-bug` | `/reportar-bug` |
-| **7. Corregir Defecto y Blindaje** | `DevQA` | `/corregir-bug` | `/corregir-bug` | `/corregir-bug` |
-| **8. Métricas y KPIs Locales** | Todos | `/kpis` o `/metricas` | `/kpis` | `/kpis` |
-| **9. Consulta y Chat sobre HU** | Especialista 360° | `/chat-hu` | `/chat-hu` | `/chat-hu` |
-
----
-
-## Instalación Rápida Paso a Paso (Multi-Asistente)
-
-El instalador `install.py` configura automáticamente el entorno según el asistente que utilices (**Google Antigravity**, **Anthropic Claude Code** o **GitHub Copilot**):
-
-### 1. Instalación Global (Google Antigravity + Claude Code)
-Configura ambos asistentes de forma global en tu máquina con **un único comando**:
 
 #### En Windows
-```bash
+```cmd
 python install.py
 ```
 *(O doble clic en `install.bat`)*
 
-#### En Linux Mint / Ubuntu / macOS
-```bash
-python3 install.py
-```
-*(O `./install.sh`)*
-
-> [!TIP]
-> **¿Qué hace la instalación global?**
-> - **Google Antigravity:** Instala la skill en `%USERPROFILE%\.gemini\config\skills\agile-hu-workflow\` (o `~/.gemini/config/skills/` en Linux), habilitando los comandos en cualquier conversación (Chat o IDE).
-> - **Claude Code (CLI):** Copia los comandos a `%USERPROFILE%\.claude\commands\` (o `~/.claude/commands/` en Linux) y el `CLAUDE.md`, habilitando `/onboarding`, `/nueva-hu`, etc. en cualquier terminal.
-
 ---
 
-### 2. Configurar un Proyecto para GitHub Copilot (o Workspace Local)
-Dado que **GitHub Copilot** opera a nivel de proyecto (en VS Code o JetBrains), requiere sus archivos dentro del repositorio de trabajo. Ejecuta:
+### Opción B: Configuración por Proyecto (GitHub Copilot / Workspace Local)
+Si utilizas **GitHub Copilot** en VS Code o JetBrains, configura las directrices dentro de tu repositorio objetivo:
 
 ```bash
-# En Windows o Linux (admite --workspace, --path o --target-dir)
-python install.py --workspace /ruta/a/tu-proyecto
+python3 install.py --workspace /ruta/a/tu-proyecto
 ```
 
-> [!NOTE]
-> **¿Qué configura en el proyecto?**
-> - **GitHub Copilot:** Copia `.github/copilot-instructions.md` y `.github/prompts/*.prompt.md` para activar los slash commands en Copilot Chat.
-> - **Claude Code:** Copia `.claude/commands/` y `CLAUDE.md` localmente en el proyecto.
-> - **Antigravity Local:** Copia la skill en `.agents/skills/agile-hu-workflow/`.
-> - **Scripts y Plantillas:** Copia `scripts/` y `templates/` para que los asistentes ejecuten la auditoría y scaffolding desde la raíz del repositorio.
+---
+
+## 📂 Estructura del Repositorio
+
+```text
+skill_auto_management/
+├── SKILL.md                            # Entrada nativa para Google Antigravity (YAML Frontmatter)
+├── CLAUDE.md                           # Directivas operativas para Claude Code / Claude CLI
+├── README.md                           # Guía de uso principal del repositorio
+├── install.py / install.sh / install.bat# Instaladores global y por workspace
+├── .github/
+│   └── copilot-instructions.md         # Configuración para GitHub Copilot
+├── .claude/
+│   └── commands/                       # Slash commands para Claude CLI
+├── templates/                          # Plantillas Markdown estandarizadas
+│   ├── base-conocimiento/              # Plantillas para Onboarding (Fase 0)
+│   ├── hu-template.md                  # Plantilla de HU (Gherkin)
+│   ├── refinamiento-template.md        # Plantilla de Refinamiento con Mermaid
+│   ├── dev-record-template.md          # Plantilla para Bitácora Dev/QA
+│   └── bug-template.md                 # Plantilla para Reporte de Defectos
+├── references/                         # Guías metodológicas
+│   ├── ai-first-scrum-workflow.md      # Flujo de trabajo en 5 fases y roles
+│   ├── clean-code-rules.md             # Guía de código auto-descriptivo multilenguaje
+│   └── testing-standards.md            # Coverage Gates y comandos headless
+├── scripts/                            # Herramientas CLI en Python (Std-lib)
+│   ├── onboard_project.py              # Onboarding técnico (Fase 0)
+│   ├── scaffold_hu.py                  # Generador de HUs (Fase 1)
+│   ├── scaffold_bug.py                 # Generador de Bugs (QA)
+│   ├── show_metrics.py                 # Dashboard de KPIs en 0.02s
+│   └── validate_clean_code.py          # Auditor de Clean Code multilenguaje
+└── tests/                              # Suite de pruebas unitarias de la CLI
+    └── test_scripts.py
+```
 
 ---
 
-### 3. Instalación Manual (Sin scripts de Python)
-
-- **Para Google Antigravity (Global):**
-  - **Windows (PowerShell):**
-    ```powershell
-    $dest = "$env:USERPROFILE\.gemini\config\skills\agile-hu-workflow"; New-Item -ItemType Directory -Force -Path $dest; Copy-Item -Path ".\*" -Destination $dest -Recurse -Force
-    ```
-  - **Linux / macOS (Bash):**
-    ```bash
-    mkdir -p ~/.gemini/config/skills/agile-hu-workflow && cp -r ./* ~/.gemini/config/skills/agile-hu-workflow/
-    ```
-
-- **Para Claude Code (Global):**
-  - **Windows (PowerShell):**
-    ```powershell
-    $dest = "$env:USERPROFILE\.claude\commands"; New-Item -ItemType Directory -Force -Path $dest; Copy-Item -Path ".\.claude\commands\*" -Destination $dest -Force
-    ```
-  - **Linux / macOS (Bash):**
-    ```bash
-    mkdir -p ~/.claude/commands && cp -r ./.claude/commands/* ~/.claude/commands/
-    ```
-
-- **Para GitHub Copilot (En tu proyecto):**
-  - Copia la carpeta `.github/` de este repositorio dentro de la raíz de tu proyecto.
-
----
-
-### Verificación de Instalación
-- **En Antigravity (Chat o IDE):** Escribe `/onboarding` o `/nueva-hu HU-001`.
-- **En Claude Code CLI:** Abre la consola en cualquier carpeta y escribe `/onboarding`.
-- **En GitHub Copilot (VS Code):** Abre Copilot Chat y escribe `/onboarding` o `/nueva-hu`.
-
+## 🔒 Directrices Inmutables de Calidad
+1. **Código Auto-Descriptivo**: Nombres intencionados en clases y métodos. 0 comentarios explicativos redundantes.
+2. **Pruebas Automatizadas**: Mínimo 80% de cobertura en Backend/CLI y 85% en Frontend.
+3. **Persistencia Centralizada**: La carpeta `automanagement_docs/` reside exclusivamente en la raíz del repositorio de trabajo.

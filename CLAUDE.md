@@ -35,6 +35,7 @@ Este repositorio contiene la metodología, plantillas y herramientas de automati
 ## 2. Slash Commands Nativos en Claude Code (`.claude/commands/`)
 
 Claude Code reconoce automáticamente los siguientes atajos en el chat:
+- `/iniciarproyecto`: Asume el rol `CTO / TechAdvisor` para crear proyectos desde cero (greenfield), calibrando el perfil (técnico/no técnico), chequeando el entorno y generando la base de conocimiento.
 - `/onboarding`: Asume el rol `TechLeadArchitect` y ejecuta `onboard_project.py` para levantar `automanagement_docs/base-conocimiento/`.
 - `/nueva-hu`: Asume el rol `POScrum`, permite pegar información de Azure DevOps/Jira, ejecuta `scaffold_hu.py` y redacta los escenarios Gherkin en `automanagement_docs/hus/`.
 - `/refinar-hu`: Asume el rol `TechLeadArchitect`, modela flujo Mermaid y define contratos DTO en `automanagement_docs/refinamientos/REF-XXX.md`.

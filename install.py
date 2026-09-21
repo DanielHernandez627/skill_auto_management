@@ -154,6 +154,7 @@ def uninstall_global() -> int:
 
     if claude_commands.exists():
         for cmd in (
+            "iniciarproyecto.md",
             "onboarding.md",
             "nueva-hu.md",
             "refinar-hu.md",
@@ -251,6 +252,7 @@ def main() -> int:
 
     print("\n[USO INMEDIATO]")
     print("Ya puedes usar los comandos en Antigravity y Claude Code:")
+    print("  /iniciarproyecto -> Creacion e ideacion de proyecto desde cero")
     print("  /onboarding     -> Onboarding tecnico de un proyecto existente")
     print("  /nueva-hu       -> Redaccion de Historia de Usuario con Gherkin")
     print("  /refinar-hu     -> Refinamiento tecnico y diagramas Mermaid")

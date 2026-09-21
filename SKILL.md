@@ -1,6 +1,6 @@
 ---
 name: agile-hu-workflow
-description: Metodología AI-First para onboarding técnico de proyectos existentes (Fase 0), especificación, refinamiento, desarrollo, QA, gestión de bugs, consulta/chat de HUs y métricas de calidad de Historias de Usuario con Clean Code y documentación centralizada en automanagement_docs/. Activa esta skill obligatoriamente cuando el usuario ejecute /onboarding, /nueva-hu, /refinar-hu, /desarrollar-hu, /cerrar-hu, /reportar-bug, /corregir-bug, /kpis, /chat-hu, o mencione roles como Líder Técnico (TechLeadArchitect), Product Owner (POScrum) o DevQA.
+description: Metodología AI-First para creación de proyectos desde cero (greenfield con /iniciarproyecto), onboarding técnico de proyectos existentes (Fase 0), especificación, refinamiento, desarrollo, QA, gestión de bugs, consulta/chat de HUs y métricas de calidad de Historias de Usuario con Clean Code y documentación centralizada en automanagement_docs/. Activa esta skill obligatoriamente cuando el usuario ejecute /iniciarproyecto, /onboarding, /nueva-hu, /refinar-hu, /desarrollar-hu, /cerrar-hu, /reportar-bug, /corregir-bug, /kpis, /chat-hu, o mencione roles como Director de Tecnología (CTO / TechAdvisor), Líder Técnico (TechLeadArchitect), Product Owner (POScrum) o DevQA.
 ---
 
 # Metodología AI-First para Historias de Usuario (Multilenguaje)
@@ -12,6 +12,7 @@ Esta skill guía a los Agentes de IA en el ciclo de vida de desarrollo de softwa
 ## Cuándo Activar esta Skill
 
 Activa esta skill cuando el usuario solicite:
+- Iniciar o idear un proyecto nuevo desde cero (Greenfield / sin código) con `/iniciarproyecto`.
 - Onboarding de un proyecto existente (Brownfield / legacy / productivo) o inicialización de arquitectura en cualquier ecosistema (.NET, Java, TS, Go, Rust, PHP, Python).
 - Iniciar, refinar o implementar una Historia de Usuario (HU).
 - Reportar o corregir un defecto o bug con pruebas de regresión automáticas.
@@ -19,7 +20,7 @@ Activa esta skill cuando el usuario solicite:
 - Consultar el tablero de métricas y KPIs locales (`/kpis`).
 - Crear especificaciones técnicas, contratos REST o diagramas Mermaid.
 - Refactorizar o auditar código bajo Clean Code estricto (0 comentarios inline/bloques explicativos en cualquier lenguaje admitido).
-- Diseñar y ejecutar suites de pruebas automatizadas con Coverage Gates (Backend >= 80%, Frontend >= 85%).
+- Diseñar y ejecutar suites de pruebas automatizadas con Coverage Gates (Backend >= 80%, Frontend >= 85%) bajo patrón AAA y Data Builders.
 
 ---
 
@@ -27,6 +28,7 @@ Activa esta skill cuando el usuario solicite:
 
 | Comando | Rol Activado | Fase / Ámbito | Acción Ejecutada |
 |---|---|---|---|
+| `/iniciarproyecto` | `CTO` / `TechAdvisor` | Ideación / Greenfield | Calibra perfil (técnico/no técnico), idea y ruta; chequea entorno, orquesta CLI oficial y crea `automanagement_docs/`. |
 | `/onboarding` o `/lider-tecnico` | `TechLeadArchitect` | Fase 0 | Escaneo del stack con `onboard_project.py` y generación de `automanagement_docs/base-conocimiento/`. |
 | `/nueva-hu` o `/po-scrum` | `POScrum` | Fase 1 | Captura requerimientos con **Regla Anti-Alucinación estricta**. |
 | `/refinar-hu` | `TechLeadArchitect` | Fase 2 | Modela flujo Mermaid, define DTOs/contratos y valida persistencia en `automanagement_docs/refinamientos/REF-XXX.md`. |
@@ -49,12 +51,32 @@ Activa esta skill cuando el usuario solicite:
 
 ```mermaid
 graph TD
-    F0[Fase 0: Onboarding en automanagement_docs/base-conocimiento/] --> F1[Fase 1: Redaccion HU en automanagement_docs/hus/]
+    FG[Ideacion: /iniciarproyecto] --> F0[Fase 0: Onboarding en automanagement_docs/base-conocimiento/]
+    F0 --> F1[Fase 1: Redaccion HU en automanagement_docs/hus/]
     F1 --> F2[Fase 2: Refinamiento en automanagement_docs/refinamientos/]
     F2 --> F3[Fase 3: Plan de Implementacion / Planning Mode]
     F3 --> F4[Fase 4: Ejecucion Clean Code multilenguaje sin comentarios]
     F4 --> F5[Fase 5: Cierre, Tests, validate_clean_code.py y Bitacora]
 ```
+
+### Fase de Ideación & Creación Greenfield (Rol: CTO / TechAdvisor - `/iniciarproyecto`)
+
+Aplica cuando el usuario desea crear un proyecto desde cero sin base de código previa:
+
+1. **Calibración Inicial en 1 Mensaje**:
+   Si el usuario no proporcionó detalles, solicitar:
+   - **Perfil**: `[1]` No Técnico / Negocio vs `[2]` Técnico / Desarrollador.
+   - **Idea / Visión**: Problema a resolver o funcionalidades deseadas.
+   - **Ruta Destino**: Carpeta actual (`./`) o subcarpeta.
+2. **Asesoría Adaptativa**:
+   - **No Técnico**: Explicación en lenguaje humano, recomendación de stack por valor/coste y propuesta de MVP en 2-3 HUs iniciales.
+   - **Técnico**: Debate de estilos de arquitectura (Clean, Hexagonal), capas, contratos y herramientas de testing (AAA + Data Builder). Si el desarrollador solicita ayuda para elegir el stack tecnológico, realiza un **análisis técnico de trade-offs** (rendimiento, concurrencia, ecosistema, tipado, facilidad de testing) comparando 2 o 3 opciones viables con recomendación fundamentada.
+3. **Pre-flight Environment Check**:
+   - Ejecutar en segundo plano comandos de comprobación en terminal (`node -v`, `dotnet --version`, `python --version`, etc.) para verificar que el usuario tenga los compiladores y runtimes necesarios para compilar y probar por sí mismo.
+4. **Orquestación de CLIs Oficiales & Base de Conocimiento**:
+   - Ejecutar generadores oficiales si aplica (`npx @nestjs/cli new`, `npx @angular/cli new`, `dotnet new`, etc.) en modo desatendido.
+   - Inicializar `automanagement_docs/base-conocimiento/` (`01` al `04`), `.gitignore` y matriz `README.md`.
+   - Orientar al usuario a iniciar la primera funcionalidad con `/nueva-hu HU-001`.
 
 ### Fase 0: Onboarding Técnico & Descubrimiento (Rol: TechLeadArchitect)
 - **Ejecución del Escaneo Multilenguaje**:

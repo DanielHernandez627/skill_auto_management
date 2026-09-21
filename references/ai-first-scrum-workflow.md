@@ -8,7 +8,16 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│ 🏛️ ROL 1: Líder Técnico / Arquitecto (TechLeadArchitect)                    │
+│ 🏛️ ROL 0: Asesor de Arquitectura & CTO (CTO / TechAdvisor)                  │
+│ - Calibración de perfil de usuario (No técnico vs Técnico) e ideación.      │
+│ - Verificación silenciosa de pre-requisitos locales de entorno y build.     │
+│ - Orquestación de CLIs oficiales de frameworks e inicio de base documental. │
+│ - Entregable principal: Scaffolding oficial + `automanagement_docs/base-conocimiento/`. │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 👷 ROL 1: Líder Técnico / Arquitecto (TechLeadArchitect)                    │
 │ - Inicialización y mantenimiento de la base de conocimiento del proyecto.    │
 │ - Diseño técnico, diagramas de arquitectura en Mermaid y contratos de API.   │
 │ - Entregable principal: `automanagement_docs/refinamientos/REF-XXX.md`.      │
@@ -33,10 +42,29 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
 
 ---
 
-## 🔁 2. El Ciclo de Vida: Fase 0 + 5 Fases de Desarrollo
+## 🔁 2. El Ciclo de Vida: Greenfield + Fase 0 + 5 Fases de Desarrollo
 
-### 🏛️ Fase 0: Onboarding Técnico & Descubrimiento de Arquitectura (TechLeadArchitect)
-*Aplica al iniciar un proyecto existente (Brownfield / legacy / productivo) o al arrancar un nuevo repositorio.*
+### 🏛️ Fase Greenfield: Ideación, Pre-flight de Entorno & Creación de Proyecto (`/iniciarproyecto`)
+*Aplica al comenzar un proyecto desde cero.*
+
+1. **Calibración Rápida en 1 Mensaje (Perfil, Idea y Ruta)**:
+   - El agente adopta el rol de `CTO / TechAdvisor` y pregunta en una sola interacción:
+     - **Perfil**: [1] No técnico / Negocio (explicaciones sencillas, enfoque funcional) vs [2] Técnico / Desarrollador (decisiones de arquitectura, contratos, patrones).
+     - **Idea o Visión**: Propósito central, usuarios y necesidades que resuelve.
+     - **Ruta de Alojamiento**: Directorio actual (`./`) por defecto, o una subcarpeta si se especifica.
+2. **Propuesta de Arquitectura & Verificación Previa de Entorno**:
+   - Recomienda el stack idóneo (ej. NestJS/TypeScript, .NET Core Web API, Spring Boot, FastAPI, Angular, React).
+   - Realiza verificaciones desatendidas (`node -v`, `dotnet --version`, `python --version`, `cargo --version`, etc.) para asegurar que el usuario puede compilar y probar localmente. Si falta un SDK, ofrece comandos de instalación (`winget`, `brew`, `apt`).
+3. **Orquestación de CLIs Oficiales**:
+   - Emplea comandos oficiales desatendidos (`npx @nestjs/cli new ... --skip-git`, `dotnet new webapi ...`, etc.) para una inicialización limpia sin sobrecargar tokens de IA.
+4. **Inicialización de Base de Conocimiento y Traspaso a Scrum**:
+   - Genera inmediatamente `automanagement_docs/base-conocimiento/` (`01` a `04`) documentando el stack acordado y los estándares AAA + Data Builder.
+   - Conecta directamente con la **Fase 1** invitando a redactar la primera funcionalidad: `/nueva-hu HU-001`.
+
+---
+
+### 👷 Fase 0: Onboarding Técnico & Descubrimiento de Arquitectura (TechLeadArchitect)
+*Aplica al iniciar un proyecto existente (Brownfield / legacy / productivo).*
 
 1. **Escaneo del Repositorio y Detección de Stack**:
    - Ejecutar la herramienta de onboarding:

@@ -12,7 +12,8 @@ Este repositorio define los estándares y herramientas de desarrollo para el tra
 
 ---
 
-## 2. Metodología: Onboarding (Fase 0) e Historias de Usuario (HUs)
+## 2. Metodología: Greenfield, Onboarding (Fase 0) e Historias de Usuario (HUs)
+- **Proyectos nuevos desde cero (Greenfield)**: Si el usuario desea crear un nuevo proyecto, asume el rol de CTO / Asesor Técnico mediante `/iniciarproyecto`. Calibra perfil técnico o de negocio, valida dependencias locales, orquesta el CLI oficial del framework e inicializa la base de conocimiento en `automanagement_docs/base-conocimiento/`.
 - **Proyectos sin HUs o existentes**: Si el proyecto tiene código productivo o preexistente sin documentar, asume el rol de Líder Técnico y sugiere o ejecuta:
   ```bash
   python scripts/onboard_project.py --path <ruta_al_proyecto> --name "NombreDelSistema"
@@ -35,14 +36,16 @@ Este repositorio define los estándares y herramientas de desarrollo para el tra
 ---
 
 ## 3. Pruebas y Comandos No Interactivos
-- Redacta pruebas que cubran los escenarios felices y casos de borde.
-- Cumple con los umbrales mínimos de cobertura: Backend $\ge 80\%$, Frontend $\ge 85\%$.
+- Redacta pruebas estructuradas bajo el patrón **AAA (Arrange, Act, Assert)**.
+- Emplea **Data Builder** o **Object Mother** para la creación de datos de prueba cuando la entidad supere 3 atributos o requiera variaciones en múltiples pruebas.
+- Cubre los escenarios felices y casos de borde cumpliendo los umbrales mínimos de cobertura: Backend $\ge 80\%$, Frontend $\ge 85\%$.
 - En tus sugerencias de comandos de terminal, usa siempre parámetros no interactivos (`--no-watch`, `--no-restore`, `--no-daemon`).
 
 ---
 
 ## 4. Prompts Reusables en VS Code (`.github/prompts/`)
 Puedes invocar directamente estos roles en el chat de Copilot:
+- `/iniciarproyecto`: Activa `iniciarproyecto.prompt.md` (CTO / TechAdvisor - Creación greenfield desde cero).
 - `/onboarding`: Activa `onboarding.prompt.md` (Líder Técnico - Fase 0).
 - `/nueva-hu`: Activa `nueva-hu.prompt.md` (Product Owner - Fase 1, acepta Azure/Jira).
 - `/refinar-hu`: Activa `refinar-hu.prompt.md` (Líder Técnico - Fase 2, contratos y Mermaid).

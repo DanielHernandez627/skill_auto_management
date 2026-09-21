@@ -19,7 +19,8 @@ La metodología opera bajo el principio de **Single Source of Truth** (Fuente Ú
 
 ```mermaid
 graph TD
-    F0["Fase 0: Onboarding Técnico\n/onboarding"] --> F1["Fase 1: Redacción de HU\n/nueva-hu"]
+    FG["Ideación & Creación Greenfield\n/iniciarproyecto"] --> F1["Fase 1: Redacción de HU\n/nueva-hu"]
+    F0["Fase 0: Onboarding Existente\n/onboarding"] --> F1
     F1 --> F2["Fase 2: Refinamiento Técnico\n/refinar-hu"]
     F2 --> F3["Fase 3: Plan de Implementación\nPlanning Mode"]
     F3 --> F4["Fase 4: Ejecución Clean Code\n/desarrollar-hu"]
@@ -43,6 +44,7 @@ La skill asigna automáticamente roles especializados según el comando ejecutad
 
 | Rol Asistente | Fase Scrum | Responsabilidad Principal | Artefacto Generado / Auditado |
 |---|---|---|---|
+| 🏛️ **`CTO / TechAdvisor`** | Greenfield | Calibra perfil técnico/negocio, valida herramientas de entorno, orquesta CLIs oficiales e inicializa base de conocimiento. | `automanagement_docs/base-conocimiento/`<br>Estructura base del framework |
 | 👷 **`TechLeadArchitect`** | Fase 0 & Fase 2 | Escanea la arquitectura del proyecto y modela contratos DTOs, flujos Mermaid y checklists de desarrollo. | `automanagement_docs/base-conocimiento/`<br>`automanagement_docs/refinamientos/REF-XXX.md` |
 | 📋 **`POScrum`** | Fase 1 & QA Bugs | Captura requerimientos bajo la **Regla Anti-Alucinación** y define criterios de aceptación en formato Gherkin. | `automanagement_docs/hus/HU-XXX.md`<br>`automanagement_docs/bugs/BUG-XXX.md` |
 | 💻 **`DevQA`** | Fase 4 & Fase 5 | Desarrolla código auto-descriptivo (**0 comentarios explicativos**), ejecuta tests desatendidos y audita Clean Code. | `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md`<br>`automanagement_docs/README.md` |
@@ -55,6 +57,7 @@ Puedes usar los slash commands nativamente en **Google Antigravity**, **Claude C
 
 | Slash Command | Rol Activado | Fase | Acción que Ejecuta en el Proyecto |
 |---|---|---|---|
+| `/iniciarproyecto` | `CTO / TechAdvisor` | Greenfield | Ideación, calibración de perfil, verificación de entorno, CLI oficial e inicio de base de conocimiento. |
 | `/onboarding` | `TechLeadArchitect` | Fase 0 | Escanea el proyecto con `onboard_project.py` y genera `automanagement_docs/base-conocimiento/`. |
 | `/nueva-hu [ID]` | `POScrum` | Fase 1 | Redacta la Historia de Usuario en `automanagement_docs/hus/HU-XXX.md` en formato Gherkin. |
 | `/refinar-hu [ID]` | `TechLeadArchitect` | Fase 2 | Diseña diagramas Mermaid, modelos DTO y checklist en `automanagement_docs/refinamientos/REF-XXX.md`. |
@@ -71,8 +74,19 @@ Puedes usar los slash commands nativamente en **Google Antigravity**, **Claude C
 
 A continuación se ilustra un ejemplo real de cómo utilizar la skill desde el primer día en tu proyecto:
 
-### Paso 1: Onboarding Técnico del Proyecto (Fase 0)
-El Líder Técnico ejecuta el descubrimiento inicial del repositorio:
+### Paso 0: Creación de Proyecto desde Cero (Greenfield - `/iniciarproyecto`)
+Si inicias un nuevo desarrollo, el `CTO / TechAdvisor` calibra tu perfil, verifica tu entorno y arranca el framework:
+
+```text
+Usuario: /iniciarproyecto
+```
+
+> **Resultado**: El agente calibra en 1 mensaje tu perfil ([1] Negocio / [2] Técnico), idea y ruta destino. Valida tus dependencias locales (`node`, `dotnet`, `python`, etc.), ejecuta el CLI oficial del framework (ej. `npx @nestjs/cli`, `dotnet new`) y crea `automanagement_docs/base-conocimiento/` para pasar directo a `/nueva-hu HU-001`.
+
+---
+
+### Paso 1: Onboarding Técnico de Proyecto Existente (Fase 0)
+El Líder Técnico ejecuta el descubrimiento inicial de un repositorio ya existente:
 
 ```text
 Usuario: /onboarding /ruta/a/mi-proyecto
@@ -207,9 +221,10 @@ skill_auto_management/
 ├── README.md                           # Guía de uso principal del repositorio
 ├── install.py / install.sh / install.bat# Instaladores global y por workspace
 ├── .github/
-│   └── copilot-instructions.md         # Configuración para GitHub Copilot
+│   ├── copilot-instructions.md         # Configuración para GitHub Copilot
+│   └── prompts/                        # Prompts reusables (.prompt.md) para Copilot
 ├── .claude/
-│   └── commands/                       # Slash commands para Claude CLI
+│   └── commands/                       # Slash commands nativos para Claude CLI (ej. /iniciarproyecto)
 ├── templates/                          # Plantillas Markdown estandarizadas
 │   ├── base-conocimiento/              # Plantillas para Onboarding (Fase 0)
 │   ├── hu-template.md                  # Plantilla de HU (Gherkin)

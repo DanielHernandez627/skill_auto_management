@@ -5,6 +5,7 @@
 [![GitHub Copilot](https://img.shields.io/badge/GitHub_Copilot-Ready-181717?style=for-the-badge&logo=github&logoColor=white)](#)
 [![Clean Code Strict](https://img.shields.io/badge/Clean_Code-Strict_0_Comments-00C853?style=for-the-badge)](#)
 [![Python Std-lib](https://img.shields.io/badge/Python-3_Std--lib_Only-3776AB?style=for-the-badge&logo=python&logoColor=white)](#)
+[![License](https://img.shields.io/badge/License-Apache_2.0-D22128?style=for-the-badge&logo=apache&logoColor=white)](LICENSE)
 
 > [!NOTE]
 > **Skill Auto Management** es una solución integral y estandarizada que automatiza la metodología ágil **Scrum AI-First** en cualquier proyecto de software (.NET C#, Java Spring Boot, TypeScript/Node/Angular/React, Go, Rust, PHP, Python, etc.).
@@ -251,3 +252,16 @@ skill_auto_management/
 1. **Código Auto-Descriptivo**: Nombres intencionados en clases y métodos. 0 comentarios explicativos redundantes.
 2. **Pruebas Automatizadas**: Mínimo 80% de cobertura en Backend/CLI y 85% en Frontend.
 3. **Persistencia Centralizada**: La carpeta `automanagement_docs/` reside exclusivamente en la raíz del repositorio de trabajo.
+
+---
+
+## 📄 Licencia y Propiedad Intelectual
+
+**Copyright © 2026 Daniel Hernandez**
+
+Este proyecto está licenciado bajo la **Apache License, Version 2.0** — consulta los archivos [`LICENSE`](LICENSE) y [`NOTICE`](NOTICE) para más detalles.
+
+Al utilizar, distribuir o crear obras derivadas de este repositorio:
+- Debes conservar el aviso de **Copyright** original, la copia de la licencia [`LICENSE`](LICENSE) y el archivo [`NOTICE`](NOTICE) con la atribución al autor original.
+- Cualquier archivo modificado en un fork o distribución derivada debe indicar claramente los cambios realizados.
+- La licencia no otorga permiso para usar el nombre del autor ni del proyecto para promocionar o respaldar productos derivados sin autorización previa.

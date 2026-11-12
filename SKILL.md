@@ -61,22 +61,31 @@ graph TD
 
 ### Fase de Ideación & Creación Greenfield (Rol: CTO / TechAdvisor - `/iniciarproyecto`)
 
-Aplica cuando el usuario desea crear un proyecto desde cero sin base de código previa:
+Aplica cuando el usuario desea crear un proyecto desde cero o resolver una prueba técnica sin base de código previa:
 
-1. **Calibración Inicial en 1 Mensaje**:
-   Si el usuario no proporcionó detalles, solicitar:
+> [!CAUTION]
+> **[BLOQUEO ANTI-IMPLEMENTACIÓN DIRECTA EN `/iniciarproyecto`]**:
+> Aunque el usuario adjunte un **PDF**, enunciado de **prueba técnica**, especificación completa o backlog de requerimientos junto con `/iniciarproyecto`, el agente **TIENE ESTRICTAMENTE PROHIBIDO** escribir el código de negocio de toda la solución de golpe o saltarse las fases del flujo Scrum AI-First.
+> Antes de escribir cualquier línea de lógica de negocio, es obligatorio: (1) alinear y confirmar estándares de código y pruebas, (2) desglosar el alcance en Historias de Usuario separadas (`HU-001`, `HU-002`, ...) y (3) crear primero `automanagement_docs/`.
+
+1. **Calibración Inicial, Estándares y Desglose de Backlog en 1 Mensaje**:
+   Solicitar o confirmar con el usuario:
    - **Perfil**: `[1]` No Técnico / Negocio vs `[2]` Técnico / Desarrollador.
-   - **Idea / Visión**: Problema a resolver o funcionalidades deseadas.
+   - **Idea / Visión / Requerimientos**: Problema a resolver o funcionalidades detectadas en el documento/PDF.
    - **Ruta Destino**: Carpeta actual (`./`) o subcarpeta.
+   - **Alineación Explícita de Estándares de Código y Pruebas**: Preguntar qué estándares adicionales seguir, confirmando como base obligatoria:
+     - **Código**: **Cero Números Mágicos ni Strings Mágicos** (uso obligatorio de constantes con nombre semántico o `Enum`), **Cero Comentarios Explicativos Redundantes** y diseño SOLID.
+     - **Pruebas**: Patrón **AAA (`Arrange - Act - Assert`)** sin comentarios en el 100% de los tests, uso obligatorio de **Data Builders** desde el primer test y Coverage Gates (Backend >= 80%, Frontend >= 85%).
+   - **Propuesta de Backlog por HUs**: Si el usuario adjuntó un PDF, prueba técnica o listado de requerimientos, extraer y proponer un **Backlog secuencial de Historias de Usuario (`HU-001`, `HU-002`, ...)** y solicitar aprobación para implementarlas **una por una**.
 2. **Asesoría Adaptativa**:
    - **No Técnico**: Explicación en lenguaje humano, recomendación de stack por valor/coste y propuesta de MVP en 2-3 HUs iniciales.
    - **Técnico**: Debate de estilos de arquitectura (Clean, Hexagonal), capas, contratos y herramientas de testing (AAA + Data Builder). Si el desarrollador solicita ayuda para elegir el stack tecnológico, realiza un **análisis técnico de trade-offs** (rendimiento, concurrencia, ecosistema, tipado, facilidad de testing) comparando 2 o 3 opciones viables con recomendación fundamentada.
 3. **Pre-flight Environment Check**:
    - Ejecutar en segundo plano comandos de comprobación en terminal (`node -v`, `dotnet --version`, `python --version`, etc.) para verificar que el usuario tenga los compiladores y runtimes necesarios para compilar y probar por sí mismo.
-4. **Orquestación de CLIs Oficiales & Base de Conocimiento**:
-   - Ejecutar generadores oficiales si aplica (`npx @nestjs/cli new`, `npx @angular/cli new`, `dotnet new`, etc.) en modo desatendido.
-   - Inicializar `automanagement_docs/base-conocimiento/` (`01` al `04`), `.gitignore` y matriz `README.md`.
-   - Orientar al usuario a iniciar la primera funcionalidad con `/nueva-hu HU-001`.
+4. **Creación Primero de Base de Conocimiento & Orquestación de CLIs Oficiales**:
+   - Inicializar **primero** `automanagement_docs/base-conocimiento/` (`01` al `04`) y la matriz `automanagement_docs/README.md` mediante `python scripts/onboard_project.py --path <ruta> --name "<Proyecto>"`, dejando plasmados los estándares acordados (Cero Números Mágicos, AAA y Data Builder).
+   - Ejecutar generadores oficiales si aplica (`npx @nestjs/cli new`, `npx @angular/cli new`, `dotnet new`, etc.) en modo desatendido y configurar `.gitignore`, **sin codificar toda la solución de negocio de golpe**.
+   - Si se aprobó el backlog de HUs, inicializar las historias con `python scripts/scaffold_hu.py HU-001 "Título"` y orientar al usuario a continuar **historia por historia** con `/refinar-hu HU-001` (o `/nueva-hu HU-001`).
 
 ### Fase 0: Onboarding Técnico & Descubrimiento (Rol: TechLeadArchitect)
 - **Ejecución del Escaneo Multilenguaje**:
@@ -125,9 +134,9 @@ Aplica cuando el usuario desea crear un proyecto desde cero sin base de código 
 - Generar `implementation_plan.md` si la HU involucra múltiples capas o cambios en persistencia. Solicitar aprobación antes de modificar código.
 
 ### Fase 4: Ejecución Clean Code Multilenguaje (Rol: DevQA)
-- Implementar en el stack correspondiente (.NET C#, Java Spring, TypeScript, Go, Rust, PHP, Python, etc.).
-- **Regla Estricta Clean Code**: Cero comentarios explicativos redundantes. Código 100% auto-descriptivo en cualquier lenguaje.
-- **Diseño de Tests (Patrón AAA y Data Builders)**: Estructurar todas las pruebas bajo el patrón **AAA (Arrange, Act, Assert)** con separación visual limpia y emplear **Data Builders** para fixtures o entidades complejas con 3 o más propiedades.
+- Implementar exclusivamente la HU activa en el stack correspondiente (.NET C#, Java Spring, TypeScript, Go, Rust, PHP, Python, etc.). Prohibido programar múltiples HUs o toda una solución de golpe sin control documental.
+- **Regla Estricta Clean Code**: Cero comentarios explicativos redundantes y **cero números mágicos o strings mágicos** (extraer todo literal numérico, límite, tasa o código en constantes semánticas o `Enum`). Código 100% auto-descriptivo en cualquier lenguaje.
+- **Diseño de Tests (Patrón AAA y Data Builders Obligatorios)**: Estructurar el 100% de las pruebas bajo el patrón **AAA (Arrange, Act, Assert)** con separación visual limpia por líneas en blanco (sin comentarios) y emplear **Data Builders** desde el primer test para fixtures o entidades complejas con 3 o más propiedades, sin requerir recordatorios manuales del usuario.
 - **Fidelidad a Plantillas**: Mapear estrictamente los datos a las plantillas preexistentes.
 
 ### Fase 5: Cierre, Verificación y Bitácora (Rol: DevQA)

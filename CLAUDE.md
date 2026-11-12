@@ -9,10 +9,12 @@ Este repositorio contiene la metodología, plantillas y herramientas de automati
 1. **Clean Code Estricto (Multilenguaje)**:
    - Todo código escrito (.NET C#, Java Spring, TypeScript/Node/Angular/React, Go, Rust, PHP, Python, etc.) debe ser **100% auto-descriptivo**.
    - **Prohibido agregar comentarios redundantes o explicativos** dentro de clases y funciones.
+   - **Cero Números Mágicos ni Strings Mágicos (`No Magic Numbers / Magic Strings`)**: Todo literal numérico, umbral, tasa, código de estado o configuración debe declararse en constantes con nombre semántico (`UPPER_SNAKE_CASE`, `const`, `readonly`) o `Enum`.
    - Si una lógica parece compleja, refactoriza en métodos auxiliares con nombres expresivos en lugar de comentarla.
    - Consulta `references/clean-code-rules.md`.
 
-2. **Flujo de Trabajo (Fase 0 Onboarding + HUs)**:
+2. **Flujo de Trabajo (Greenfield `/iniciarproyecto`, Fase 0 Onboarding + HUs)**:
+   - **En proyectos nuevos o pruebas técnicas (`/iniciarproyecto`)**: **PROHIBIDO escribir el código de toda la solución de golpe** aunque el usuario adjunte un PDF o enunciado completo de requerimientos. Primero se debe: (a) preguntar y confirmar los estándares de código y pruebas (Cero Números Mágicos, 0 comentarios, Patrón AAA y Data Builder), (b) extraer y proponer el desglose del documento/PDF en un **Backlog de Historias de Usuario separadas (`HU-001`, `HU-002`, ...)**, y (c) crear primero `automanagement_docs/base-conocimiento/` y `automanagement_docs/README.md` para implementar las HUs **una por una**.
    - **En proyectos existentes sin HUs**: Iniciar como `TechLeadArchitect` ejecutando `python scripts/onboard_project.py` para construir la carpeta central `automanagement_docs/` con su índice `README.md` y `base-conocimiento/` antes de escribir código.
    - **Para cada nueva funcionalidad**: Generar los documentos enlazados dentro de `automanagement_docs/`:
      - `automanagement_docs/hus/HU-XXX.md` (Criterios de aceptación en formato Gherkin).
@@ -20,8 +22,9 @@ Este repositorio contiene la metodología, plantillas y herramientas de automati
      - `automanagement_docs/dev-records/DEV-RECORD-HU-XXX.md` (Bitácora de cambios y cobertura de tests).
      - `automanagement_docs/README.md` (Tabla central de seguimiento sincronizada).
 
-3. **Pruebas y Cobertura (Coverage Gates)**:
+3. **Pruebas, Patrón AAA, Data Builders y Cobertura (Coverage Gates)**:
    - Backend >= 80% | Frontend >= 85%.
+   - **Patrón AAA (`Arrange - Act - Assert`) y `Data Builder` Obligatorios**: Desde el primer test generado, estructurar todas las pruebas en 3 bloques visuales limpios (`Arrange`, `Act`, `Assert` separados por líneas en blanco, sin comentarios) y emplear **Data Builders** para instanciar entidades o DTOs de prueba ($\ge 3$ propiedades o reutilizados en varios tests).
    - Siempre invocar comandos de build y testing con flags desatendidos / no interactivos (ver `references/testing-standards.md`).
 
 4. **Integridad de Plantillas Preexistentes**:

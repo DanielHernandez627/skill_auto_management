@@ -241,7 +241,7 @@ def onboard_project(
     force: bool = False,
     dry_run: bool = False,
 ) -> int:
-    resolved_dir = resolve_true_project_root(project_dir.resolve())
+    resolved_dir = resolve_true_project_root(Path(os.path.abspath(project_dir)))
     name = project_name or resolved_dir.name
     today_str = date.today().isoformat()
 
@@ -378,7 +378,7 @@ def main() -> int:
 
     resolved_templates_dir = args.templates_dir
     if resolved_templates_dir is None:
-        resolved_templates_dir = Path(__file__).resolve().parent.parent / "templates"
+        resolved_templates_dir = Path(os.path.abspath(__file__)).parent.parent / "templates"
 
     return onboard_project(
         project_dir=args.target_dir,

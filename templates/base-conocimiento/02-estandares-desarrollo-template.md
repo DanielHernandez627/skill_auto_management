@@ -11,7 +11,8 @@
 ## 1. Política de Clean Code y Código Auto-Descriptivo
 - **Nomenclatura Intencionada**: Clases, métodos y variables deben expresar su función exacta sin ambigüedad.
 - **Cero Comentarios Redundantes**: Prohibido comentar código para describir lo evidente. El código se explica por sí mismo.
-- **Funciones Pequeñas y de Responsabilidad Única**: Limitar funciones a una sola tarea clara.
+- **Prohibición de Números Mágicos y Literales Sueltos (`No Magic Numbers / Magic Strings`)**: Prohibido usar números o cadenas literales de dominio directamente en cálculos, validaciones o condicionales. Todo umbral, tasa, límite o estado debe definirse en constantes con nombre semántico (`UPPER_SNAKE_CASE`, `const`, `readonly`) o `Enum`.
+- **Funciones Pequeñas y de Responsabilidad Única**: Limitar funciones a una sola tarea clara y cumplir los principios SOLID.
 
 ---
 

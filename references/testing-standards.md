@@ -65,7 +65,9 @@ cargo test -- --nocapture
 
 ---
 
-## 3. Estructura y Diseño de Pruebas: Patrón AAA y Data Builders
+## 3. Estructura y Diseño de Pruebas: Patrón AAA y Data Builders (Obligatorio desde el Primer Test)
+
+> **[REGLA INNEGOCIABLE DE TESTING]**: El agente debe aplicar el patrón **AAA (`Arrange - Act - Assert`)** y el patrón **Data Builder** de manera proactiva y obligatoria desde el primer archivo de pruebas que genere en el proyecto, sin esperar a que el usuario lo recuerde manualmente y prohibiendo el uso de números mágicos en los escenarios de prueba.
 
 ### A. Patrón AAA (Arrange - Act - Assert)
 Todo test automatizado debe reflejar de forma auto-descriptiva las 3 fases esenciales, separadas exclusivamente por líneas en blanco y **sin comentarios explicativos** (`// Arrange`, `// Act`, `// Assert`):

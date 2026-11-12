@@ -74,7 +74,9 @@ cargo test -- --nocapture
 
 ---
 
-## 4. Estándar de Diseño: Patrón AAA y Data Builders
+## 4. Estándar de Diseño Obligatorio: Patrón AAA y Data Builders
+
+> **Aplicación Continua desde el Primer Test**: Todo agente de IA o desarrollador está obligado a aplicar estrictamente el patrón **AAA** y el patrón **Data Builder** desde la primera prueba creada en el proyecto, prohibiendo instanciaciones manuales repetitivas o números mágicos en las aserciones.
 
 ### A. Patrón AAA (Arrange - Act - Assert)
 Toda prueba automatizada debe estructurarse estrictamente bajo el patrón AAA mediante **separación visual limpia** (líneas en blanco), **sin comentarios explicativos redundantes** (`// Arrange`, `// Act`, `// Assert`):

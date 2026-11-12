@@ -45,21 +45,27 @@ Este documento describe el flujo de trabajo estandarizado de **5 Fases** para la
 ## 🔁 2. El Ciclo de Vida: Greenfield + Fase 0 + 5 Fases de Desarrollo
 
 ### 🏛️ Fase Greenfield: Ideación, Pre-flight de Entorno & Creación de Proyecto (`/iniciarproyecto`)
-*Aplica al comenzar un proyecto desde cero.*
+*Aplica al comenzar un proyecto desde cero o al abordar una prueba técnica con documento/PDF de requerimientos.*
 
-1. **Calibración Rápida en 1 Mensaje (Perfil, Idea y Ruta)**:
-   - El agente adopta el rol de `CTO / TechAdvisor` y pregunta en una sola interacción:
+> **[BLOQUEO ANTI-IMPLEMENTACIÓN DIRECTA]**: Aunque el usuario adjunte un PDF, enunciado de prueba técnica o especificación completa al invocar `/iniciarproyecto`, el agente **TIENE ESTRICTAMENTE PROHIBIDO** escribir el código de toda la solución de golpe. Debe cumplir obligatoriamente la secuencia: (1) Calibración y confirmación de estándares, (2) Propuesta de desglose de Backlog en HUs, (3) Creación primero de `automanagement_docs/` y (4) Ejecución secuencial HU por HU.
+
+1. **Calibración Rápida en 1 Mensaje (Perfil, Idea, Ruta, Estándares y Backlog de HUs)**:
+   - El agente adopta el rol de `CTO / TechAdvisor` y solicita/confirma en una sola interacción:
      - **Perfil**: [1] No técnico / Negocio (explicaciones sencillas, enfoque funcional) vs [2] Técnico / Desarrollador (decisiones de arquitectura, contratos, patrones).
-     - **Idea o Visión**: Propósito central, usuarios y necesidades que resuelve.
+     - **Idea o Visión**: Propósito central, usuarios y necesidades que resuelve (o alcance extraído del PDF/documento).
      - **Ruta de Alojamiento**: Directorio actual (`./`) por defecto, o una subcarpeta si se especifica.
+     - **Confirmación de Estándares de Código y Pruebas**: Pregunta qué estándares adicionales exigir, estableciendo como base obligatoria:
+       - **Código**: **Cero Números Mágicos ni Strings Mágicos** (constantes con nombres semánticos o `Enum`), **Cero Comentarios Explicativos Redundantes** y principios SOLID.
+       - **Pruebas**: Patrón **AAA (`Arrange - Act - Assert`)** en el 100% de las pruebas, patrón **Data Builder** obligatorio desde el primer test y Coverage Gates ($\ge 80\%$ Backend / $\ge 85\%$ Frontend).
+     - **Desglose en Backlog de Historias de Usuario**: Si el usuario entregó un PDF o listado de requerimientos, propone su división en un **Backlog secuencial (`HU-001`, `HU-002`, ...)** y solicita confirmación para abordarlas **una por una**.
 2. **Propuesta de Arquitectura & Verificación Previa de Entorno**:
    - Recomienda el stack idóneo (ej. NestJS/TypeScript, .NET Core Web API, Spring Boot, FastAPI, Angular, React).
    - Realiza verificaciones desatendidas (`node -v`, `dotnet --version`, `python --version`, `cargo --version`, etc.) para asegurar que el usuario puede compilar y probar localmente. Si falta un SDK, ofrece comandos de instalación (`winget`, `brew`, `apt`).
-3. **Orquestación de CLIs Oficiales**:
-   - Emplea comandos oficiales desatendidos (`npx @nestjs/cli new ... --skip-git`, `dotnet new webapi ...`, etc.) para una inicialización limpia sin sobrecargar tokens de IA.
-4. **Inicialización de Base de Conocimiento y Traspaso a Scrum**:
-   - Genera inmediatamente `automanagement_docs/base-conocimiento/` (`01` a `04`) documentando el stack acordado y los estándares AAA + Data Builder.
-   - Conecta directamente con la **Fase 1** invitando a redactar la primera funcionalidad: `/nueva-hu HU-001`.
+3. **Creación Primero de Base de Conocimiento & Orquestación de CLIs Oficiales**:
+   - Genera **primero** `automanagement_docs/base-conocimiento/` (`01` a `04`) y `automanagement_docs/README.md` mediante `python scripts/onboard_project.py --path <ruta> --name "<Proyecto>"`, dejando documentados el stack acordado, la prohibición de números mágicos y los estándares AAA + Data Builder.
+   - Emplea comandos oficiales desatendidos (`npx @nestjs/cli new ... --skip-git`, `dotnet new webapi ...`, etc.) para una inicialización limpia del esqueleto sin codificar toda la solución de negocio de golpe.
+4. **Inicialización del Backlog y Traspaso a Scrum**:
+   - Si se aprobó un backlog de HUs, inicializa las historias con `python scripts/scaffold_hu.py HU-001 "Título"` y conecta directamente con la **Fase 2** (`/refinar-hu HU-001`) o **Fase 1** (`/nueva-hu HU-001`) para trabajar historia por historia.
 
 ---
 

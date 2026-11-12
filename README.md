@@ -74,14 +74,14 @@ Puedes usar los slash commands nativamente en **Google Antigravity**, **Claude C
 
 A continuación se ilustra un ejemplo real de cómo utilizar la skill desde el primer día en tu proyecto:
 
-### Paso 0: Creación de Proyecto desde Cero (Greenfield - `/iniciarproyecto`)
-Si inicias un nuevo desarrollo, el `CTO / TechAdvisor` calibra tu perfil, verifica tu entorno y arranca el framework:
+### Paso 0: Creación de Proyecto desde Cero o Prueba Técnica (Greenfield - `/iniciarproyecto`)
+Si inicias un nuevo desarrollo o necesitas resolver una prueba técnica (por ejemplo, adjuntando un PDF con requerimientos), el `CTO / TechAdvisor` bloquea la escritura prematura de código y estructura primero la ingeniería del proyecto:
 
 ```text
-Usuario: /iniciarproyecto
+Usuario: /iniciarproyecto (adjuntando idea o PDF de prueba técnica)
 ```
 
-> **Resultado**: El agente calibra en 1 mensaje tu perfil ([1] Negocio / [2] Técnico), idea y ruta destino. Valida tus dependencias locales (`node`, `dotnet`, `python`, etc.), ejecuta el CLI oficial del framework (ej. `npx @nestjs/cli`, `dotnet new`) y crea `automanagement_docs/base-conocimiento/` para pasar directo a `/nueva-hu HU-001`.
+> **Resultado**: El agente calibra en 1 mensaje tu perfil ([1] Negocio / [2] Técnico), confirma explícitamente los estándares obligatorios de código (**Cero Números Mágicos**, **0 comentarios explicativos**) y de pruebas (**Patrón AAA** y **Data Builder**), y si adjuntaste un PDF o listado de requerimientos, te propone su desglose en un **Backlog secuencial de Historias de Usuario (`HU-001`, `HU-002`, ...)**. Tras tu confirmación, crea **primero** `automanagement_docs/base-conocimiento/` y `automanagement_docs/README.md`, inicializa el scaffolding oficial y registra las HUs para desarrollarlas **una por una** sin mezclar código.
 
 ---
 

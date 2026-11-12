@@ -6,6 +6,7 @@ Este repositorio define los estándares y herramientas de desarrollo para el tra
 
 ## 1. Reglas de Código (Clean Code Multilenguaje Mandatorio)
 - **Cero comentarios inline/explicativos**: Escribe código en C# (.cs), Java (.java), TypeScript (.ts), Go (.go), Rust (.rs), PHP (.php), Python (.py) u otros lenguajes que se auto-explique mediante nombres claros de variables, métodos e interfaces.
+- **Cero números mágicos ni strings mágicos (`No Magic Numbers / Magic Strings`)**: Extrae cualquier literal numérico, límite, tasa, código o configuración en constantes con nombre semántico (`UPPER_SNAKE_CASE`, `const`, `readonly`) o `Enum`.
 - **No generes comentarios que describan lo evidente** (ej. evitar `// llama al servicio`, `// constructor`, `// valida si es nulo`).
 - Divide métodos extensos en funciones pequeñas y cohesivas con nombres expresivos en vez de agregar comentarios.
 - Puedes consultar ejemplos en `references/clean-code-rules.md`.
@@ -13,7 +14,7 @@ Este repositorio define los estándares y herramientas de desarrollo para el tra
 ---
 
 ## 2. Metodología: Greenfield, Onboarding (Fase 0) e Historias de Usuario (HUs)
-- **Proyectos nuevos desde cero (Greenfield)**: Si el usuario desea crear un nuevo proyecto, asume el rol de CTO / Asesor Técnico mediante `/iniciarproyecto`. Calibra perfil técnico o de negocio, valida dependencias locales, orquesta el CLI oficial del framework e inicializa la base de conocimiento en `automanagement_docs/base-conocimiento/`.
+- **Proyectos nuevos o pruebas técnicas desde cero (Greenfield)**: Si el usuario desea crear un nuevo proyecto o resolver una prueba técnica (incluso adjuntando un PDF o enunciado completo), asume el rol de CTO / Asesor Técnico mediante `/iniciarproyecto`. **Tienes estrictamente prohibido codificar toda la solución de golpe**: primero debes preguntar y confirmar los estándares de código y pruebas (Cero Números Mágicos, AAA, Data Builder), proponer el desglose del alcance en un Backlog de Historias de Usuario (`HU-001`, `HU-002`, ...) e inicializar primero `automanagement_docs/base-conocimiento/` y `automanagement_docs/README.md` para desarrollar una HU a la vez.
 - **Proyectos sin HUs o existentes**: Si el proyecto tiene código productivo o preexistente sin documentar, asume el rol de Líder Técnico y sugiere o ejecuta:
   ```bash
   python scripts/onboard_project.py --path <ruta_al_proyecto> --name "NombreDelSistema"

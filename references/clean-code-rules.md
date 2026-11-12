@@ -6,11 +6,14 @@ La regla fundamental de este repositorio y de los proyectos gestionados bajo est
 
 ---
 
-## 1. Reglas Generales de Comentarios
+## 1. Reglas Generales de Comentarios y Constantes Semánticas
 
 1. **Cero comentarios explicativos**: No documentar lo que una línea o bloque de código ya hace de manera evidente.
 2. **Cero código comentado**: No dejar bloques de código inactivos o deprecados comentados. Utilizar el historial de Git para revisiones históricas.
-3. **Comentarios válidos únicamente en**:
+3. **Cero Números Mágicos ni Strings Mágicos (`No Magic Numbers / Magic Strings`)**:
+   - **Prohibido** utilizar literales numéricos (`60`, `0.19`, `86400`, `403`, `3`) o cadenas literales de negocio sueltas directamente en condicionales, cálculos o constructores.
+   - Todo valor de negocio, umbral, factor de conversión, límite de reintentos o código de estado debe extraerse en **constantes con nombre semántico** (`UPPER_SNAKE_CASE`, `const`, `static readonly`) o **enumeraciones tipadas (`Enum`)**.
+4. **Comentarios válidos únicamente en**:
    - Limitaciones externas impuestas por librerías de terceros o bugs del runtime (con enlace al issue).
    - Regulaciones legales o licencias de cabecera de archivo (si son estrictamente requeridas).
 
@@ -72,14 +75,17 @@ public int toSec(String t) {
 }
 ```
 
-#### ✅ Correcto
+#### ✅ Correcto (Auto-descriptivo, sin números mágicos ni comentarios)
 ```java
+private static final String TIME_SEPARATOR = ":";
+private static final int SECONDS_PER_MINUTE = 60;
+
 public int convertFormattedTimeToSeconds(String timeFormat) {
-    String[] timeSegments = timeFormat.split(":");
+    String[] timeSegments = timeFormat.split(TIME_SEPARATOR);
     int minutes = Integer.parseInt(timeSegments[0]);
     int seconds = Integer.parseInt(timeSegments[1]);
     
-    int totalMinutesInSeconds = minutes * 60;
+    int totalMinutesInSeconds = minutes * SECONDS_PER_MINUTE;
     return totalMinutesInSeconds + seconds;
 }
 ```

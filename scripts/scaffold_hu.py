@@ -11,21 +11,49 @@ from __future__ import annotations
 import argparse
 from datetime import date
 import json
+import os
 from pathlib import Path
 import sys
 
+THREE_DIGIT_ID_LIMIT = 1000
+JSON_INDENT_SPACES = 2
+
 
 def resolve_docs_directory(target_dir: Path, docs_dir_name: str) -> Path:
-    if target_dir.name == docs_dir_name:
-        return target_dir
-    return target_dir / docs_dir_name
+    safe_target = Path(os.path.abspath(target_dir))
+    if safe_target.name == docs_dir_name:
+        return safe_target
+    return safe_target / docs_dir_name
+
+
+def ensure_docs_readme_exists(
+    docs_dir: Path,
+    templates_dir: Path,
+    project_name: str,
+) -> None:
+    readme_file = docs_dir / "README.md"
+    if readme_file.exists():
+        return
+
+    readme_template = templates_dir / "automanagement-readme-template.md"
+    if not readme_template.exists():
+        return
+
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    rendered = readme_template.read_text(encoding="utf-8").replace("[Nombre del Proyecto]", project_name)
+    readme_file.write_text(rendered, encoding="utf-8")
 
 
 def update_docs_index_table(
     docs_dir: Path,
     hu_id: str,
     title: str,
+    templates_dir: Path | None = None,
 ) -> None:
+    if templates_dir is not None:
+        project_name = docs_dir.parent.name or "Proyecto"
+        ensure_docs_readme_exists(docs_dir, templates_dir, project_name)
+
     readme_file = docs_dir / "README.md"
     if not readme_file.exists():
         return
@@ -73,7 +101,7 @@ def update_metrics_on_hu_created(docs_dir: Path) -> None:
 
     data["hus_creadas"] = data.get("hus_creadas", 0) + 1
     data["actualizado_en"] = date.today().isoformat()
-    metrics_file.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    metrics_file.write_text(json.dumps(data, indent=JSON_INDENT_SPACES, ensure_ascii=False), encoding="utf-8")
 
 
 def scaffold_hu(
@@ -96,7 +124,7 @@ def scaffold_hu(
         formatted_id = upper_id
     elif clean_id.isdigit():
         num = int(clean_id)
-        formatted_id = f"HU-{num:03d}" if num < 1000 else f"HU-{clean_id}"
+        formatted_id = f"HU-{num:03d}" if num < THREE_DIGIT_ID_LIMIT else f"HU-{clean_id}"
     else:
         formatted_id = upper_id
 
@@ -123,7 +151,7 @@ def scaffold_hu(
     )
 
     target_hu_file.write_text(hu_content, encoding="utf-8")
-    update_docs_index_table(docs_base_dir, formatted_id, title)
+    update_docs_index_table(docs_base_dir, formatted_id, title, templates_dir=templates_dir)
     update_metrics_on_hu_created(docs_base_dir)
 
     print(f"[OK] Se genero exitosamente la Historia de Usuario para '{formatted_id} - {title}':")
@@ -193,7 +221,7 @@ def main() -> int:
 
     resolved_templates_dir = args.templates_dir
     if resolved_templates_dir is None:
-        resolved_templates_dir = Path(__file__).resolve().parent.parent / "templates"
+        resolved_templates_dir = Path(os.path.abspath(__file__)).parent.parent / "templates"
 
     return scaffold_hu(
         hu_id=args.id,

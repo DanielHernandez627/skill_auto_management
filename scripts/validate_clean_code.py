@@ -9,12 +9,17 @@ JavaScript (.js), Python (.py), Go (.go), Rust (.rs), C/C++ (.cpp, .c) y mas.
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
+
+DIFF_ADDED_PATH_PREFIX_LEN = 6
+GIT_STATUS_UNTRACKED_PREFIX_LEN = 3
+REPORT_SEPARATOR_WIDTH = 80
 
 
 @dataclass
@@ -36,7 +41,7 @@ def find_git_root(target: Path) -> Path | None:
             check=False,
         )
         if res.returncode == 0 and res.stdout.strip():
-            return Path(res.stdout.strip()).resolve()
+            return Path(os.path.abspath(res.stdout.strip()))
     except Exception:
         pass
     return None
@@ -78,8 +83,8 @@ def get_git_diff_info(git_root: Path, base: str | None = None) -> tuple[dict[Pat
         current_file: Path | None = None
         for line in diff_output.splitlines():
             if line.startswith("+++ b/"):
-                rel_path = line[6:].strip()
-                current_file = (git_root / rel_path).resolve()
+                rel_path = line[DIFF_ADDED_PATH_PREFIX_LEN:].strip()
+                current_file = Path(os.path.abspath(git_root / rel_path))
                 if current_file not in modified_lines:
                     modified_lines[current_file] = set()
             elif line.startswith("@@ ") and current_file is not None:
@@ -105,8 +110,8 @@ def get_git_diff_info(git_root: Path, base: str | None = None) -> tuple[dict[Pat
                 current_file = None
                 for line in diff_output.splitlines():
                     if line.startswith("+++ b/"):
-                        rel_path = line[6:].strip()
-                        current_file = (git_root / rel_path).resolve()
+                        rel_path = line[DIFF_ADDED_PATH_PREFIX_LEN:].strip()
+                        current_file = Path(os.path.abspath(git_root / rel_path))
                         if current_file not in modified_lines:
                             modified_lines[current_file] = set()
                     elif line.startswith("@@ ") and current_file is not None:
@@ -132,14 +137,14 @@ def get_git_diff_info(git_root: Path, base: str | None = None) -> tuple[dict[Pat
         if res_status.returncode == 0:
             for line in res_status.stdout.splitlines():
                 if line.startswith("?? "):
-                    entry = line[3:].strip().strip('"')
-                    entry_path = (git_root / entry).resolve()
+                    entry = line[GIT_STATUS_UNTRACKED_PREFIX_LEN:].strip().strip('"')
+                    entry_path = Path(os.path.abspath(git_root / entry))
                     if entry_path.is_file():
                         untracked_files.add(entry_path)
                     elif entry_path.is_dir():
                         for p in entry_path.rglob("*"):
                             if p.is_file():
-                                untracked_files.add(p.resolve())
+                                untracked_files.add(Path(os.path.abspath(p)))
     except Exception:
         pass
 
@@ -210,7 +215,7 @@ class CleanCodeValidator:
         only_diff: bool = False,
         diff_base: str | None = None,
     ):
-        self.target_path = target_path.resolve()
+        self.target_path = Path(os.path.abspath(target_path))
         self.ignored_dirs = self.DEFAULT_IGNORED_DIRS | (extra_ignored_dirs or set())
         self.only_diff = only_diff
         self.diff_base = diff_base
@@ -361,7 +366,7 @@ class CleanCodeValidator:
                 if self.should_skip_directory(path.parent):
                     continue
                 if path.suffix.lower() in self.allowed_extensions:
-                    resolved_file = path.resolve()
+                    resolved_file = Path(os.path.abspath(path))
                     if self.only_diff and self.diff_initialized:
                         if resolved_file in self.untracked_files:
                             files_scanned += 1
@@ -457,12 +462,12 @@ def main() -> int:
         return 0
 
     print(f"\n[ALERTA] Se encontraron {len(findings)} comentarios en el codigo fuente:")
-    print("-" * 80)
+    print("-" * REPORT_SEPARATOR_WIDTH)
     for finding in findings:
         rel_path = finding.file_path.relative_to(validator.target_path) if validator.target_path.is_dir() else finding.file_path.name
         print(f"[{finding.comment_type}] {rel_path}:{finding.line_number}")
         print(f"    > {finding.content}")
-    print("-" * 80)
+    print("-" * REPORT_SEPARATOR_WIDTH)
 
     if args.strict:
         print("[FAIL] Fallo de validacion estricta de Clean Code.")
